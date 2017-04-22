@@ -1,4 +1,7 @@
 <h1>Welcome to ReceipeCat!</h1>
-<p><%= link_to 'Log In', new_user_session_path unless user_signed_in? %></p>
-<p><%= link_to 'Sign Up', new_user_registration_path unless user_signed_in? %></p>
-<p><%= link_to 'Log Out', destroy_user_session_path, method: 'delete' if user_signed_in?%></p>
+<% if user_signed_in? %>
+  <p><%= link_to 'Log Out', destroy_user_session_path, method: 'delete' %></p>
+<% else %>
+  <p><%= link_to 'Log In', new_user_session_path %></p>
+  <p><%= link_to 'Sign Up', new_user_registration_path %> or <%= link_to "Log in with Facebook", user_facebook_omniauth_authorize_path %></p>
+<% end %>

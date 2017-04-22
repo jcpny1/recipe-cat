@@ -36,6 +36,7 @@ gem 'jbuilder', '~> 2.5'
 
 ### Begin my additions ###
 gem 'devise'
+gem 'omniauth-facebook'
 ### End my additions   ###
 
 group :development, :test do
