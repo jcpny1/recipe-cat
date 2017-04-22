@@ -41,12 +41,13 @@ gem 'omniauth-facebook'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'rspec-rails', '~> 3.5'
+  gem 'byebug', platform: :mri
   gem 'capybara'
   gem 'database_cleaner'
-  gem 'rack_session_access'
-  gem 'byebug', platform: :mri
+  gem 'factory_girl_rails'
   gem 'pry'
+  gem 'rack_session_access'
+  gem 'rspec-rails', '~> 3.5'
 end
 
 group :development do
