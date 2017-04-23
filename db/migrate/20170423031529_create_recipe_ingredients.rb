@@ -7,8 +7,8 @@ class CreateRecipeIngredients < ActiveRecord::Migration[5.0]
       t.integer    :unit_id
       t.timestamps
     end
-    add_foreign_key :recipe_ingredients, :recipe
-    add_foreign_key :recipe_ingredients, :ingredient
+    add_foreign_key :recipe_ingredients, :recipes
+    add_foreign_key :recipe_ingredients, :ingredients
     add_foreign_key :recipe_ingredients, :units
   end
 end
