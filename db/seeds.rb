@@ -86,11 +86,12 @@ user_local.save
 SECONDS_IN_MINUTE = 60
 
 recipe = Recipe.new(
+  user: user_local,
   name: 'Chicken Parmesan',
   description: 'A classic Italian dish prepared with tomato sauce and mozzarella, with a few additions by Chef John. Sure to impress your friends and family!',
   total_time: Time.at(60*SECONDS_IN_MINUTE)
   )
-
+  
   recipe.recipe_ingredients.new(ingredient: Basil,                 quantity:  2, unit: floz )
   recipe.recipe_ingredients.new(ingredient: BreadCrumbsPanko,      quantity:  4, unit: cup  )
   recipe.recipe_ingredients.new(ingredient: CheeseMozzarella,      quantity:  2, unit: floz )
@@ -102,5 +103,4 @@ recipe = Recipe.new(
   recipe.recipe_ingredients.new(ingredient: OilOlive,              quantity:  1, unit: cup  )
   recipe.recipe_ingredients.new(ingredient: OilOlive,              quantity:  1, unit: tbl  )
   recipe.recipe_ingredients.new(ingredient: TomatoSauce,           quantity:  4, unit: floz )
-  recipe.user = user_local
   recipe.save
