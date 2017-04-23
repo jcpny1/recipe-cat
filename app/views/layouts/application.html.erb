@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>RecipeCat</title>
+    <title>Recipe Cat</title>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -9,8 +9,15 @@
   </head>
 
   <body>
+    <header>Recipe Cat</header>
+
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
+
     <%= yield %>
+
+    <footer>
+      <%= link_to "Sign out", destroy_user_session_path, method: :delete %><br>
+    </footer>
   </body>
 </html>
