@@ -1,0 +1,2 @@
+class UnitConversion < ApplicationRecord
+end

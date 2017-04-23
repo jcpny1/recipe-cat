@@ -6,7 +6,6 @@ class CreateRecipes < ActiveRecord::Migration[5.0]
       t.binary :photo
       t.text   :description
       t.time   :total_time
-
       t.timestamps
     end
     add_foreign_key :recipes, :users

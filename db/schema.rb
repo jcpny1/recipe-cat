@@ -10,7 +10,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170422235011) do
+ActiveRecord::Schema.define(version: 20170423033259) do
+
+  create_table "ingredients", force: :cascade do |t|
+    t.string   "name"
+    t.float    "quantity"
+    t.integer  "unit_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "recipe_ingredients", force: :cascade do |t|
+    t.integer  "recipe_id"
+    t.integer  "ingredient_id"
+    t.float    "quantity"
+    t.integer  "unit_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["ingredient_id"], name: "index_recipe_ingredients_on_ingredient_id"
+    t.index ["recipe_id"], name: "index_recipe_ingredients_on_recipe_id"
+  end
+
+  create_table "recipe_steps", force: :cascade do |t|
+    t.integer  "recipe_id"
+    t.integer  "step_number"
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["recipe_id"], name: "index_recipe_steps_on_recipe_id"
+  end
 
   create_table "recipes", force: :cascade do |t|
     t.integer  "user_id"
@@ -21,6 +49,51 @@ ActiveRecord::Schema.define(version: 20170422235011) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.index ["user_id"], name: "index_recipes_on_user_id"
+  end
+
+  create_table "unit_conversions", force: :cascade do |t|
+    t.integer  "from_unit_id"
+    t.integer  "to_unit_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  create_table "units", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "user_ingredients", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "ingredient_id"
+    t.float    "quantity"
+    t.integer  "unit_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["ingredient_id"], name: "index_user_ingredients_on_ingredient_id"
+    t.index ["user_id"], name: "index_user_ingredients_on_user_id"
+  end
+
+  create_table "user_recipe_favorites", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "recipe_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["recipe_id"], name: "index_user_recipe_favorites_on_recipe_id"
+    t.index ["user_id"], name: "index_user_recipe_favorites_on_user_id"
+  end
+
+  create_table "user_recipe_reviews", force: :cascade do |t|
+    t.integer  "recipe_id"
+    t.integer  "user_id"
+    t.integer  "stars"
+    t.string   "title"
+    t.text     "comments"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["recipe_id"], name: "index_user_recipe_reviews_on_recipe_id"
+    t.index ["user_id"], name: "index_user_recipe_reviews_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
