@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 20170423033259) do
     t.datetime "updated_at",    null: false
     t.index ["ingredient_id"], name: "index_recipe_ingredients_on_ingredient_id"
     t.index ["recipe_id"], name: "index_recipe_ingredients_on_recipe_id"
+    t.index ["unit_id"], name: "index_recipe_ingredients_on_unit_id"
   end
 
   create_table "recipe_steps", force: :cascade do |t|
