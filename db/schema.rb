@@ -88,8 +88,8 @@ ActiveRecord::Schema.define(version: 20170423033259) do
   end
 
   create_table "user_recipe_reviews", force: :cascade do |t|
-    t.integer  "recipe_id"
     t.integer  "user_id"
+    t.integer  "recipe_id"
     t.integer  "stars"
     t.string   "title"
     t.text     "comments"

@@ -83,24 +83,49 @@ user_local.user_ingredients.new(ingredient: FlourAllPurpose,      quantity:  8, 
 user_local.user_ingredients.new(ingredient: OilOlive,             quantity:  1, unit: quart)
 user_local.save
 
-SECONDS_IN_MINUTE = 60
+SECONDS_PER_MINUTE = 60
+
+recipe = Recipe.new(
+  user: user_local,
+  name: 'Salsa Chicken',
+  description: 'Chicken seasoned with taco seasoning and topped with salsa, then baked.',
+  total_time: Time.at(45*SECONDS_PER_MINUTE)
+  )
+
+user_local.user_recipe_favorites.new(recipe: recipe)
+user_local.save
+
+user_local.user_recipe_reviews.new(recipe: recipe, stars: 5, title: 'Best salsa chicken!', comments: 'Very tasty and easy meal to make. I marinated the chicken with the package of taco seasoning and 2/3 cup of water so it would not come out so spicy. Worked great! Chicken did not dry out and the seasoning was just right!')
+user_local.save
 
 recipe = Recipe.new(
   user: user_local,
   name: 'Chicken Parmesan',
   description: 'A classic Italian dish prepared with tomato sauce and mozzarella, with a few additions by Chef John. Sure to impress your friends and family!',
-  total_time: Time.at(60*SECONDS_IN_MINUTE)
+  total_time: Time.at(60*SECONDS_PER_MINUTE)
   )
-  
-  recipe.recipe_ingredients.new(ingredient: Basil,                 quantity:  2, unit: floz )
-  recipe.recipe_ingredients.new(ingredient: BreadCrumbsPanko,      quantity:  4, unit: cup  )
-  recipe.recipe_ingredients.new(ingredient: CheeseMozzarella,      quantity:  2, unit: floz )
-  recipe.recipe_ingredients.new(ingredient: CheeseParmesanGrated,  quantity:  6, unit: floz )
-  recipe.recipe_ingredients.new(ingredient: CheeseProvoloneGrated, quantity:  4, unit: floz )
-  recipe.recipe_ingredients.new(ingredient: ChickenBreasts,        quantity:  2, unit: pound)
-  recipe.recipe_ingredients.new(ingredient: Eggs,                  quantity:  2, unit: none )
-  recipe.recipe_ingredients.new(ingredient: FlourAllPurpose,       quantity:  2, unit: tbl  )
-  recipe.recipe_ingredients.new(ingredient: OilOlive,              quantity:  1, unit: cup  )
-  recipe.recipe_ingredients.new(ingredient: OilOlive,              quantity:  1, unit: tbl  )
-  recipe.recipe_ingredients.new(ingredient: TomatoSauce,           quantity:  4, unit: floz )
-  recipe.save
+
+recipe.recipe_ingredients.new(ingredient: Basil,                 quantity:  2, unit: floz )
+recipe.recipe_ingredients.new(ingredient: BreadCrumbsPanko,      quantity:  4, unit: cup  )
+recipe.recipe_ingredients.new(ingredient: CheeseMozzarella,      quantity:  2, unit: floz )
+recipe.recipe_ingredients.new(ingredient: CheeseParmesanGrated,  quantity:  6, unit: floz )
+recipe.recipe_ingredients.new(ingredient: CheeseProvoloneGrated, quantity:  4, unit: floz )
+recipe.recipe_ingredients.new(ingredient: ChickenBreasts,        quantity:  2, unit: pound)
+recipe.recipe_ingredients.new(ingredient: Eggs,                  quantity:  2, unit: none )
+recipe.recipe_ingredients.new(ingredient: FlourAllPurpose,       quantity:  2, unit: tbl  )
+recipe.recipe_ingredients.new(ingredient: OilOlive,              quantity:  1, unit: cup  )
+recipe.recipe_ingredients.new(ingredient: OilOlive,              quantity:  1, unit: tbl  )
+recipe.recipe_ingredients.new(ingredient: TomatoSauce,           quantity:  4, unit: floz )
+recipe.save
+
+step = 0
+recipe.recipe_steps.new(step_number:  step += 1, description: 'Preheat an oven to 450 degrees F (230 degrees C).')
+recipe.recipe_steps.new(step_number:  step += 1, description: 'Place chicken breasts between two sheets of heavy plastic (resealable freezer bags work well) on a solid, level surface. Firmly pound chicken with the smooth side of a meat mallet to a thickness of 1/2-inch. Season chicken thoroughly with salt and pepper.')
+recipe.recipe_steps.new(step_number:  step += 1, description: 'Beat eggs in a shallow bowl and set aside.')
+recipe.recipe_steps.new(step_number:  step += 1, description: 'Mix bread crumbs and 1/2 cup Parmesan in a separate bowl, set aside.')
+recipe.recipe_steps.new(step_number:  step += 1, description: 'Place flour in a sifter or strainer; sprinkle over chicken breasts, evenly coating both sides.')
+recipe.recipe_steps.new(step_number:  step += 1, description: 'Dip flour coated chicken breast in beaten eggs. Transfer breast to breadcrumb mixture, pressing the crumbs into both sides. Repeat for each breast. Set aside breaded chicken breasts for about 15 minutes.')
+recipe.recipe_steps.new(step_number:  step += 1, description: 'Heat 1 cup olive oil in a large skillet on medium-high heat until it begins to shimmer. Cook chicken until golden, about 2 minutes on each side. The chicken will finish cooking in the oven.')
+recipe.recipe_steps.new(step_number:  step += 1, description: 'Place chicken in a baking dish and top each breast with about 1/3 cup of tomato sauce. Layer each chicken breast with equal amounts of mozzarella cheese, fresh basil, and provolone cheese. Sprinkle 1 to 2 tablespoons of Parmesan cheese on top and drizzle with 1 tablespoon olive oil.')
+recipe.recipe_steps.new(step_number:  step += 1, description: 'Bake in the preheated oven until cheese is browned and bubbly, and chicken breasts are no longer pink in the center, 15 to 20 minutes. An instant-read thermometer inserted into the center should read at least 165 degrees F (74 degrees C).')
+recipe.save
