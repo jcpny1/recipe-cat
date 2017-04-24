@@ -8,9 +8,5 @@ Rails.application.routes.draw do
     resources :recipe_ingredients
   end
 
-  resources :users do
-    resources :user_ingredients
-  end
-
   root "application#welcome"
 end

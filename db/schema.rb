@@ -52,32 +52,10 @@ ActiveRecord::Schema.define(version: 20170423033259) do
     t.index ["user_id"], name: "index_recipes_on_user_id"
   end
 
-  create_table "unit_conversions", force: :cascade do |t|
-    t.integer  "from_unit_id"
-    t.integer  "to_unit_id"
-    t.float    "multiplier"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.index ["from_unit_id"], name: "index_unit_conversions_on_from_unit_id"
-    t.index ["to_unit_id"], name: "index_unit_conversions_on_to_unit_id"
-  end
-
   create_table "units", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "user_ingredients", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "ingredient_id"
-    t.float    "quantity"
-    t.integer  "unit_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-    t.index ["ingredient_id"], name: "index_user_ingredients_on_ingredient_id"
-    t.index ["unit_id"], name: "index_user_ingredients_on_unit_id"
-    t.index ["user_id"], name: "index_user_ingredients_on_user_id"
   end
 
   create_table "user_recipe_favorites", force: :cascade do |t|
