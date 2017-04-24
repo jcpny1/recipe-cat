@@ -1,5 +1,10 @@
 <h1>Recipes</h1>
 
+<table>
 <% @recipes.each do |recipe| %>
-  <p><%= recipe.name %></p>
+  <tr>
+    <td><%= link_to recipe.name, recipe %></td>
+    <td><%= image_tag(recipe.photo_path, size: "190x100", alt: "#{recipe.name} photo" ) %></td>
+  </tr>
 <% end %>
+</table>

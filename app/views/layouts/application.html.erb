@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Recipe Cat</title>
+    <%= favicon_link_tag %>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -9,7 +10,13 @@
   </head>
 
   <body>
-    <header>Recipe Cat</header>
+    <header>
+      <p><%= link_to "Home", root_path %>  |
+         <%= link_to "Recipes", recipes_path %>  |
+         <%= link_to "Ingredients", user_user_ingredients_path(current_user) if current_user %>  |  
+         <%= link_to "About", '#' %>
+       </p>
+    </header>
 
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
@@ -17,7 +24,7 @@
     <%= yield %>
 
     <footer>
-      <%= link_to "Sign out", destroy_user_session_path, method: :delete %><br>
+      <p><%= link_to "Log out", destroy_user_session_path, method: :delete %></p>
     </footer>
   </body>
 </html>

@@ -1,7 +1,9 @@
-<h1>Welcome to RecipeCat!</h1>
+<h1>Welcome to Recipe Cat!</h1>
+
+<%= image_tag("recipe-cat.jpg", size: "100x180", alt: "Cat in Chef's clothing") %>
+The least complete recipe catalog on the internet!
 <% if user_signed_in? %>
-  <p><%= current_user.email %></p>
-  <p><%= link_to 'Log Out', destroy_user_session_path, method: 'delete' %></p>
+  <p>You are logged in as <%= current_user.email %>.</p>
 <% else %>
   <p><%= link_to 'Log In',  new_user_session_path %></p>
   <p><%= link_to 'Sign Up', new_user_registration_path %> or <%= link_to "Log in with Facebook", user_facebook_omniauth_authorize_path %></p>

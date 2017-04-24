@@ -61,18 +61,18 @@ conversions = UnitConversion.create([
 user_local    = User.create(email: 'pfingst@yahoo.com', password: '123456')
 user_facebook = User.create(email: 'jpfingst@outlook.com', password: 'fakeone', provider: 'facebook', uid: '1376916635679797')
 
-Basil                 = Ingredient.create(name: 'Basil'                    )
-BreadCrumbsPanko      = Ingredient.create(name: 'Bread Crumbs, Panko'      )
-CheeseMozzarella      = Ingredient.create(name: 'Cheese, Mozzarella'       )
-CheeseParmesanGrated  = Ingredient.create(name: 'Cheese, Parmesan, grated' )
-CheeseProvoloneGrated = Ingredient.create(name: 'Cheese, Provolone, grated')
-ChickenBreasts        = Ingredient.create(name: 'Chicken, Breasts'         )
-Eggs                  = Ingredient.create(name: 'Eggs'                     )
-FlourAllPurpose       = Ingredient.create(name: 'Flour, all-purpose'       )
-OilOlive              = Ingredient.create(name: 'Oil, Olive'               )
-SpaghettiThin         = Ingredient.create(name: 'Spaghetti, thin'          )
-TomatoSauce           = Ingredient.create(name: 'Tomato, sauce'            )
-TomatoWhole           = Ingredient.create(name: 'Tomato, whole'            )
+Basil                 = Ingredient.create(name: 'Basil'                    , photo_path: 'ingredients/Basil-Basilico-Ocimum_basilicum-albahaca.jpg', description: 'The type used in Italian food is typically called sweet basil (or Genovese basil), as opposed to Thai basil, lemon basil, and holy basil, which are used in Asia.')
+BreadCrumbsPanko      = Ingredient.create(name: 'Bread Crumbs, Panko'      , photo_path: '', description: '')
+CheeseMozzarella      = Ingredient.create(name: 'Cheese, Mozzarella'       , photo_path: '', description: '')
+CheeseParmesanGrated  = Ingredient.create(name: 'Cheese, Parmesan, grated' , photo_path: '', description: '')
+CheeseProvoloneGrated = Ingredient.create(name: 'Cheese, Provolone, grated', photo_path: '', description: '')
+ChickenBreasts        = Ingredient.create(name: 'Chicken, Breasts'         , photo_path: '', description: '')
+Eggs                  = Ingredient.create(name: 'Eggs'                     , photo_path: '', description: '')
+FlourAllPurpose       = Ingredient.create(name: 'Flour, all-purpose'       , photo_path: '', description: '')
+OilOlive              = Ingredient.create(name: 'Oil, Olive'               , photo_path: '', description: '')
+SpaghettiThin         = Ingredient.create(name: 'Spaghetti, thin'          , photo_path: '', description: '')
+TomatoSauce           = Ingredient.create(name: 'Tomato, sauce'            , photo_path: '', description: '')
+TomatoWhole           = Ingredient.create(name: 'Tomato, whole'            , photo_path: '', description: '')
 
 user_local.user_ingredients.new(ingredient: BreadCrumbsPanko,     quantity:  8, unit: cup  )
 user_local.user_ingredients.new(ingredient: CheeseMozzarella,     quantity:  4, unit: cup  )
@@ -88,6 +88,7 @@ SECONDS_PER_MINUTE = 60
 recipe = Recipe.new(
   user: user_local,
   name: 'Salsa Chicken',
+  photo_path: '',
   description: 'Chicken seasoned with taco seasoning and topped with salsa, then baked.',
   total_time: Time.at(45*SECONDS_PER_MINUTE)
   )
@@ -101,21 +102,22 @@ user_local.save
 recipe = Recipe.new(
   user: user_local,
   name: 'Chicken Parmesan',
+  photo_path: 'recipes/cparm_001.jpg',
   description: 'A classic Italian dish prepared with tomato sauce and mozzarella, with a few additions by Chef John. Sure to impress your friends and family!',
   total_time: Time.at(60*SECONDS_PER_MINUTE)
   )
 
-recipe.recipe_ingredients.new(ingredient: Basil,                 quantity:  2, unit: floz )
-recipe.recipe_ingredients.new(ingredient: BreadCrumbsPanko,      quantity:  4, unit: cup  )
-recipe.recipe_ingredients.new(ingredient: CheeseMozzarella,      quantity:  2, unit: floz )
-recipe.recipe_ingredients.new(ingredient: CheeseParmesanGrated,  quantity:  6, unit: floz )
-recipe.recipe_ingredients.new(ingredient: CheeseProvoloneGrated, quantity:  4, unit: floz )
-recipe.recipe_ingredients.new(ingredient: ChickenBreasts,        quantity:  2, unit: pound)
-recipe.recipe_ingredients.new(ingredient: Eggs,                  quantity:  2, unit: none )
-recipe.recipe_ingredients.new(ingredient: FlourAllPurpose,       quantity:  2, unit: tbl  )
-recipe.recipe_ingredients.new(ingredient: OilOlive,              quantity:  1, unit: cup  )
-recipe.recipe_ingredients.new(ingredient: OilOlive,              quantity:  1, unit: tbl  )
-recipe.recipe_ingredients.new(ingredient: TomatoSauce,           quantity:  4, unit: floz )
+recipe.recipe_ingredients.new(ingredient: Basil,                 quantity:  0.25,  unit: floz )
+recipe.recipe_ingredients.new(ingredient: BreadCrumbsPanko,      quantity:  4.0,   unit: cup  )
+recipe.recipe_ingredients.new(ingredient: CheeseMozzarella,      quantity:  0.25,  unit: cup  )
+recipe.recipe_ingredients.new(ingredient: CheeseParmesanGrated,  quantity:  0.75,  unit: cup  )
+recipe.recipe_ingredients.new(ingredient: CheeseProvoloneGrated, quantity:  0.5,   unit: cup  )
+recipe.recipe_ingredients.new(ingredient: ChickenBreasts,        quantity:  2.0,   unit: pound)
+recipe.recipe_ingredients.new(ingredient: Eggs,                  quantity:  2.0,   unit: none )
+recipe.recipe_ingredients.new(ingredient: FlourAllPurpose,       quantity:  2.0,   unit: tbl  )
+recipe.recipe_ingredients.new(ingredient: OilOlive,              quantity:  1.0,   unit: cup  )
+recipe.recipe_ingredients.new(ingredient: OilOlive,              quantity:  1.0,   unit: tbl  )
+recipe.recipe_ingredients.new(ingredient: TomatoSauce,           quantity:  4.0,   unit: floz )
 recipe.save
 
 step = 0
