@@ -1,6 +1,10 @@
 class RecipesController < ApplicationController
   def index
-    @recipes = Recipe.order(:name)
+    if params[:user_id]
+      @recipes = Recipe.joins(:user).where(user_id: params[:user_id]).order(:name)
+    else
+      @recipes = Recipe.order(:name)
+    end
   end
 
   def show

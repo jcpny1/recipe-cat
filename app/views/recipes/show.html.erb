@@ -1,6 +1,9 @@
 <h1><%= @recipe.name %></h1>
 
 <div><%= image_tag(@recipe.photo_path, size: "360x200", alt: "#{@recipe.name} photo" ) %></div>
+<%= link_to 'Reviews', user_recipe_review_path(@recipe) %><br>
+Submitted by <%= link_to @recipe.user.email, user_recipes_path(@recipe.user) %>
+
 
 <table width="50%">
   <tr>

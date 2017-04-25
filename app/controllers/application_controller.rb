@@ -1,7 +1,10 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :authenticate_user!
-  def welcome
+
+  def about
   end
 
+  def welcome
+  end
 end

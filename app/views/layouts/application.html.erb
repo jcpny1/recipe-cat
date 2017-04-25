@@ -13,8 +13,10 @@
     <header>
       <p><%= link_to "Home", root_path %>  |
          <%= link_to "Recipes", recipes_path %>  |
-         <%= link_to "Ingredients", ingredients_path %>  |  
-         <%= link_to "About", '#' %>
+         <%= link_to "My Favorites", user_user_recipe_favorites_path(current_user) if user_signed_in? %>  |
+         <%= link_to "My Reviews", user_user_recipe_reviews_path(current_user) %>  |
+         <%= link_to "Ingredients", ingredients_path %>  |
+         <%= link_to "About", about_path %>
        </p>
     </header>
 
