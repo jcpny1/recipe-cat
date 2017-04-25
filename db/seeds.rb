@@ -20,7 +20,7 @@ tsp    = Unit.create(name: 'tsp'   )
 
 user_facebook = User.create(email: 'jpfingst@outlook.com', password: 'fakeone', provider: 'facebook', uid: '1376916635679797')
 user_local    = User.create(email: 'pfingst@yahoo.com', password: '123456')
-user_other    = User.create(email: 'harry@aol.com', password: '123456')
+user_other    = User.create(email: 'harry@aol.com',     password: '123456')
 
 Basil                   = Ingredient.create(name: 'Basil',                       photo_path: 'ingredients/Basil-Basilico-Ocimum_basilicum-albahaca.jpg', description: 'The type used in Italian food is typically called sweet basil (or Genovese basil), as opposed to Thai basil, lemon basil, and holy basil, which are used in Asia.')
 BreadCrumbsPanko        = Ingredient.create(name: 'Bread Crumbs, Panko',         photo_path: 'ingredients/Panko-Bread-Crumbs.jpg', description: 'Panko is a variety of flaky bread crumb used in Japanese cuisine as a crunchy coating for fried foods, such as tonkatsu.')
@@ -38,7 +38,7 @@ TomatoWhole             = Ingredient.create(name: 'Tomato, whole',              
 
 SECONDS_PER_MINUTE = 60
 
-parmesan_chicken_recipe = Recipe.new(
+parmesan_chicken_recipe = Recipe.create(
   user: user_local,
   name: 'Chicken Parmesan',
   photo_path: 'recipes/cparm_001.jpg',
@@ -70,23 +70,21 @@ parmesan_chicken_recipe = Recipe.new(
   parmesan_chicken_recipe.recipe_steps.new(step_number:  step += 1, description: 'Bake in the preheated oven until cheese is browned and bubbly, and chicken breasts are no longer pink in the center, 15 to 20 minutes. An instant-read thermometer inserted into the center should read at least 165 degrees F (74 degrees C).')
   parmesan_chicken_recipe.save
 
-salsa_chicken_recipe = Recipe.new(
+salsa_chicken_recipe = Recipe.create(
   user: user_local,
   name: 'Salsa Chicken',
   photo_path: 'recipes/salsa-chicken.jpg',
   description: 'Chicken seasoned with taco seasoning and topped with salsa, then baked.',
   total_time: Time.at(45*SECONDS_PER_MINUTE)
   )
-  salsa_chicken_recipe.save
 
-tofurkey_recipe = Recipe.new(
+tofurkey_recipe = Recipe.create(
   user: user_other,
   name: 'Tofu Turkey',
   photo_path: 'recipes/tofurkey2.jpg',
   description: 'Just tofu really',
   total_time: Time.at(125*SECONDS_PER_MINUTE)
   )
-  tofurkey_recipe.save
 
 user_other.user_recipe_favorites.new(recipe: salsa_chicken_recipe)
 user_other.user_recipe_reviews.new(recipe: salsa_chicken_recipe, stars: 5, title: 'Best salsa chicken!', comments: 'Very tasty and easy meal to make. I marinated the chicken with the package of taco seasoning and 2/3 cup of water so it would not come out so spicy. Worked great! Chicken did not dry out and the seasoning was just right!')
