@@ -1,11 +1,5 @@
 <h1>Welcome to Recipe Cat!</h1>
-
-<table>
-  <tr>
-    <td><%= image_tag("recipe-cat.jpg", size: "100x180", alt: "Cat in Chef's clothing") %></td>
-    <td>The least complete<br>recipe catalog<br>on the internet!</td>
-  </tr>
-</table>
+<%= render partial: 'trademark' %>
 
 <% if user_signed_in? %>
   <p>You are logged in as <%= current_user.email %>.</p>
