@@ -115,5 +115,5 @@ user_other.user_recipe_reviews.new(recipe: salsa_chicken_recipe, stars: 5, title
 user_other.save
 
 user_local.user_recipe_favorites.new(recipe: parmesan_chicken_recipe)
-user_local.user_recipe_reviews.new(recipe: salsa_chicken_recipe, stars: 2, title: 'Not the Best salsa chicken!', comments: "I've had better")
+user_local.user_recipe_reviews.new(recipe: salsa_chicken_recipe, stars: 2, title: 'Not the Best salsa chicken!', comments: "I've had better.")
 user_local.save

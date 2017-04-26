@@ -1,18 +1,19 @@
-<h1>Reviews</h1>
+<% if @my_reviews %>
+  <h1>My Reviews</h1>
+<% else %>
+  <h1>Reviews</h1>
+<% end %>
 
 <% last_recipe_name = '' %>
-
 <% @user_recipe_reviews.each do |user_recipe_review| %>
-
   <% if user_recipe_review.recipe.name != last_recipe_name %>
     <h3><%= link_to user_recipe_review.recipe.name, user_recipe_review.recipe %></h3>
     <% last_recipe_name = user_recipe_review.recipe.name %>
   <% end %>
-
   ========== <%= user_recipe_review.created_at %>
-  by <%= link_to user_recipe_review.user.email, user_user_recipe_reviews_path(user_recipe_review.user.id) %>
-  <p><%= pluralize(user_recipe_review.stars, 'star') %></p>
-  <h4><%= user_recipe_review.title %></h4>
+  by <%= link_to user_recipe_review.user.email, user_user_recipe_reviews_path(user_recipe_review.user.id) %><br>
+  <%= pluralize(user_recipe_review.stars, 'star') %>
+  <p class="review-title"><em><u><%= user_recipe_review.title %></u></em></p>
   <%= user_recipe_review.comments %>
   <br><br>
 <% end %>
