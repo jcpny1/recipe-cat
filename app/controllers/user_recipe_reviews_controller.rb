@@ -1,15 +1,14 @@
 class UserRecipeReviewsController < ApplicationController
   skip_before_action :authenticate_user!, only: [:index, :show]
+  skip_after_action  :verify_policy_scoped, only: :index  # seems like verify doesn't recognize a custom scope function.
 
   def index
     if params[:user_id]
-      return head :forbidden if params[:user_id].to_i != current_user.id
-      @user_recipe_reviews = UserRecipeReview.joins(:user).where(user_id: params[:user_id]).order(:created_at)
-      @my_reviews = true
-    elsif params[:recipe_id]
-      @user_recipe_reviews = UserRecipeReview.joins(:recipe).where(recipe_id: params[:recipe_id]).order(:created_at)
+      @user = User.find(params[:user_id])
+      @recipe_reviews = UserRecipeReviewPolicy::Scope.new(@user, UserRecipeReview).user_only.order!(:created_at)
+      @user_reviews = true
     else
-      @user_recipe_reviews = UserRecipeReview.all.order(:created_at)
+      @recipe_reviews = policy_scope(UserRecipeReview).order(:created_at)
     end
   end
 end

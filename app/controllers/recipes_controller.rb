@@ -4,12 +4,11 @@ class RecipesController < ApplicationController
 
   def index
     if params[:user_id]
-      @recipes = RecipePolicy::Scope.new(current_user, Recipe).user_only
-#      @recipes = Recipe.joins(:user).where(user_id: params[:user_id]).order(:name)
-      @my_recipes = true
+      @user = User.find(params[:user_id])
+      @recipes = RecipePolicy::Scope.new(@user, Recipe).user_only.order(:name)
+      @user_recipes = true
     else
       @recipes = policy_scope(Recipe).order(:name)
-#      @recipes = Recipe.order(:name)
     end
   end
 
