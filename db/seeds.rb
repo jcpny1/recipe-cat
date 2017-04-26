@@ -32,12 +32,24 @@ chickenBreasts          = Ingredient.create(name: 'Chicken, Breasts',           
 eggs                    = Ingredient.create(name: 'Eggs',                        photo_path: 'ingredients/eggs.jpg', description: 'Eggs are laid by female animals of many different species, including birds, reptiles, amphibians, mammals, and fish, and have been eaten by humans for thousands of years.[1] Bird and reptile eggs consist of a protective eggshell, albumen (egg white), and vitellus (egg yolk), contained within various thin membranes. The most popular choice for egg consumption are chicken eggs. Other popular choices for egg consumption are duck, quail, roe, and caviar.')
 flourAllPurpose         = Ingredient.create(name: 'Flour, all-purpose',          photo_path: 'ingredients/All-Purpose-Flour.jpg', description: 'Although there are many types of flour, all-purpose (or occident) flour is used most frequently. Bread flour is higher in protein. Unbleached flour is simply not as white as bleached.')
 oilOlive                = Ingredient.create(name: 'Oil, Olive',                  photo_path: 'ingredients/Olive-Oil.jpg', description: 'Olive oil is a liquid fat obtained from olives (the fruit of Olea europaea; family Oleaceae), a traditional tree crop of the Mediterranean Basin. The oil is produced by pressing whole olives. It is commonly used in cooking, whether for frying or as a salad dressing. It is also used in cosmetics, pharmaceuticals, and soaps, and as a fuel for traditional oil lamps, and has additional uses in some religions. It is associated with the "Mediterranean diet" for its possible health benefits.')
+shrimp                  = Ingredient.create(name: 'Shrimp',                      photo_path: 'ingredients/shrimp.jpg', description: 'Under the broader definition, shrimp may be synonymous with prawn, covering stalk-eyed swimming crustaceans with long narrow muscular tails (abdomens), long whiskers (antennae), and slender legs. Any small crustacean which resembles a shrimp tends to be called one.')
 spaghettiThin           = Ingredient.create(name: 'Spaghetti, thin',             photo_path: 'ingredients/thin-spaghetti-pasta-20-lbs.jpg', description: 'There are many different varieties of pasta, a staple dish of Italian cuisine. Some pasta varieties are uniquely regional and not widely known; some types may have different names in different languages, or sometimes in the same language. For example, the cut rotelle is also called ruote in Italy and wagon wheels in the United States. Manufacturers and cooks often invent new shapes of pasta; or may invent new names for old shapes for marketing reasons. Italian pasta names often end with the masculine plural suffixes -ini, -elli, -illi, -etti or the feminine plurals -ine, -elle etc., all conveying the sense of "little"; or with -oni, -one, meaning "large". Many other suffixes like -otti ("largish") and -acci ("rough", "badly made") may occur, too. In Italian, all pasta type names are plural.')
 tomatoSauce             = Ingredient.create(name: 'Tomato, sauce',               photo_path: 'ingredients/Tomato_Sauce.jpg', description: 'Tomato sauce (also known as Neapolitan sauce, and referred to in Italy as Napoletana sauce), refers to any of a very large number of sauces made primarily from tomatoes, usually to be served as part of a dish (rather than as a condiment). Tomato sauces are common for meat and vegetables, but they are perhaps best known as sauces for pasta dishes.')
 tomatoWhole             = Ingredient.create(name: 'Tomato, whole',               photo_path: 'ingredients/whole-tomatos.jpg', description: 'Canned tomatoes, or tinned tomatoes, are tomatoes, usually peeled, that are sealed into a can after having been processed by heat.')
 water                   = Ingredient.create(name: 'Water',                       photo_path: 'ingredients/water.jpg', description: "Water is a transparent and nearly colorless chemical substance that is the main constituent of Earth's streams, lakes, and oceans, and the fluids of most living organisms. Its chemical formula is H2O.")
 
 SECONDS_PER_MINUTE ||= 60
+
+garlic_shrimp_recipe = Recipe.create(
+  user: user_local,
+  name: 'Garlic Shrimp',
+  photo_path: 'recipes/garlic_shrimp.jpg',
+  description: 'If you like shrimp and LOVE garlic, I hope you give this fast and delicious recipe a try soon. Enjoy!',
+  total_time: Time.at(25*SECONDS_PER_MINUTE)
+  )
+  garlic_shrimp_recipe.recipe_ingredients.new(ingredient: oilOlive,              quantity:  1.5,   unit: tbl  )
+  garlic_shrimp_recipe.recipe_ingredients.new(ingredient: shrimp,                quantity:  1.0,   unit: pound)
+  garlic_shrimp_recipe.save
 
 parmesan_chicken_recipe = Recipe.create(
   user: user_local,
@@ -46,7 +58,6 @@ parmesan_chicken_recipe = Recipe.create(
   description: 'A classic Italian dish prepared with tomato sauce and mozzarella, with a few additions by Chef John. Sure to impress your friends and family!',
   total_time: Time.at(60*SECONDS_PER_MINUTE)
   )
-
   parmesan_chicken_recipe.recipe_ingredients.new(ingredient: basil,                 quantity:  0.25,  unit: cup )
   parmesan_chicken_recipe.recipe_ingredients.new(ingredient: breadCrumbsPanko,      quantity:  4.0,   unit: cup  )
   parmesan_chicken_recipe.recipe_ingredients.new(ingredient: cheeseMozzarella,      quantity:  0.25,  unit: cup  )
@@ -88,6 +99,7 @@ tofurkey_recipe = Recipe.create(
   )
 
 user_other.user_recipe_favorites.new(recipe: salsa_chicken_recipe)
+user_other.user_recipe_reviews.new(recipe: garlic_shrimp_recipe, stars: 5, title: 'Best garlic shrimp!', comments: 'Very tasty and easy meal to make. I marinated the shrimp with italian dressing. Worked great! Shrimp did not dry out and the seasoning was just right!')
 user_other.user_recipe_reviews.new(recipe: salsa_chicken_recipe, stars: 5, title: 'Best salsa chicken!', comments: 'Very tasty and easy meal to make. I marinated the chicken with the package of taco seasoning and 2/3 cup of water so it would not come out so spicy. Worked great! Chicken did not dry out and the seasoning was just right!')
 user_other.save
 

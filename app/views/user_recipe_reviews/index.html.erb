@@ -1,8 +1,15 @@
 <h1>Reviews</h1>
 
+<% last_recipe_name = '' %>
+
 <% @user_recipe_reviews.each do |user_recipe_review| %>
-  <h3><%= link_to user_recipe_review.recipe.name, user_recipe_review.recipe %></h3>
-  <%= user_recipe_review.created_at %>
+
+  <% if user_recipe_review.recipe.name != last_recipe_name %>
+    <h3><%= link_to user_recipe_review.recipe.name, user_recipe_review.recipe %></h3>
+    <% last_recipe_name = user_recipe_review.recipe.name %>
+  <% end %>
+
+  ========== <%= user_recipe_review.created_at %>
   by <%= link_to user_recipe_review.user.email, user_user_recipe_reviews_path(user_recipe_review.user.id) %>
   <p><%= pluralize(user_recipe_review.stars, 'star') %></p>
   <h4><%= user_recipe_review.title %></h4>
