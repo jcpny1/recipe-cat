@@ -2,8 +2,7 @@
   <% ingredients.each do |ingredient| %>
     <tr>
       <td><%= link_to ingredient.ingredient.name, ingredient.ingredient %></td>
-      <td><%= number_with_precision(ingredient.quantity, precision: 3) %></td>
-      <td><%= ingredient.unit.name %></td>
+      <td><%= pluralize(number_with_precision(ingredient.quantity, precision: 3), ingredient.unit.name) %></td>
     </tr>
   <% end %>
 </table>

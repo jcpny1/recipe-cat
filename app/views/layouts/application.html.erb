@@ -12,14 +12,20 @@
   <body>
     <header>
       <p>
-        <%= link_to "Home", root_path %>  |
-        <%= link_to "Recipes", recipes_path %>  |
+        <%= link_to "Recipe Cat", root_path %>  |
+        <%= link_to "All Recipes", recipes_path %>  |
         <% if user_signed_in? %>
+          <%= link_to "My Recipes", user_recipes_path(current_user) %>  |
           <%= link_to "My Favorites", user_user_recipe_favorites_path(current_user) %>  |
           <%= link_to "My Reviews", user_user_recipe_reviews_path(current_user) %>  |
         <% end %>
         <%= link_to "Ingredients", ingredients_path %>  |
         <%= link_to "About", about_path %>
+        <% if user_signed_in? %>
+          | <%= link_to "Log out", destroy_user_session_path, method: :delete if user_signed_in? %>
+        <% elsif !current_page?(root_path) %>
+          | <%= link_to "Log in", new_user_session_path %>
+        <% end %>
       </p>
     </header>
 
@@ -29,7 +35,6 @@
     <%= yield %>
 
     <footer>
-      <p><%= link_to "Log out", destroy_user_session_path, method: :delete if user_signed_in? %></p>
     </footer>
   </body>
 </html>

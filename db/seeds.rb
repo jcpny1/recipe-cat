@@ -29,16 +29,27 @@ cheeseParmesanGrated    = Ingredient.create(name: 'Cheese, Parmesan, grated',   
 cheeseProvoloneGrated   = Ingredient.create(name: 'Cheese, Provolone, grated',   photo_path: 'ingredients/provolone-grated.jpg', description: 'Provolone is a semi-hard cheese with taste varying greatly from provolone piccante (sharp/piquant), aged for a minimum of four months and with a very sharp taste, to provolone dolce (sweet) with a very mild taste. Grated cheese is much finer than shredded cheese and reacts differently in recipes or application to cooked foods.')
 cheeseProvoloneShredded = Ingredient.create(name: 'Cheese, Provolone, shredded', photo_path: 'ingredients/provolone-cheese-shredded.jpg', description: 'Provolone is a semi-hard cheese with taste varying greatly from provolone piccante (sharp/piquant), aged for a minimum of four months and with a very sharp taste, to provolone dolce (sweet) with a very mild taste. Grated cheese is much finer than shredded cheese and reacts differently in recipes or application to cooked foods.')
 chickenBreasts          = Ingredient.create(name: 'Chicken, Breasts',            photo_path: 'ingredients/chicken-breasts.jpg', description: 'Chicken breasts are white meat and are relatively dry.')
+duckLeg                 = Ingredient.create(name: 'Duck, Legs',                  photo_path: 'ingredients/duck_legs.jpg', description: 'Duck meat is derived primarily from the breasts and legs of ducks. The meat of the legs is darker and somewhat fattier than the meat of the breasts, although the breast meat is darker than the breast meat of a chicken or a turkey. Being waterfowl, ducks have a layer of heat-insulating subcutaneous fat between the skin and the meat.')
 eggs                    = Ingredient.create(name: 'Eggs',                        photo_path: 'ingredients/eggs.jpg', description: 'Eggs are laid by female animals of many different species, including birds, reptiles, amphibians, mammals, and fish, and have been eaten by humans for thousands of years.[1] Bird and reptile eggs consist of a protective eggshell, albumen (egg white), and vitellus (egg yolk), contained within various thin membranes. The most popular choice for egg consumption are chicken eggs. Other popular choices for egg consumption are duck, quail, roe, and caviar.')
 flourAllPurpose         = Ingredient.create(name: 'Flour, all-purpose',          photo_path: 'ingredients/All-Purpose-Flour.jpg', description: 'Although there are many types of flour, all-purpose (or occident) flour is used most frequently. Bread flour is higher in protein. Unbleached flour is simply not as white as bleached.')
 oilOlive                = Ingredient.create(name: 'Oil, Olive',                  photo_path: 'ingredients/Olive-Oil.jpg', description: 'Olive oil is a liquid fat obtained from olives (the fruit of Olea europaea; family Oleaceae), a traditional tree crop of the Mediterranean Basin. The oil is produced by pressing whole olives. It is commonly used in cooking, whether for frying or as a salad dressing. It is also used in cosmetics, pharmaceuticals, and soaps, and as a fuel for traditional oil lamps, and has additional uses in some religions. It is associated with the "Mediterranean diet" for its possible health benefits.')
+sauceTomato             = Ingredient.create(name: 'Sauce, Tomato',               photo_path: 'ingredients/Tomato_Sauce.jpg', description: 'Tomato sauce (also known as Neapolitan sauce, and referred to in Italy as Napoletana sauce), refers to any of a very large number of sauces made primarily from tomatoes, usually to be served as part of a dish (rather than as a condiment). Tomato sauces are common for meat and vegetables, but they are perhaps best known as sauces for pasta dishes.')
 shrimp                  = Ingredient.create(name: 'Shrimp',                      photo_path: 'ingredients/shrimp.jpg', description: 'Under the broader definition, shrimp may be synonymous with prawn, covering stalk-eyed swimming crustaceans with long narrow muscular tails (abdomens), long whiskers (antennae), and slender legs. Any small crustacean which resembles a shrimp tends to be called one.')
-spaghettiThin           = Ingredient.create(name: 'Spaghetti, thin',             photo_path: 'ingredients/thin-spaghetti-pasta-20-lbs.jpg', description: 'There are many different varieties of pasta, a staple dish of Italian cuisine. Some pasta varieties are uniquely regional and not widely known; some types may have different names in different languages, or sometimes in the same language. For example, the cut rotelle is also called ruote in Italy and wagon wheels in the United States. Manufacturers and cooks often invent new shapes of pasta; or may invent new names for old shapes for marketing reasons. Italian pasta names often end with the masculine plural suffixes -ini, -elli, -illi, -etti or the feminine plurals -ine, -elle etc., all conveying the sense of "little"; or with -oni, -one, meaning "large". Many other suffixes like -otti ("largish") and -acci ("rough", "badly made") may occur, too. In Italian, all pasta type names are plural.')
-tomatoSauce             = Ingredient.create(name: 'Tomato, sauce',               photo_path: 'ingredients/Tomato_Sauce.jpg', description: 'Tomato sauce (also known as Neapolitan sauce, and referred to in Italy as Napoletana sauce), refers to any of a very large number of sauces made primarily from tomatoes, usually to be served as part of a dish (rather than as a condiment). Tomato sauces are common for meat and vegetables, but they are perhaps best known as sauces for pasta dishes.')
-tomatoWhole             = Ingredient.create(name: 'Tomato, whole',               photo_path: 'ingredients/whole-tomatos.jpg', description: 'Canned tomatoes, or tinned tomatoes, are tomatoes, usually peeled, that are sealed into a can after having been processed by heat.')
+spaghettiThin           = Ingredient.create(name: 'Spaghetti, Thin',             photo_path: 'ingredients/thin-spaghetti-pasta-20-lbs.jpg', description: 'There are many different varieties of pasta, a staple dish of Italian cuisine. Some pasta varieties are uniquely regional and not widely known; some types may have different names in different languages, or sometimes in the same language. For example, the cut rotelle is also called ruote in Italy and wagon wheels in the United States. Manufacturers and cooks often invent new shapes of pasta; or may invent new names for old shapes for marketing reasons. Italian pasta names often end with the masculine plural suffixes -ini, -elli, -illi, -etti or the feminine plurals -ine, -elle etc., all conveying the sense of "little"; or with -oni, -one, meaning "large". Many other suffixes like -otti ("largish") and -acci ("rough", "badly made") may occur, too. In Italian, all pasta type names are plural.')
+tomatoWhole             = Ingredient.create(name: 'Tomato, Whole',               photo_path: 'ingredients/whole-tomatos.jpg', description: 'Canned tomatoes, or tinned tomatoes, are tomatoes, usually peeled, that are sealed into a can after having been processed by heat.')
 water                   = Ingredient.create(name: 'Water',                       photo_path: 'ingredients/water.jpg', description: "Water is a transparent and nearly colorless chemical substance that is the main constituent of Earth's streams, lakes, and oceans, and the fluids of most living organisms. Its chemical formula is H2O.")
 
 SECONDS_PER_MINUTE ||= 60
+
+duck_fesenjan_recipe = Recipe.create(
+  user: user_other,
+  name: 'Duck Fesenjan',
+  photo_path: 'recipes/duck fesenjan.jpg',
+  description: "Chef John's take on the classic Persian savory stew fesenjan features duck, pomegranate, and walnuts.",
+  total_time: Time.at(210*SECONDS_PER_MINUTE)
+  )
+  duck_fesenjan_recipe.recipe_ingredients.new(ingredient: duckLeg,               quantity:  8.0,   unit: none  )
+  duck_fesenjan_recipe.save
 
 garlic_shrimp_recipe = Recipe.create(
   user: user_local,
@@ -68,7 +79,7 @@ parmesan_chicken_recipe = Recipe.create(
   parmesan_chicken_recipe.recipe_ingredients.new(ingredient: flourAllPurpose,       quantity:  2.0,   unit: tbl  )
   parmesan_chicken_recipe.recipe_ingredients.new(ingredient: oilOlive,              quantity:  1.0,   unit: cup  )
   parmesan_chicken_recipe.recipe_ingredients.new(ingredient: oilOlive,              quantity:  1.0,   unit: tbl  )
-  parmesan_chicken_recipe.recipe_ingredients.new(ingredient: tomatoSauce,           quantity:  4.0,   unit: floz )
+  parmesan_chicken_recipe.recipe_ingredients.new(ingredient: sauceTomato,           quantity:  4.0,   unit: floz )
 
   step = 0
   parmesan_chicken_recipe.recipe_steps.new(step_number:  step += 1, description: 'Preheat an oven to 450 degrees F (230 degrees C).')
@@ -104,5 +115,5 @@ user_other.user_recipe_reviews.new(recipe: salsa_chicken_recipe, stars: 5, title
 user_other.save
 
 user_local.user_recipe_favorites.new(recipe: parmesan_chicken_recipe)
-user_local.user_recipe_reviews.new(recipe: salsa_chicken_recipe, stars: 2, title: 'Not the Best salsa chicken!', comments: "Meh. I've had better")
+user_local.user_recipe_reviews.new(recipe: salsa_chicken_recipe, stars: 2, title: 'Not the Best salsa chicken!', comments: "I've had better")
 user_local.save
