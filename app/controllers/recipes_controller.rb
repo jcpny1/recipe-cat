@@ -17,4 +17,27 @@ class RecipesController < ApplicationController
     authorize @recipe
   end
 
+  def new
+    @recipe = Recipe.new
+    authorize @recipe
+  end
+
+  def create
+    @recipe = current_user.recipes.new(recipe_params)
+    @recipe.photo_path = 'recipes/placeholder.png'
+    authorize @recipe
+    if @recipe.save
+      redirect_to @recipe
+    else
+      flash[:alert] = @recipe.errors.full_messages
+      render :new
+    end
+  end
+
+private
+
+  def recipe_params
+    params.require(:recipe).permit(:name, :description, :total_time)
+  end
+
 end

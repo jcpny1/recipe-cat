@@ -6,6 +6,8 @@
   <h1>All Recipes</h1>
 <% end %>
 
+<p><%= link_to 'Add a recipe', new_recipe_path %></p>
+
 <table>
 <% @recipes.each do |recipe| %>
   <tr>

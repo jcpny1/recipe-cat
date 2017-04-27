@@ -18,6 +18,14 @@ class RecipePolicy < ApplicationPolicy
     true
   end
 
+  def new?
+    !!user
+  end
+
+  def create?
+    !!user
+  end
+
   def update?
     user.admin? || user.moderator? || record.try(:user) == user
   end

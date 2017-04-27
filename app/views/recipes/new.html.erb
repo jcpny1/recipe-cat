@@ -1,0 +1,21 @@
+<h1>Add a Recipe</h1>
+
+<%= form_for @recipe do |f| %>
+  <table>
+    <tr>
+      <td><%= f.label :name %></td>
+      <td><%= f.text_field :name %></td>
+    </tr>
+    <tr>
+      <td><%= f.label :description %></td>
+      <td><%= f.text_area :description %></td>
+    </tr>
+    <tr>
+      <td><%= f.label :total_time %></td>
+      <td><%= f.number_field :total_time %> minutes</td>
+    </tr>
+  </table>
+  <p><%= f.submit %></p>
+<% end %>
+
+<!-- t.string   "photo_path" -->
