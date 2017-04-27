@@ -1,5 +1,4 @@
 class UserRecipeReviewsController < ApplicationController
-#  skip_before_action :authenticate_user!, only: [:index, :show]
   skip_after_action  :verify_policy_scoped, only: :index  # seems like verify doesn't recognize a custom scope function.
 
   def index
