@@ -5,7 +5,8 @@ class UserRecipeReviewsController < ApplicationController
   def index
     if params[:user_id]
       @user = User.find_by(id: params[:user_id])
-      @recipe_reviews = UserRecipeReviewPolicy::Scope.new(current_user, UserRecipeReview).user_only(@user).order(:created_at)
+# would rather sort on recipe name, not recipe id
+      @recipe_reviews = UserRecipeReview.where(user_id: params[:user_id]).order(:recipe_id, :created_at)
       @user_reviews = true
     else
       @recipe_reviews = UserRecipeReview.where(recipe_id: params[:recipe_id]).order(:created_at)
