@@ -1,5 +1,7 @@
 <% if @user_recipes %>
   <h1>Recipes by <%= @user.email %></h1>
+<% elsif @user_favorites %>
+    <h1>Favorites of <%= @user.email %></h1>
 <% else %>
   <h1>All Recipes</h1>
 <% end %>

@@ -4,13 +4,12 @@ class UserRecipeReviewPolicy < ApplicationPolicy
       scope
     end
 
-    def user_only
-#      if user.admin?
-      if false
-        scope.all
-      else
-        scope.where(user_id: user.id)
-      end
+    def recipe_only(for_recipe)
+      scope.where(recipe_id: for_recipe.id)
+    end
+
+    def user_only(for_user)
+      scope.where(user_id: for_user.id)
     end
   end
 end
