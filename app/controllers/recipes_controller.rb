@@ -34,6 +34,25 @@ class RecipesController < ApplicationController
     end
   end
 
+  def edit
+    @recipe = Recipe.find_by(id: params[:id])
+    authorize @recipe
+  end
+
+  def update
+    @recipe = Recipe.find_by(id: params[:id])
+    authorize @recipe
+    if Recipe.update(recipe_params)
+      redirect_to @recipe
+    else
+      flash[:alert] = @recipe.errors.full_messages
+      render 'edit'
+    end
+  end
+
+  def destroy
+  end
+
 private
 
   def recipe_params

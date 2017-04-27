@@ -1,13 +1,21 @@
 <h1><%= @recipe.name %></h1>
 Submitted by <%= link_to @recipe.user.email, user_recipes_path(@recipe.user) %>
 <div><%= image_tag(@recipe.photo_path, size: "360x200", alt: "#{@recipe.name} photo" ) %></div>
-<%= link_to 'Reviews', recipe_user_recipe_reviews_path(@recipe) %><br>
+<%= link_to 'Reviews', recipe_user_recipe_reviews_path(@recipe) %>
+<% if @recipe.user == current_user %>
+  | <%= link_to 'Edit',    edit_recipe_path(@recipe) %>
+<% end %>
+<br><br>
+<table width="50%">
+  <tr>
+    <td><%= @recipe.description %></td>
+  </tr>
+</table>
 
 <table width="50%">
   <tr>
     <td><h3>Ingredients</h3></td>
     <td><h3>Steps</h3></td>
-  </tr>
   <tr valign="top">
     <td width="50%"><%= render partial: "ingredients", locals: {ingredients: @recipe.recipe_ingredients} %></td>
     <td width="50%"><%= render partial: "steps",       locals: {steps: @recipe.recipe_steps} %></td>

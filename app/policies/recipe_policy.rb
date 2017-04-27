@@ -5,8 +5,7 @@ class RecipePolicy < ApplicationPolicy
     end
 
     def user_only
-#      if user.admin?
-      if false
+      if user.admin?
         scope.all
       else
         scope.where(user_id: user.id)
@@ -22,11 +21,15 @@ class RecipePolicy < ApplicationPolicy
     !!user
   end
 
+  def edit?
+    !!user && (user.admin? || user.id == record.user_id)
+  end
+
   def create?
     !!user
   end
 
   def update?
-    user.admin? || user.moderator? || record.try(:user) == user
+    user.admin? || record.try(:user) == user
   end
 end

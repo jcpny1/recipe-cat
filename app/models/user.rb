@@ -11,6 +11,8 @@ class User < ApplicationRecord
   has_many :user_recipe_reviews
   has_many :user_recipe_favorites
 
+  enum role: [:user, :vip, :admin]
+
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
