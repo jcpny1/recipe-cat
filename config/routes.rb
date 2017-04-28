@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   resources :users do
     resources :recipes,               only: [:index]
-    resources :user_recipe_favorites, only: [:index]
+    resources :user_recipe_favorites, only: [:index, :update]
     resources :user_recipe_reviews,   only: [:index]
   end
 

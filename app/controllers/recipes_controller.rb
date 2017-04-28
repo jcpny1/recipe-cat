@@ -15,6 +15,7 @@ class RecipesController < ApplicationController
   def show
     @recipe = Recipe.find_by(id: params[:id])
     authorize @recipe
+    @user_recipe_favorite = UserRecipeFavorite.find_or_initialize_by(user_id: @recipe.user_id, recipe_id: @recipe.id)
   end
 
   def new
@@ -56,7 +57,7 @@ class RecipesController < ApplicationController
 private
 
   def recipe_params
-    params.require(:recipe).permit(:name, :description, :total_time)
+    params.require(:recipe).permit(:name, :description, :total_time, :favorite)
   end
 
 end

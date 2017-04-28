@@ -24,8 +24,9 @@ describe 'Feature Test: Ingredient', :type => :feature do
       @water = Ingredient.find_by(name: 'Water')
       visit ingredient_path @water
       expect(page).to have_content @water.name
-      expect(page).to have_css('h3', text: @water.name)
-      expect(page).to have_xpath("//img[contains(@src, 'ingredients/water')]")
+    binding.pry
+      expect(page).to have_css?('h3', :text => "#{@water.name}", :visible => true)
+      expect(page).to have_xpath("//img[contains(@src, 'water')]")
     end
   end
 end

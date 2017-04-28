@@ -1,12 +1,18 @@
 <h1><%= @recipe.name %></h1>
 Submitted by <%= link_to @recipe.user.email, user_recipes_path(@recipe.user) %>
 <div>
-  <%= image_tag(@recipe.photo_path, size: "360x200", alt: "#{@recipe.name} photo" ) %>
-  Total time: <%= pluralize(number_with_precision(@recipe.total_time.seconds_since_midnight/60, precision: 0), 'minute') %>
+  <table>
+    <tr>
+      <td><%= image_tag(@recipe.photo_path, size: "360x200", alt: "#{@recipe.name} photo" ) %></td>
+      <td>
+        <%= form_for @user_recipe_favorite, url: user_user_recipe_favorite_path(@recipe.user.id, @recipe.id), method: :patch do |f| %>
+          <%= f.check_box :favorite, :onclick => "javascript: this.form.submit();" %>
+          <%= f.label :favorite %>
+        <%end%>
+      </td>
+    </tr>
+  </table>
 </div>
-
-
-
 
 <%= link_to 'Reviews', recipe_user_recipe_reviews_path(@recipe) %>
 <% if @recipe.user == current_user %>
@@ -18,6 +24,8 @@ Submitted by <%= link_to @recipe.user.email, user_recipes_path(@recipe.user) %>
     <td><%= @recipe.description %></td>
   </tr>
 </table>
+
+<br>Total time: <%= pluralize(number_with_precision(@recipe.total_time.seconds_since_midnight/60, precision: 0), 'minute') %>
 
 <table width="50%">
   <tr>
