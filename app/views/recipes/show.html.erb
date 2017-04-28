@@ -5,7 +5,7 @@ Submitted by <%= link_to @recipe.user.email, user_recipes_path(@recipe.user) %>
     <tr>
       <td><%= image_tag(@recipe.photo_path, size: "360x200", alt: "#{@recipe.name} photo" ) %></td>
       <td>
-        <%= form_for @user_recipe_favorite, url: user_user_recipe_favorite_path(@recipe.user.id, @recipe.id), method: :patch do |f| %>
+        <%= form_for @user_recipe_favorite, url: user_user_recipe_favorite_path(current_user.id, @recipe.id), method: :patch do |f| %>
           <%= f.check_box :favorite, :onclick => "javascript: this.form.submit();" %>
           <%= f.label :favorite %>
         <%end%>

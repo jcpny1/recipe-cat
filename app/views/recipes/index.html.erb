@@ -6,7 +6,7 @@
   <h1>All Recipes</h1>
 <% end %>
 
-<p><%= link_to 'Add a recipe', new_recipe_path %></p>
+<p><%= link_to 'Add A Recipe', new_recipe_path %></p>
 
 <table>
 <% @recipes.each do |recipe| %>
@@ -15,6 +15,12 @@
     <td><%= image_tag(recipe.photo_path, size: "190x100", alt: "#{recipe.name} photo" ) %></td>
     <td><%= pluralize(recipe.number_of_reviews, 'review') %></td>
     <td><%= pluralize(recipe.average_stars, 'star') %></td>
+    <td>
+      <%= form_for UserRecipeFavorite.new(user_id: current_user.id, recipe_id: recipe.id), url: user_user_recipe_favorite_path(current_user.id, recipe.id), method: :patch do |f| %>
+        <%= f.check_box :favorite, :onclick => "javascript: this.form.submit();" %>
+        <%= f.label :favorite %>
+      <%end%>
+    </td>
   </tr>
 <% end %>
 </table>
