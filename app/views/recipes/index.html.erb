@@ -6,11 +6,16 @@
   <h1>All Recipes</h1>
 <% end %>
 
-
 <table>
   <tr>
     <td><p><%= link_to 'Add A Recipe', new_recipe_path %></p></td>
-    <td><p><%= link_to 'Filter Recipes', new_recipe_path %></p></td>
+    <td>
+      <%= form_for RecipeIngredient.new, url: recipe_ingredients_path do |f| %>
+        <%= f.label :ingredient %>
+        <%= f.select :ingredient, Ingredient.all.collect { |i| [ i.name, i.id ] }, include_blank: true %>
+        <%= f.submit 'Filter' %>
+      <%end%>
+    </td>
   </tr>
 <% @recipes.each do |recipe| %>
   <tr>
