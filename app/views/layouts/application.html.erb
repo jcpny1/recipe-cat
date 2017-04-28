@@ -23,7 +23,7 @@
         <%= link_to "About", about_path %>
         <% if user_signed_in? %>
           | <%= link_to "Log out", destroy_user_session_path, method: :delete if user_signed_in? %>
-        <% elsif !current_page?(root_path) %>
+        <% else %>
           | <%= link_to "Log in", new_user_session_path %>
         <% end %>
       </p>

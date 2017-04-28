@@ -51,17 +51,6 @@ duck_fesenjan_recipe = Recipe.create(
   duck_fesenjan_recipe.recipe_ingredients.new(ingredient: duckLeg,               quantity:  8.0,   unit: none  )
   duck_fesenjan_recipe.save
 
-garlic_shrimp_recipe = Recipe.create(
-  user: user_local,
-  name: 'Garlic Shrimp',
-  photo_path: 'recipes/garlic_shrimp.jpg',
-  description: 'If you like shrimp and LOVE garlic, I hope you give this fast and delicious recipe a try soon. Enjoy!',
-  total_time: Time.at(25*SECONDS_PER_MINUTE)
-  )
-  garlic_shrimp_recipe.recipe_ingredients.new(ingredient: oilOlive,              quantity:  1.5,   unit: tbl  )
-  garlic_shrimp_recipe.recipe_ingredients.new(ingredient: shrimp,                quantity:  1.0,   unit: pound)
-  garlic_shrimp_recipe.save
-
 parmesan_chicken_recipe = Recipe.create(
   user: user_local,
   name: 'Chicken Parmesan',
@@ -108,6 +97,17 @@ tofurkey_recipe = Recipe.create(
   description: 'Just tofu really',
   total_time: Time.at(125*SECONDS_PER_MINUTE)
   )
+
+  garlic_shrimp_recipe = Recipe.create(
+    user: user_local,
+    name: 'Garlic Shrimp',
+    photo_path: 'recipes/garlic_shrimp.jpg',
+    description: 'If you like shrimp and LOVE garlic, I hope you give this fast and delicious recipe a try soon. Enjoy!',
+    total_time: Time.at(25*SECONDS_PER_MINUTE)
+    )
+    garlic_shrimp_recipe.recipe_ingredients.new(ingredient: oilOlive,              quantity:  1.5,   unit: tbl  )
+    garlic_shrimp_recipe.recipe_ingredients.new(ingredient: shrimp,                quantity:  1.0,   unit: pound)
+    garlic_shrimp_recipe.save
 
 user_other.user_recipe_favorites.new(recipe: salsa_chicken_recipe)
 user_other.user_recipe_reviews.new(recipe: garlic_shrimp_recipe, stars: 5, title: 'Best garlic shrimp!', comments: 'Very tasty and easy meal to make. I marinated the shrimp with italian dressing. Worked great! Shrimp did not dry out and the seasoning was just right!')
