@@ -15,7 +15,6 @@ class RecipesController < ApplicationController
   def show
     @recipe = Recipe.find_by(id: params[:id])
     authorize @recipe
-    @user_recipe_favorite = UserRecipeFavorite.find_or_initialize_by(user_id: current_user.id, recipe_id: @recipe.id)
   end
 
   def new
