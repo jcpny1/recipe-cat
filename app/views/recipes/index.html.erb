@@ -6,9 +6,12 @@
   <h1>All Recipes</h1>
 <% end %>
 
-<p><%= link_to 'Add A Recipe', new_recipe_path %></p>
 
 <table>
+  <tr>
+    <td><p><%= link_to 'Add A Recipe', new_recipe_path %></p></td>
+    <td><p><%= link_to 'Filter Recipes', new_recipe_path %></p></td>
+  </tr>
 <% @recipes.each do |recipe| %>
   <tr>
     <td><%= link_to recipe.name, recipe %></td>
