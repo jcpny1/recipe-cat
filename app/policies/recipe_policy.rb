@@ -30,6 +30,6 @@ class RecipePolicy < ApplicationPolicy
   end
 
   def update?
-    user.admin? || record.try(:user) == user
+    user && (user.admin? || record.try(:user) == user)
   end
 end

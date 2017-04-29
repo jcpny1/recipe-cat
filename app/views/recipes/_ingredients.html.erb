@@ -1,5 +1,5 @@
 <table valign="top">
-  <% ingredients.each do |ingredient| %>
+  <% ingredients.sort { |i1,i2| i1.ingredient.name <=> i2.ingredient.name }.each do |ingredient| %>
     <tr>
       <td><%= link_to ingredient.ingredient.name, ingredient.ingredient %></td>
       <td><%= pluralize(number_with_precision(ingredient.quantity, precision: 3), ingredient.unit.name) %></td>

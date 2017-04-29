@@ -12,11 +12,11 @@ gallon = Unit.create(name: 'gallon')
 none   = Unit.create(name: ''      )
 ounce  = Unit.create(name: 'ounce' )
 pound  = Unit.create(name: 'pound' )
-pinch  = Unit.create(name: 'pinch' )
 pint   = Unit.create(name: 'pint'  )
 quart  = Unit.create(name: 'quart' )
 tbl    = Unit.create(name: 'tbl'   )
 tsp    = Unit.create(name: 'tsp'   )
+pinch  = Unit.create(name: 'pinch' )
 
 user_facebook = User.create(email: 'jpfingst@outlook.com', password: 'fakeone', provider: 'facebook', uid: '1376916635679797')
 user_local    = User.create(email: 'pfingst@yahoo.com', password: '123456')
@@ -32,12 +32,12 @@ chickenBreasts          = Ingredient.create(name: 'Chicken, Breasts',           
 duckLeg                 = Ingredient.create(name: 'Duck, Legs',                  photo_path: 'ingredients/duck_legs.jpg', description: 'Duck meat is derived primarily from the breasts and legs of ducks. The meat of the legs is darker and somewhat fattier than the meat of the breasts, although the breast meat is darker than the breast meat of a chicken or a turkey. Being waterfowl, ducks have a layer of heat-insulating subcutaneous fat between the skin and the meat.')
 eggs                    = Ingredient.create(name: 'Eggs',                        photo_path: 'ingredients/eggs.jpg', description: 'Eggs are laid by female animals of many different species, including birds, reptiles, amphibians, mammals, and fish, and have been eaten by humans for thousands of years.[1] Bird and reptile eggs consist of a protective eggshell, albumen (egg white), and vitellus (egg yolk), contained within various thin membranes. The most popular choice for egg consumption are chicken eggs. Other popular choices for egg consumption are duck, quail, roe, and caviar.')
 flourAllPurpose         = Ingredient.create(name: 'Flour, all-purpose',          photo_path: 'ingredients/All-Purpose-Flour.jpg', description: 'Although there are many types of flour, all-purpose (or occident) flour is used most frequently. Bread flour is higher in protein. Unbleached flour is simply not as white as bleached.')
-oilOlive                = Ingredient.create(name: 'Oil, Olive',                  photo_path: 'ingredients/Olive-Oil.jpg', description: 'Olive oil is a liquid fat obtained from olives (the fruit of Olea europaea; family Oleaceae), a traditional tree crop of the Mediterranean Basin. The oil is produced by pressing whole olives. It is commonly used in cooking, whether for frying or as a salad dressing. It is also used in cosmetics, pharmaceuticals, and soaps, and as a fuel for traditional oil lamps, and has additional uses in some religions. It is associated with the "Mediterranean diet" for its possible health benefits.')
 sauceTomato             = Ingredient.create(name: 'Sauce, Tomato',               photo_path: 'ingredients/Tomato_Sauce.jpg', description: 'Tomato sauce (also known as Neapolitan sauce, and referred to in Italy as Napoletana sauce), refers to any of a very large number of sauces made primarily from tomatoes, usually to be served as part of a dish (rather than as a condiment). Tomato sauces are common for meat and vegetables, but they are perhaps best known as sauces for pasta dishes.')
 shrimp                  = Ingredient.create(name: 'Shrimp',                      photo_path: 'ingredients/shrimp.jpg', description: 'Under the broader definition, shrimp may be synonymous with prawn, covering stalk-eyed swimming crustaceans with long narrow muscular tails (abdomens), long whiskers (antennae), and slender legs. Any small crustacean which resembles a shrimp tends to be called one.')
 spaghettiThin           = Ingredient.create(name: 'Spaghetti, Thin',             photo_path: 'ingredients/thin-spaghetti-pasta-20-lbs.jpg', description: 'There are many different varieties of pasta, a staple dish of Italian cuisine. Some pasta varieties are uniquely regional and not widely known; some types may have different names in different languages, or sometimes in the same language. For example, the cut rotelle is also called ruote in Italy and wagon wheels in the United States. Manufacturers and cooks often invent new shapes of pasta; or may invent new names for old shapes for marketing reasons. Italian pasta names often end with the masculine plural suffixes -ini, -elli, -illi, -etti or the feminine plurals -ine, -elle etc., all conveying the sense of "little"; or with -oni, -one, meaning "large". Many other suffixes like -otti ("largish") and -acci ("rough", "badly made") may occur, too. In Italian, all pasta type names are plural.')
 tomatoWhole             = Ingredient.create(name: 'Tomato, Whole',               photo_path: 'ingredients/whole-tomatos.jpg', description: 'Canned tomatoes, or tinned tomatoes, are tomatoes, usually peeled, that are sealed into a can after having been processed by heat.')
 water                   = Ingredient.create(name: 'Water',                       photo_path: 'ingredients/water.jpg', description: "Water is a transparent and nearly colorless chemical substance that is the main constituent of Earth's streams, lakes, and oceans, and the fluids of most living organisms. Its chemical formula is H2O.")
+oilOlive                = Ingredient.create(name: 'Oil, Olive',                  photo_path: 'ingredients/Olive-Oil.jpg', description: 'Olive oil is a liquid fat obtained from olives (the fruit of Olea europaea; family Oleaceae), a traditional tree crop of the Mediterranean Basin. The oil is produced by pressing whole olives. It is commonly used in cooking, whether for frying or as a salad dressing. It is also used in cosmetics, pharmaceuticals, and soaps, and as a fuel for traditional oil lamps, and has additional uses in some religions. It is associated with the "Mediterranean diet" for its possible health benefits.')
 
 SECONDS_PER_MINUTE ||= 60
 
@@ -67,8 +67,8 @@ parmesan_chicken_recipe = Recipe.create(
   parmesan_chicken_recipe.recipe_ingredients.new(ingredient: eggs,                  quantity:  2.0,   unit: none )
   parmesan_chicken_recipe.recipe_ingredients.new(ingredient: flourAllPurpose,       quantity:  2.0,   unit: tbl  )
   parmesan_chicken_recipe.recipe_ingredients.new(ingredient: oilOlive,              quantity:  1.0,   unit: cup  )
-  parmesan_chicken_recipe.recipe_ingredients.new(ingredient: oilOlive,              quantity:  1.0,   unit: tbl  )
   parmesan_chicken_recipe.recipe_ingredients.new(ingredient: sauceTomato,           quantity:  4.0,   unit: floz )
+  parmesan_chicken_recipe.recipe_ingredients.new(ingredient: oilOlive,              quantity:  1.0,   unit: tbl  )
 
   step = 0
   parmesan_chicken_recipe.recipe_steps.new(step_number:  step += 1, description: 'Preheat an oven to 450 degrees F (230 degrees C).')
