@@ -1,2 +1,2 @@
-<h1>RecipeIngredients#index</h1>
-<p>Find me in app/views/recipe_ingredients/index.html.erb</p>
+<h1><%= @recipe_name %> Recipe Ingredients</h1>
+<%= render partial: "recipes/ingredients", locals: {ingredients: @recipe_ingredients} %>

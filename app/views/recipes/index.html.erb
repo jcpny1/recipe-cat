@@ -12,11 +12,12 @@
       <td><p><%= link_to 'Add A Recipe', new_recipe_path %></p></td>
       <td>
         <%= form_for RecipeIngredient.new, url: recipe_ingredients_path do |f| %>
-          filter: <%= session[:ingredient_filter] %><br>
+          Filter By<br>
           <%= f.label :ingredient %>
           <%= f.select :ingredient, Ingredient.all.collect { |i| [ i.name, i.id ] }, include_blank: true, selected: session[:ingredient_filter].to_i %>
           <%= f.submit 'Filter' %>
         <%end%>
+        <br>
       </td>
     </tr>
   <% end %>

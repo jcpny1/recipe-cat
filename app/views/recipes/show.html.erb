@@ -24,8 +24,8 @@ Submitted by <%= link_to @recipe.user.email, user_recipes_path(@recipe.user) %>
 
 <table width="50%">
   <tr>
-    <td><h3>Ingredients</h3></td>
-    <td><h3>Steps</h3></td>
+    <td><h3>Ingredients  <%= link_to 'edit', recipe_recipe_ingredients_path(@recipe) if policy(@recipe).update? %></h3></td>
+    <td><h3>Steps  <%= link_to 'edit', recipe_recipe_steps_path(@recipe) if policy(@recipe).update? %></h3></td>
   <tr valign="top">
     <td width="50%"><%= render partial: "ingredients", locals: {ingredients: @recipe.recipe_ingredients} %></td>
     <td width="50%"><%= render partial: "steps",       locals: {steps: @recipe.recipe_steps} %></td>
