@@ -1,12 +1,8 @@
 class RecipesController < ApplicationController
-  skip_before_action :authenticate_user!,   only: [:index]
+  skip_before_action :authenticate_user!,   only: [:index, :show]
   skip_after_action  :verify_policy_scoped, only: [:index]  # seems like verify doesn't recognize a custom scope function.
 
   def index
-  if session.nil?
-    session[:xyz] = "xyz"
-  end
-
     if params[:user_id]
       @user = User.find(params[:user_id])
       @recipes = RecipePolicy::Scope.new(@user, Recipe).user_only.order(:name)
@@ -16,7 +12,7 @@ class RecipesController < ApplicationController
     end
 
 # fix this up. just filter existing @recipes. Don't refetch.
-    unless session[:ingredient_filter].empty?  # filter by ingredient selection.
+    if user_signed_in? && session[:ingredient_filter]  # filter by ingredient selection.
       recipe_ingredients = RecipeIngredient.where(ingredient_id: session[:ingredient_filter])
       @recipes = recipe_ingredients.collect { |ri| ri.recipe }
       @recipes.uniq!
