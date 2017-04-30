@@ -1,8 +1,8 @@
-<table valign="top">
+  <table width="100%">
   <% ingredients.sort { |i1,i2| i1.ingredient.name <=> i2.ingredient.name }.each do |ingredient| %>
     <tr>
-      <td><%= link_to ingredient.ingredient.name, ingredient.ingredient %></td>
-      <td><%= pluralize(number_with_precision(ingredient.quantity, precision: 3), ingredient.unit.name) %></td>
+      <td width="60%"><%= link_to ingredient.ingredient.name, ingredient.ingredient %></td>
+      <td width="40% align="right"><%= pluralize(number_with_precision(ingredient.quantity, precision: 3, strip_insignificant_zeros: true), ingredient.unit.name) %></td
     </tr>
   <% end %>
 </table>
