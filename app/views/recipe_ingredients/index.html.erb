@@ -1,2 +1,11 @@
 <h1><%= @recipe_name %> Recipe Ingredients</h1>
-<%= render partial: "recipes/ingredients", locals: {ingredients: @recipe_ingredients} %>
+<table width="25%">
+  <% if user_signed_in? %>
+    <tr>
+      <td><p><%= link_to 'Add An Ingredient', new_recipe_recipe_ingredient_path %></p></td>
+    </tr>
+  <% end %>
+  <tr>
+    <td><%= render partial: "recipes/ingredients", locals: {recipe_ingredients: @recipe_ingredients} %></td>
+  </tr>
+</table>

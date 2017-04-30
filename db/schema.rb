@@ -13,8 +13,8 @@
 ActiveRecord::Schema.define(version: 20170423033259) do
 
   create_table "ingredients", force: :cascade do |t|
-    t.string   "name"
-    t.string   "photo_path"
+    t.string   "name",        null: false
+    t.string   "photo_path",  null: false
     t.text     "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
@@ -43,17 +43,17 @@ ActiveRecord::Schema.define(version: 20170423033259) do
 
   create_table "recipes", force: :cascade do |t|
     t.integer  "user_id"
-    t.string   "name"
-    t.string   "photo_path"
-    t.text     "description"
-    t.time     "total_time"
+    t.string   "name",        null: false
+    t.string   "photo_path",  null: false
+    t.text     "description", null: false
+    t.integer  "total_time",  null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.index ["user_id"], name: "index_recipes_on_user_id"
   end
 
   create_table "units", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",       null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -1,8 +1,15 @@
   <table width="100%">
-  <% ingredients.sort { |i1,i2| i1.ingredient.name <=> i2.ingredient.name }.each do |ingredient| %>
+  <% policy_scope(recipe_ingredients).sort { |ri1,ri2| ri1.ingredient.name <=> ri2.ingredient.name }.each do |recipe_ingredient| %>
     <tr>
-      <td width="60%"><%= link_to ingredient.ingredient.name, ingredient.ingredient %></td>
-      <td width="40% align="right"><%= pluralize(number_with_precision(ingredient.quantity, precision: 3, strip_insignificant_zeros: true), ingredient.unit.name) %></td
+      <td width="50%"><%= link_to recipe_ingredient.ingredient.name, recipe_ingredient.ingredient %></td>
+      <td width="25%" align="right"><%= pluralize(number_with_precision(recipe_ingredient.quantity, precision: 3, strip_insignificant_zeros: true), recipe_ingredient.unit.name) %></td>
+      <td width="25%" align="center">
+        <% if policy(recipe_ingredient).update? %>
+          <%= form_for recipe_ingredient, url: recipe_recipe_ingredient_path(recipe_ingredient.recipe.id, recipe_ingredient.id), method: :delete do |f| %>
+            <%= f.submit 'delete' %>
+          <%end%>
+        <% end %>
+      </td>
     </tr>
   <% end %>
 </table>

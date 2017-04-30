@@ -21,12 +21,12 @@ class RecipePolicy < ApplicationPolicy
     !!user
   end
 
-  def edit?
-    !!user && (user.admin? || user.id == record.user_id)
-  end
-
   def create?
     !!user
+  end
+
+  def edit?
+    !!user && (user.admin? || user.id == record.user_id)
   end
 
   def update?

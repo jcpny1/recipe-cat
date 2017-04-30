@@ -11,4 +11,10 @@ class RecipeIngredientsController < ApplicationController
     session[:ingredient_filter] = params[:recipe_ingredient][:ingredient]
     redirect_to recipes_path
   end
+
+  def destroy
+    recipe = Recipe.find_by(id: params[:recipe_id])
+    recipe.recipe_ingredients.destroy(params[:id])
+    redirect_to recipe_recipe_ingredients_path(recipe)
+  end
 end

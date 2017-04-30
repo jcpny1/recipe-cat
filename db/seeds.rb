@@ -39,14 +39,12 @@ tomatoWhole             = Ingredient.create(name: 'Tomato, Whole',              
 water                   = Ingredient.create(name: 'Water',                       photo_path: 'ingredients/water.jpg', description: "Water is a transparent and nearly colorless chemical substance that is the main constituent of Earth's streams, lakes, and oceans, and the fluids of most living organisms. Its chemical formula is H2O.")
 oilOlive                = Ingredient.create(name: 'Oil, Olive',                  photo_path: 'ingredients/Olive-Oil.jpg', description: 'Olive oil is a liquid fat obtained from olives (the fruit of Olea europaea; family Oleaceae), a traditional tree crop of the Mediterranean Basin. The oil is produced by pressing whole olives. It is commonly used in cooking, whether for frying or as a salad dressing. It is also used in cosmetics, pharmaceuticals, and soaps, and as a fuel for traditional oil lamps, and has additional uses in some religions. It is associated with the "Mediterranean diet" for its possible health benefits.')
 
-SECONDS_PER_MINUTE ||= 60
-
 duck_fesenjan_recipe = Recipe.create(
   user: user_other,
   name: 'Duck Fesenjan',
   photo_path: 'recipes/duck fesenjan.jpg',
   description: "Chef John's take on the classic Persian savory stew fesenjan features duck, pomegranate, and walnuts.",
-  total_time: Time.at(210*SECONDS_PER_MINUTE)
+  total_time: 210
   )
   duck_fesenjan_recipe.recipe_ingredients.new(ingredient: duckLeg,               quantity:  8.0,   unit: none  )
   duck_fesenjan_recipe.save
@@ -56,7 +54,7 @@ parmesan_chicken_recipe = Recipe.create(
   name: 'Chicken Parmesan',
   photo_path: 'recipes/cparm_001.jpg',
   description: 'A classic Italian dish prepared with tomato sauce and mozzarella, with a few additions by Chef John. Sure to impress your friends and family!',
-  total_time: Time.at(60*SECONDS_PER_MINUTE)
+  total_time: 60
   )
   parmesan_chicken_recipe.recipe_ingredients.new(ingredient: basil,                 quantity:  0.25,  unit: cup )
   parmesan_chicken_recipe.recipe_ingredients.new(ingredient: breadCrumbsPanko,      quantity:  4.0,   unit: cup  )
@@ -87,7 +85,7 @@ salsa_chicken_recipe = Recipe.create(
   name: 'Salsa Chicken',
   photo_path: 'recipes/salsa-chicken.jpg',
   description: 'Chicken seasoned with taco seasoning and topped with salsa, then baked.',
-  total_time: Time.at(45*SECONDS_PER_MINUTE)
+  total_time: 45
   )
 
 tofurkey_recipe = Recipe.create(
@@ -95,7 +93,7 @@ tofurkey_recipe = Recipe.create(
   name: 'Tofu Turkey',
   photo_path: 'recipes/tofurkey2.jpg',
   description: 'Just tofu really',
-  total_time: Time.at(125*SECONDS_PER_MINUTE)
+  total_time: 125
   )
 
   garlic_shrimp_recipe = Recipe.create(
@@ -103,7 +101,7 @@ tofurkey_recipe = Recipe.create(
     name: 'Garlic Shrimp',
     photo_path: 'recipes/garlic_shrimp.jpg',
     description: 'If you like shrimp and LOVE garlic, I hope you give this fast and delicious recipe a try soon. Enjoy!',
-    total_time: Time.at(25*SECONDS_PER_MINUTE)
+    total_time: 25
     )
     garlic_shrimp_recipe.recipe_ingredients.new(ingredient: oilOlive,              quantity:  1.5,   unit: tbl  )
     garlic_shrimp_recipe.recipe_ingredients.new(ingredient: shrimp,                quantity:  1.0,   unit: pound)
