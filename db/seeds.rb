@@ -95,6 +95,9 @@ tofurkey_recipe = Recipe.create(
   description: 'Just tofu really',
   total_time: 125
   )
+  step = 0
+  tofurkey_recipe.recipe_steps.new(step_number:  step += 1, description: 'Go to tofurkey store.')
+  tofurkey_recipe.save
 
   garlic_shrimp_recipe = Recipe.create(
     user: user_local,

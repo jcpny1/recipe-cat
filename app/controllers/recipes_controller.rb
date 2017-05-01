@@ -12,7 +12,7 @@ class RecipesController < ApplicationController
     end
 
 # fix this up. just filter existing @recipes. Don't refetch.
-    if user_signed_in? && session[:ingredient_filter]  # filter by ingredient selection.
+    if user_signed_in? && !session[:ingredient_filter].empty?  # filter by ingredient selection.
       recipe_ingredients = RecipeIngredient.where(ingredient_id: session[:ingredient_filter])
       @recipes = recipe_ingredients.collect { |ri| ri.recipe }
       @recipes.uniq!
