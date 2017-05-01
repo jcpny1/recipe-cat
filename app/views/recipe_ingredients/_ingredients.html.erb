@@ -3,13 +3,7 @@
     <tr>
       <td width="50%"><%= link_to recipe_ingredient.ingredient.name, recipe_ingredient.ingredient %></td>
       <td width="25%" align="right"><%= pluralize(number_with_precision(recipe_ingredient.quantity, precision: 3, strip_insignificant_zeros: true), recipe_ingredient.unit ? recipe_ingredient.unit.name : '') %></td>
-      <td width="25%" align="center">
-        <% if policy(recipe_ingredient).update? %>
-          <%= form_for recipe_ingredient, url: recipe_recipe_ingredient_path(recipe_ingredient.recipe.id, recipe_ingredient.id), method: :delete do |f| %>
-            <%= f.submit 'delete', data: { confirm: 'Are you sure?' } %>
-          <%end%>
-        <% end %>
-      </td>
+      <td width="25%" align="center"><%= link_to("delete", recipe_recipe_ingredient_path(recipe_ingredient.recipe.id, recipe_ingredient.id), method: :delete) if policy(recipe_ingredient.recipe).update? %></td>
     </tr>
   <% end %>
 </table>
