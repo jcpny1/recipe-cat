@@ -59,6 +59,10 @@ class RecipesController < ApplicationController
   end
 
   def destroy
+    recipe = Recipe.find_by(id: params[:id])
+    authorize recipe
+    recipe.destroy
+    redirect_to recipes_path
   end
 
 private
