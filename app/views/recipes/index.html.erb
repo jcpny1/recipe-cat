@@ -30,7 +30,7 @@
       <td>
         <% if policy(recipe).destroy? %>
           <%= form_for recipe, url: recipe_path(recipe), method: :delete do |f| %>
-            <%= f.submit 'delete' %>
+            <%= f.submit 'delete', data: { confirm: 'Are you sure?' } %>
           <%end%>
         <% end %>
       </td>

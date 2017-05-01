@@ -6,7 +6,7 @@
       <td width="25%" align="center">
         <% if policy(recipe_ingredient).update? %>
           <%= form_for recipe_ingredient, url: recipe_recipe_ingredient_path(recipe_ingredient.recipe.id, recipe_ingredient.id), method: :delete do |f| %>
-            <%= f.submit 'delete' %>
+            <%= f.submit 'delete', data: { confirm: 'Are you sure?' } %>
           <%end%>
         <% end %>
       </td>

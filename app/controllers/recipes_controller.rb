@@ -32,6 +32,7 @@ class RecipesController < ApplicationController
 
   def create
     @recipe = current_user.recipes.new(recipe_params)
+    @recipe.total_time ||= 0
     @recipe.photo_path = 'recipes/placeholder.png'
     authorize @recipe
     if @recipe.save
