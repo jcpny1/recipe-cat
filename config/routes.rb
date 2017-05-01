@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   resources :recipes do
     resources :user_recipe_reviews, only: [:index]
     resources :recipe_ingredients,  only: [:index, :new, :create, :destroy]
-    resources :recipe_steps,        only: [:index]
+    resources :recipe_steps,        only: [:index, :new, :create, :destroy]
   end
 
   resources :recipe_ingredients, only: [:create]  # show recipes having these receipe_ingredient(s).
