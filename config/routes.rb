@@ -9,8 +9,7 @@ Rails.application.routes.draw do
     resources :recipe_ingredients,  only: [:index, :new, :create, :destroy]
     resources :recipe_steps,        only: [:index, :new, :create, :destroy]
   end
-
-  resources :recipe_ingredients, only: [:create]  # show recipes having these receipe_ingredient(s).
+  post '/recipe_ingredients/filter', to: 'recipe_ingredients#filter'
 
   resources :users do
     resources :recipes,               only: [:index]
