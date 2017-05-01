@@ -23,22 +23,20 @@
   <% end %>
 </table>
 <table>
-  <% if user_signed_in? %>
-    <% @recipes.each do |recipe| %>
-      <tr>
-        <td><%= link_to recipe.name, recipe %></td>
-        <td><%= image_tag(recipe.photo_path, size: "190x100", alt: "#{recipe.name} photo" ) %></td>
-        <td>
-          <% if policy(recipe).destroy? %>
-            <%= form_for recipe, url: recipe_path(recipe), method: :delete do |f| %>
-              <%= f.submit 'delete' %>
-            <%end%>
-          <% end %>
-        </td>
-        <td><%= pluralize(recipe.number_of_reviews, 'review') %></td>
-        <td><%= pluralize(recipe.average_stars, 'star') %></td>
-        <td><%= render partial: "recipes/favorite", locals: {recipe: recipe} %></td>
-      </tr>
-    <% end %>
+  <% @recipes.each do |recipe| %>
+    <tr>
+      <td><%= link_to recipe.name, recipe %></td>
+      <td><%= image_tag(recipe.photo_path, size: "190x100", alt: "#{recipe.name} photo" ) %></td>
+      <td>
+        <% if policy(recipe).destroy? %>
+          <%= form_for recipe, url: recipe_path(recipe), method: :delete do |f| %>
+            <%= f.submit 'delete' %>
+          <%end%>
+        <% end %>
+      </td>
+      <td><%= pluralize(recipe.number_of_reviews, 'review') %></td>
+      <td><%= pluralize(recipe.average_stars, 'star') %></td>
+      <td><%= render partial: "recipes/favorite", locals: {recipe: recipe} %></td>
+    </tr>
   <% end %>
 </table>
