@@ -24,10 +24,20 @@ Submitted by <%= link_to @recipe.user.email, user_recipes_path(@recipe.user) %>
 
 <table width="50%">
   <tr>
-    <td><h3>Ingredients  <%= link_to 'edit', recipe_recipe_ingredients_path(@recipe) if policy(@recipe).update? %></h3></td>
-    <td><h3>Steps  <%= link_to 'edit', recipe_recipe_steps_path(@recipe) if policy(@recipe).update? %></h3></td>
+    <td>
+      <h3>
+        Ingredients  <%= link_to 'add',  new_recipe_recipe_ingredient_path(@recipe) if policy(@recipe).update? %>
+                     <%= link_to 'edit', recipe_recipe_ingredients_path(@recipe) if policy(@recipe).update? %>
+      </h3>
+    </td>
+    <td>
+      <h3>
+        Steps  <%= link_to 'add',  new_recipe_recipe_step_path(@recipe) if policy(@recipe).update? %>
+               <%= link_to 'edit', recipe_recipe_steps_path(@recipe) if policy(@recipe).update? %>
+      </h3>
+    </td>
   <tr valign="top">
-    <td width="50%"><%= render partial: "ingredients", locals: {recipe_ingredients: @recipe.recipe_ingredients} %></td>
-    <td width="50%"><%= render partial: "steps",       locals: {steps: @recipe.recipe_steps} %></td>
+    <td width="50%"><%= render partial: "recipe_ingredients/ingredients", locals: {recipe_ingredients: @recipe.recipe_ingredients} %></td>
+    <td width="50%"><%= render partial: "recipe_steps/steps",             locals: {steps: @recipe.recipe_steps} %></td>
   </tr>
 </table>
