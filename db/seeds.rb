@@ -18,9 +18,11 @@ tbl    = Unit.create(name: 'tbl'   )
 tsp    = Unit.create(name: 'tsp'   )
 pinch  = Unit.create(name: 'pinch' )
 
-user_facebook = User.create(email: 'jpfingst@outlook.com', password: 'fakeone', provider: 'facebook', uid: '1376916635679797')
-user_local    = User.create(email: 'pfingst@yahoo.com', password: '123456')
-user_other    = User.create(email: 'harry@aol.com',     password: '123456')
+user_facebook = User.create(email: 'jpfingst@outlook.com', password: 'fakeone', provider: 'facebook', uid: '1376916635679797', role: "user")
+user_admin    = User.create(email: 'pfingst@yahoo.com',    password: '123456', role: "admin")
+user_other    = User.create(email: 'joe_user@aol.com',     password: '123456', role: "user" )
+user_vip      = User.create(email: 'joe_vip@aol.com',      password: '123456', role: "vip"  )
+user_unkown   = User.create(email: 'joe_unkown@aol.com',   password: '123456')
 
 basil                   = Ingredient.create(name: 'Basil',                       photo_path: 'ingredients/Basil-Basilico-Ocimum_basilicum-albahaca.jpg', description: 'The type used in Italian food is typically called sweet basil (or Genovese basil), as opposed to Thai basil, lemon basil, and holy basil, which are used in Asia.')
 breadCrumbsPanko        = Ingredient.create(name: 'Bread Crumbs, Panko',         photo_path: 'ingredients/Panko-Bread-Crumbs.jpg', description: 'Panko is a variety of flaky bread crumb used in Japanese cuisine as a crunchy coating for fried foods, such as tonkatsu.')
@@ -50,7 +52,7 @@ duck_fesenjan_recipe = Recipe.create(
   duck_fesenjan_recipe.save
 
 parmesan_chicken_recipe = Recipe.create(
-  user: user_local,
+  user: user_admin,
   name: 'Chicken Parmesan',
   photo_path: 'recipes/cparm_001.jpg',
   description: 'A classic Italian dish prepared with tomato sauce and mozzarella, with a few additions by Chef John. Sure to impress your friends and family!',
@@ -81,7 +83,7 @@ parmesan_chicken_recipe = Recipe.create(
   parmesan_chicken_recipe.save
 
 salsa_chicken_recipe = Recipe.create(
-  user: user_local,
+  user: user_admin,
   name: 'Salsa Chicken',
   photo_path: 'recipes/salsa-chicken.jpg',
   description: 'Chicken seasoned with taco seasoning and topped with salsa, then baked.',
@@ -100,7 +102,7 @@ tofurkey_recipe = Recipe.create(
   tofurkey_recipe.save
 
   garlic_shrimp_recipe = Recipe.create(
-    user: user_local,
+    user: user_admin,
     name: 'Garlic Shrimp',
     photo_path: 'recipes/garlic_shrimp.jpg',
     description: 'If you like shrimp and LOVE garlic, I hope you give this fast and delicious recipe a try soon. Enjoy!',
@@ -115,6 +117,6 @@ user_other.user_recipe_reviews.new(recipe: garlic_shrimp_recipe, stars: 5, title
 user_other.user_recipe_reviews.new(recipe: salsa_chicken_recipe, stars: 5, title: 'Best salsa chicken!', comments: 'Very tasty and easy meal to make. I marinated the chicken with the package of taco seasoning and 2/3 cup of water so it would not come out so spicy. Worked great! Chicken did not dry out and the seasoning was just right!')
 user_other.save
 
-user_local.user_recipe_favorites.new(recipe: parmesan_chicken_recipe)
-user_local.user_recipe_reviews.new(recipe: salsa_chicken_recipe, stars: 2, title: 'Not the Best salsa chicken!', comments: "I've had better.")
-user_local.save
+user_admin.user_recipe_favorites.new(recipe: parmesan_chicken_recipe)
+user_admin.user_recipe_reviews.new(recipe: salsa_chicken_recipe, stars: 2, title: 'Not the Best salsa chicken!', comments: "I've had better.")
+user_admin.save

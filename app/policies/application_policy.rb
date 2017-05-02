@@ -6,38 +6,6 @@ class ApplicationPolicy
     @record = record
   end
 
-  def index?
-    false
-  end
-
-  def show?
-    scope.where(:id => record.id).exists?
-  end
-
-  def create?
-    false
-  end
-
-  def new?
-    create?
-  end
-
-  def update?
-    false
-  end
-
-  def edit?
-    update?
-  end
-
-  def destroy?
-    false
-  end
-
-  def scope
-    Pundit.policy_scope!(user, record.class)
-  end
-
   class Scope
     attr_reader :user, :scope
 
@@ -49,5 +17,37 @@ class ApplicationPolicy
     def resolve
       scope
     end
+  end
+
+  def scope
+    Pundit.policy_scope!(user, record.class)
+  end
+
+  def index?
+    user.admin?
+  end
+
+  def show?
+    scope.where(:id => record.id).exists?
+  end
+
+  def new?
+    create?
+  end
+
+  def create?
+    user.admin?
+  end
+
+  def edit?
+    update?
+  end
+
+  def update?
+    user.admin?
+  end
+
+  def destroy?
+    user.admin?
   end
 end

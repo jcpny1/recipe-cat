@@ -1,5 +1,4 @@
 class UserRecipeFavoritesController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:index]
   skip_after_action  :verify_policy_scoped
 
   def index # render a list of @recipes that are the user's favorites ordered by recipe name.

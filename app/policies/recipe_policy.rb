@@ -1,4 +1,5 @@
 class RecipePolicy < ApplicationPolicy
+
   class Scope < Scope
     def resolve
       scope
@@ -13,12 +14,16 @@ class RecipePolicy < ApplicationPolicy
     end
   end
 
+  def index
+    true
+  end
+
   def show?
     true
   end
 
   def new?
-    !!user
+    create?
   end
 
   def create?
@@ -26,14 +31,14 @@ class RecipePolicy < ApplicationPolicy
   end
 
   def edit?
-    !!user && (user.admin? || user.id == record.user_id)
+    update?
   end
 
   def update?
-    user && (user.admin? || record.try(:user) == user)
+    !!user && (user.admin? || user.id == record.user_id)
   end
 
   def destroy?
-    user && (user.admin? || record.try(:user) == user)
+    update?
   end
 end

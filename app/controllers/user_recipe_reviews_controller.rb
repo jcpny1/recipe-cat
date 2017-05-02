@@ -1,5 +1,4 @@
 class UserRecipeReviewsController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:index, :show]
   skip_after_action  :verify_policy_scoped
 
   def index # render a list of @recipe_reviews ordered by recipe name/created_at.
