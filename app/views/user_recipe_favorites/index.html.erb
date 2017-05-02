@@ -1,5 +1,2 @@
-<h1>Favorites</h1>
-
-<% @user_recipe_favorites.each do |user_recipe_favorite| %>
-  <p><%= link_to user_recipe_favorite.recipe.name, user_recipe_favorite.recipe %></p>
-<% end %>
+<h1>Favorites of <%= @user_email %></h1>
+<%= render partial: "recipes/recipes", locals: {recipes: @recipes} %>

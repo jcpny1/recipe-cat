@@ -1,8 +1,10 @@
-<% if @user_reviews %>
-  <h1>Reviews by <%= @user.email %></h1>
-<% else %>
-  <h1>Recipe Reviews</h1>
-<% end %>
+<h1>
+  <% if @user_reviews %>
+    Reviews by <%= @user_email %>
+  <% else %>
+    Recipe Reviews
+  <% end %>
+</h1>
 
 <% last_recipe_name = '' %>
 <% @recipe_reviews.each do |recipe_review| %>
