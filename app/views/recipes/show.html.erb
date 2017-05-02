@@ -1,4 +1,4 @@
-<h1><%= @recipe.name %></h1>
+<h1><%= @recipe.name %> <%= link_to image_tag("edit-icon.png", size:"16"), edit_recipe_path(@recipe) if @recipe.user == current_user %></h1>
 Submitted by <%= link_to @recipe.user.email, user_recipes_path(@recipe.user) %>
 <div>
   <table>
@@ -10,9 +10,7 @@ Submitted by <%= link_to @recipe.user.email, user_recipes_path(@recipe.user) %>
 </div>
 
 <%= link_to 'Reviews', recipe_user_recipe_reviews_path(@recipe) %>
-<% if @recipe.user == current_user %>
-  | <%= link_to 'Edit', edit_recipe_path(@recipe) %>
-<% end %>
+
 <br><br>
 <table width="50%">
   <tr>
@@ -26,14 +24,14 @@ Submitted by <%= link_to @recipe.user.email, user_recipes_path(@recipe.user) %>
   <tr>
     <td>
       <h3>
-        Ingredients  <%= link_to 'add',  new_recipe_recipe_ingredient_path(@recipe) if policy(@recipe).update? %>
-                     <%= link_to 'edit', recipe_recipe_ingredients_path(@recipe) if policy(@recipe).update? %>
+        Ingredients  <%= link_to image_tag("add-icon.png",  size:"16"), new_recipe_recipe_ingredient_path(@recipe) if policy(@recipe).update? %>
+                     <%= link_to image_tag("edit-icon.png", size:"16"), recipe_recipe_ingredients_path(@recipe)    if policy(@recipe).update? %>
       </h3>
     </td>
     <td>
       <h3>
-        Steps  <%= link_to 'add',  new_recipe_recipe_step_path(@recipe) if policy(@recipe).update? %>
-               <%= link_to 'edit', recipe_recipe_steps_path(@recipe) if policy(@recipe).update? %>
+        Steps  <%= link_to image_tag("add-icon.png",  size:"16"), new_recipe_recipe_step_path(@recipe) if policy(@recipe).update? %>
+               <%= link_to image_tag("edit-icon.png", size:"16"), recipe_recipe_steps_path(@recipe)    if policy(@recipe).update? %>
       </h3>
     </td>
   <tr valign="top">

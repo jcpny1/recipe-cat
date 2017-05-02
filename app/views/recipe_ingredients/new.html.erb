@@ -1,4 +1,4 @@
-<h1>Add <%= @recipe_name %> Ingredient</h1>
+<h2>Add Recipe Ingredient to <%= @recipe_name %></h2>
 <%= form_for @recipe_ingredient, url: recipe_recipe_ingredients_path(@recipe_ingredient.recipe) do |f| %>
   <table>
     <tr>
@@ -16,5 +16,5 @@
       </td>
     </tr>
   </table>
-  <p><%= f.submit %></p>
+  <p><%= f.submit "Add" %></p>
 <% end %>
