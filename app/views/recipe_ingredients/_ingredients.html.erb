@@ -1,9 +1,10 @@
-  <table width="100%">
-  <% policy_scope(recipe_ingredients).sort { |ri1,ri2| ri1.ingredient.name <=> ri2.ingredient.name }.each do |recipe_ingredient| %>
+  <table>
+  <% recipe_ingredients.sort { |ri1,ri2| ri1.ingredient.name <=> ri2.ingredient.name }.each do |recipe_ingredient| %>
     <tr>
-      <td width="50%"><%= link_to recipe_ingredient.ingredient.name, recipe_ingredient.ingredient %></td>
-      <td width="25%" align="right"><%= pluralize(number_with_precision(recipe_ingredient.quantity, precision: 3, strip_insignificant_zeros: true), recipe_ingredient.unit ? recipe_ingredient.unit.name : '') %></td>
-      <td width="25%" align="center"><%= link_to(image_tag("delete-icon.png", size:"16"), recipe_recipe_ingredient_path(recipe_ingredient.recipe.id, recipe_ingredient.id), method: :delete, data: {confirm: "Are you sure!"}) if policy(recipe_ingredient.recipe).update? %></td>
+      <td><%= link_to recipe_ingredient.ingredient.name, recipe_ingredient.ingredient %></td>
+      <td><%= pluralize(number_with_precision(recipe_ingredient.quantity, precision: 3, strip_insignificant_zeros: true), recipe_ingredient.unit ? recipe_ingredient.unit.name : '') %></td>
+      <td><%= link_to image_tag("edit-icon.png",   size:"16"), recipe_recipe_ingredients_path(@recipe) if policy(recipe_ingredient.recipe).update? %></td>
+      <td><%= link_to(image_tag("delete-icon.png", size:"16"), recipe_recipe_ingredient_path(recipe_ingredient.recipe.id, recipe_ingredient.id), method: :delete, data: {confirm: "Are you sure!"}) if policy(recipe_ingredient.recipe).update? %></td>
     </tr>
   <% end %>
 </table>

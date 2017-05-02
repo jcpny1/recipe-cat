@@ -1,5 +1,5 @@
 <h1>Ingredients</h1>
 
 <h3><%= @ingredient.name %></h3>
-<div><%= image_tag(@ingredient.photo_path, size: "360x200", alt: "#{@ingredient.name} photo" ) %></div>
+<%= image_tag(@ingredient.photo_path, size: "360x200", alt: "#{@ingredient.name} photo" ) %>
 <p><%= @ingredient.description %></p>

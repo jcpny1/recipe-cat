@@ -1,41 +1,31 @@
 <h1><%= @recipe.name %> <%= link_to image_tag("edit-icon.png", size:"16"), edit_recipe_path(@recipe) if @recipe.user == current_user %></h1>
-Submitted by <%= link_to @recipe.user.email, user_recipes_path(@recipe.user) %>
-<div>
-  <table>
-    <tr>
-      <td><%= image_tag(@recipe.photo_path, size: "360x200", alt: "#{@recipe.name} photo" ) %></td>
-      <td><%= render partial: "recipes/favorite", locals: {recipe: @recipe} %></td>
-    </tr>
-  </table>
-</div>
 
+Submitted by <%= link_to @recipe.user.email, user_recipes_path(@recipe.user) %>
+
+<table>
+  <tr>
+    <td><%= image_tag(@recipe.photo_path, size: "360x200", alt: "#{@recipe.name} photo" ) %></td>
+    <td><%= render partial: "recipes/favorite", locals: {recipe: @recipe} %></td>
+  </tr>
+</table>
 <%= link_to 'Reviews', recipe_user_recipe_reviews_path(@recipe) %>
 
 <br><br>
-<table width="50%">
+<table width="40%">
   <tr>
-    <td><%= @recipe.description %></td>
+    <td align="justify"><%= @recipe.description %></td>
   </tr>
 </table>
 
 <br>Total time: <%= pluralize(number_with_precision(@recipe.total_time, precision: 0), 'minute') %>
 
-<table width="60%">
+<table width="65%">
   <tr>
-    <td>
-      <h3>
-        Ingredients  <%= link_to image_tag("add-icon.png",  size:"16"), new_recipe_recipe_ingredient_path(@recipe) if policy(@recipe).update? %>
-                     <%= link_to image_tag("edit-icon.png", size:"16"), recipe_recipe_ingredients_path(@recipe)    if policy(@recipe).update? %>
-      </h3>
-    </td>
-    <td>
-      <h3>
-        Steps  <%= link_to image_tag("add-icon.png",  size:"16"), new_recipe_recipe_step_path(@recipe) if policy(@recipe).update? %>
-               <%= link_to image_tag("edit-icon.png", size:"16"), recipe_recipe_steps_path(@recipe)    if policy(@recipe).update? %>
-      </h3>
-    </td>
-  <tr valign="top">
-    <td width="50%"><%= render partial: "recipe_ingredients/ingredients", locals: {recipe_ingredients: @recipe.recipe_ingredients} %></td>
-    <td width="50%"><%= render partial: "recipe_steps/steps",             locals: {steps: @recipe.recipe_steps} %></td>
+    <td width="40%"><h3>Ingredients  <%= link_to image_tag("add-icon.png", size:"16"), new_recipe_recipe_ingredient_path(@recipe) if policy(@recipe).update? %></h3></td>
+    <td><h3>Steps        <%= link_to image_tag("add-icon.png", size:"16"), new_recipe_recipe_step_path(@recipe) if policy(@recipe).update? %></h3></td>
+  </tr>
+  <tr>
+    <td valign="top"><%= render partial: "recipe_ingredients/ingredients", locals: {recipe_ingredients: @recipe.recipe_ingredients} %></td>
+    <td><%= render partial: "recipe_steps/steps",             locals: {steps:              @recipe.recipe_steps      } %></td>
   </tr>
 </table>

@@ -1,20 +1,10 @@
 <h2>Add Recipe Ingredient to <%= @recipe_name %></h2>
 <%= form_for @recipe_ingredient, url: recipe_recipe_ingredients_path(@recipe_ingredient.recipe) do |f| %>
-  <table>
-    <tr>
-      <td>
-        <%= f.label :ingredient %>
-        <%= f.select :ingredient, Ingredient.all.collect { |i| [ i.name, i.id ] }, include_blank: true, selected: session[:ingredient_filter].to_i %>
-      </td>
-      <td>
-        <%= f.label :quantity %>
-        <%= f.number_field :quantity %>
-      </td>
-      <td>
-        <%= f.label :unit %>
-        <%= f.select :unit, Unit.all.collect { |i| [ i.name, i.id ] }, include_blank: true %>
-      </td>
-    </tr>
-  </table>
-  <p><%= f.submit "Add" %></p>
+  <%= f.label :ingredient %>
+  <%= f.select :ingredient, Ingredient.all.collect { |i| [ i.name, i.id ] }, include_blank: true, selected: session[:ingredient_filter].to_i %>
+  <%= f.label :quantity %>
+  <%= f.number_field :quantity %>
+  <%= f.label :unit %>
+  <%= f.select :unit, Unit.all.collect { |i| [ i.name, i.id ] }, include_blank: true %>
+  <%= f.submit "Add" %>
 <% end %>
