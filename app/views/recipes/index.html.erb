@@ -1,22 +1,8 @@
-<% if @user_recipes %>
-  <h1>Recipes by <%= @user_email %></h1>
-<% elsif @user_favorites %>
-    <h1>Favorites of <%= @user_email %></h1>
-<% else %>
-  <h1>Recipes</h1>
-<% end %>
-
-<%= render partial: "recipes/recipe_options" if user_signed_in? %>
-
-<table>
-  <% @recipes.each do |recipe| %>
-    <tr>
-      <td><%= link_to recipe.name, recipe %></td>
-      <td><%= image_tag(recipe.photo_path, size: "190x100", alt: "#{recipe.name} photo" ) %></td>
-      <td><%= link_to image_tag("delete-icon.png", size:"16"), recipe_path(recipe), method: :delete, data: {confirm: "Are you sure!"} if policy(recipe).destroy? %></td>
-      <td><%= pluralize(recipe.number_of_reviews, 'review') %></td>
-      <td><%= pluralize(recipe.average_stars, 'star') %></td>
-      <td><%= render partial: "recipes/favorite", locals: {recipe: recipe} %></td>
-    </tr>
+<h1>
+  <% if @user_recipes %>
+    Recipes by <%= @user_email %>
+  <% else %>
+    Recipes
   <% end %>
-</table>
+</h1>
+<%= render partial: "recipes/recipes", locals: {recipes: @recipes} %>
