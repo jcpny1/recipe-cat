@@ -1,21 +1,18 @@
 class RecipesController < ApplicationController
 
   def index
-    if params[:user_id]
-      @user = User.find(params[:user_id])
-      @recipes = RecipePolicy::Scope.new(@user, Recipe).user_only.order(:name)
+    @recipes = policy_scope(Recipe).order(:name)  # get recipes user is entitled to see.
+
+    if params[:user_id].present?
+      @recipes = Recipe.filter_array_by_user(@recipes, params[:user_id])  # reduce recipe list to just optional specified owner.
+      user = User.find(params[:user_id])
       @user_recipes = true
     else
-      @recipes = policy_scope(Recipe).order(:name)
+      user = current_user
     end
 
-# fix this up. just filter existing @recipes. Don't refetch.
-    if user_signed_in? && !session[:ingredient_filter].blank?  # filter by ingredient selection.
-      recipe_ingredients = RecipeIngredient.where(ingredient_id: session[:ingredient_filter])
-      @recipes = recipe_ingredients.collect { |ri| ri.recipe }
-      @recipes.uniq!
-      @recipes.sort! { |recipe_1,recipe_2| recipe_1.name <=> recipe_2.name }
-    end
+    @recipes = Recipe.filter_array_by_ingredient(@recipes, session[:ingredient_filter]) if session[:ingredient_filter].present?  # filter by ingredient, if necessary.
+    @user_email = user.email if user
   end
 
   def show

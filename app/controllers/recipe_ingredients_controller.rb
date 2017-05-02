@@ -1,33 +1,30 @@
 class RecipeIngredientsController < ApplicationController
-  skip_after_action :verify_authorized
-  skip_after_action :verify_policy_scoped
+    before_action :get_recipe, except: [:filter]
 
   def index
-    @recipe_ingredients = RecipeIngredient.where(recipe_id: params[:recipe_id])
-    @recipe_name = Recipe.find_by(id: params[:recipe_id]).name
+    @recipe_ingredients = RecipeIngredient.where(recipe: @recipe)
+    @recipes = policy_scope(Recipe).order(:name)
+
   end
 
   def new
-    recipe = Recipe.find_by(id: params[:recipe_id])
-    authorize recipe
-    @recipe_ingredient = recipe.recipe_ingredients.new
-    @recipe_name = recipe.name
+    @recipe_ingredient = @recipe.recipe_ingredients.new
+    authorize @recipe_ingredient
   end
 
   def create
-    recipe = Recipe.find_by(id: params[:recipe_id])
-    authorize recipe
     @recipe_ingredient = recipe.recipe_ingredients.new(ingredient_id: params[:recipe_ingredient][:ingredient], quantity: params[:recipe_ingredient][:quantity], unit_id: params[:recipe_ingredient][:unit])
+    authorize @recipe_ingredient
     if recipe.save
       redirect_to recipe
     else
       flash[:alert] = @recipe_ingredient.errors.full_messages
-      @recipe_name = recipe.name
       render :new
     end
   end
 
   def filter   # only setting ingredient_filter value here.
+    skip_authorization
     session[:ingredient_filter] = params[:recipe_ingredient][:ingredient]
     redirect_to recipes_path
   end
@@ -38,4 +35,12 @@ class RecipeIngredientsController < ApplicationController
     redirect_to request.referer
 #    redirect_to recipe_path(recipe)
   end
+
+private
+
+  def get_recipe
+    @recipe = Recipe.find_by(id: params[:recipe_id])
+    @recipe_name = @recipe.name
+  end
+
 end

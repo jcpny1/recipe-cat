@@ -4,14 +4,6 @@ class RecipePolicy < ApplicationPolicy
     def resolve
       scope
     end
-
-    def user_only
-      if user.admin?
-        scope.all
-      else
-        scope.where(user_id: user.id)
-      end
-    end
   end
 
   def index

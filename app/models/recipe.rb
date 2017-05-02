@@ -14,6 +14,16 @@ class Recipe < ApplicationRecord
     sum.to_f / number_of_reviews if number_of_reviews != 0
   end
 
+  def self.filter_array_by_ingredient(recipes, ingredient_id)
+    recipes.find_all { |recipe|
+      recipe.recipe_ingredients.find_by(ingredient_id: ingredient_id)
+    }
+  end
+
+  def self.filter_array_by_user(recipes, user_id)
+    recipes.find_all { |recipe| recipe.user_id == user_id.to_i }
+  end
+
   def number_of_reviews
     user_recipe_reviews.size
   end

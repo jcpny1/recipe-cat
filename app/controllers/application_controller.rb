@@ -9,6 +9,8 @@ class ApplicationController < ActionController::Base
   before_action      :authenticate_user!
   skip_before_action :authenticate_user!, only: [:index, :show]
 
+  rescue_from ActiveRecord::RecordNotFound, with: :render_404
+
   def about
     skip_authorization
   end
@@ -18,6 +20,10 @@ class ApplicationController < ActionController::Base
   end
 
 private
+
+  def render_404
+    render :template => "404", :status => 404
+  end
 
   def user_not_authorized
     flash[:alert] = "You are not authorized to perform this action."
