@@ -46,7 +46,7 @@ class RecipesController < ApplicationController
   def update
     @recipe = Recipe.find_by(id: params[:id])
     authorize @recipe
-    if Recipe.update(recipe_params)
+    if @recipe.update(recipe_params)
       redirect_to @recipe
     else
       flash[:alert] = @recipe.errors.full_messages

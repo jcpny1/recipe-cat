@@ -1,0 +1,9 @@
+<%= form_for recipe_ingredient, url: url do |f| %>
+  <%= f.label :ingredient_id %>
+  <%= f.select :ingredient_id, Ingredient.all.collect { |i| [ i.name, i.id ] }, include_blank: true %>
+  <%= f.label :quantity %>
+  <%= f.number_field :quantity %>
+  <%= f.label :unit_id %>
+  <%= f.select :unit_id, Unit.all.collect { |i| [ i.name, i.id ] }, include_blank: true %>
+  <%= f.submit %>
+<% end %>

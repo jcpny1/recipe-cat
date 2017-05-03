@@ -10,7 +10,11 @@ class RecipeIngredientPolicy < ApplicationPolicy
   end
 
   def create?
-    !!user && (user.admin? || record.recipe.user == user)
+    update?
+  end
+
+  def edit?
+    update?
   end
 
   def update?

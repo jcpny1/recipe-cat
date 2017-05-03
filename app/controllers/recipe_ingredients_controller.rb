@@ -13,13 +13,29 @@ class RecipeIngredientsController < ApplicationController
   end
 
   def create
-    @recipe_ingredient = @recipe.recipe_ingredients.new(ingredient_id: params[:recipe_ingredient][:ingredient], quantity: params[:recipe_ingredient][:quantity], unit_id: params[:recipe_ingredient][:unit])
+    @recipe_ingredient = @recipe.recipe_ingredients.new(recipe_ingredient_params)
     authorize @recipe_ingredient
-    if @recipe.save
+    if @recipe_ingredient.save
       redirect_to @recipe
     else
       flash[:alert] = @recipe_ingredient.errors.full_messages
       render :new
+    end
+  end
+
+  def edit
+    @recipe_ingredient = @recipe.recipe_ingredients.where(id: params[:id]).first
+    authorize @recipe_ingredient
+  end
+
+  def update
+    @recipe_ingredient = @recipe.recipe_ingredients.where(id: params[:id]).first
+    authorize @recipe_ingredient
+    if @recipe_ingredient.update(recipe_ingredient_params)
+      redirect_to @recipe
+    else
+      flash[:alert] = @recipe_ingredient.errors.full_messages
+      render 'edit'
     end
   end
 
@@ -35,6 +51,10 @@ private
   def get_recipe
     @recipe = Recipe.find_by(id: params[:recipe_id])
     @recipe_name = @recipe.name
+  end
+
+  def recipe_ingredient_params
+    params.require(:recipe_ingredient).permit(:ingredient_id, :quantity, :unit_id)
   end
 
 end
