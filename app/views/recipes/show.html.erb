@@ -26,6 +26,6 @@ Submitted by <%= link_to @recipe.user.email, user_recipes_path(@recipe.user) %>
   </tr>
   <tr>
     <td valign="top"><%= render partial: "recipe_ingredients/ingredients", locals: {recipe_ingredients: @recipe.recipe_ingredients} %></td>
-    <td><%= render partial: "recipe_steps/steps", locals: {steps: @recipe.recipe_steps} %></td>
+    <td><%= render partial: "recipe_steps/steps", locals: {recipe_steps: @recipe.recipe_steps} %></td>
   </tr>
 </table>

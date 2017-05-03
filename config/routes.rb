@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   resources :recipes do
     resources :user_recipe_reviews, only: [:index]
     resources :recipe_ingredients,  only: [:new, :create, :edit, :update, :destroy]
-    resources :recipe_steps,        only: [:new, :create, :destroy]
+    resources :recipe_steps,        only: [:new, :create, :edit, :update, :destroy]
   end
   post '/recipe_ingredients/filter', to: 'recipe_ingredients#filter'
 
