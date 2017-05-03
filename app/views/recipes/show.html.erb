@@ -21,8 +21,11 @@ Submitted by <%= link_to @recipe.user.email, user_recipes_path(@recipe.user) %>
 
 <table width="65%">
   <tr>
-    <td width="40%"><h3>Ingredients  <%= link_to image_tag("add-icon.png", size:"16"), new_recipe_recipe_ingredient_path(@recipe) if policy(@recipe).update? %></h3></td>
-    <td><h3>Steps        <%= link_to image_tag("add-icon.png", size:"16"), new_recipe_recipe_step_path(@recipe) if policy(@recipe).update? %></h3></td>
+    <td width="40%"><h3>Ingredients  <%= link_to image_tag("add-icon.png", size:"16", title: "Add ingredient"), new_recipe_recipe_ingredient_path(@recipe) if policy(@recipe).update? %></h3></td>
+    <td><h3>
+      Steps        <%= link_to image_tag("add-icon.png", size:"16", title: "Add step"), new_recipe_recipe_step_path(@recipe) if policy(@recipe).update? %>
+      <%= link_to image_tag("resequence-icon.png", size:"16", title: "Renumber steps"), renumber_steps_recipe_path(@recipe) if policy(@recipe).update? %>
+    </td></h3>
   </tr>
   <tr>
     <td valign="top"><%= render partial: "recipe_ingredients/ingredients", locals: {recipe_ingredients: @recipe.recipe_ingredients} %></td>

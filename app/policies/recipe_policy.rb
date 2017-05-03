@@ -6,6 +6,10 @@ class RecipePolicy < ApplicationPolicy
     end
   end
 
+  def renumber_steps?
+    update?
+  end
+
   def index?
     true
   end

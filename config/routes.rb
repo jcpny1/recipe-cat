@@ -8,8 +8,9 @@ Rails.application.routes.draw do
     resources :user_recipe_reviews, only: [:index]
     resources :recipe_ingredients,  only: [:new, :create, :edit, :update, :destroy]
     resources :recipe_steps,        only: [:new, :create, :edit, :update, :destroy]
+    collection { post 'filter' }
+    get 'renumber_steps', on: :member
   end
-  post '/recipe_ingredients/filter', to: 'recipe_ingredients#filter'
 
   resources :users do
     resources :recipes,               only: [:index]

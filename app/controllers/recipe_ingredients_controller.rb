@@ -1,11 +1,5 @@
 class RecipeIngredientsController < ApplicationController
-    before_action :get_recipe, except: [:filter]
-
-  def filter   # only setting ingredient_filter value here.
-    skip_authorization
-    session[:ingredient_filter] = params[:recipe_ingredient][:ingredient]
-    redirect_to recipes_path
-  end
+    before_action :get_recipe
 
   def new
     @recipe_ingredient = @recipe.recipe_ingredients.new

@@ -1,5 +1,18 @@
 class RecipesController < ApplicationController
 
+  def filter   # only setting ingredient_filter value here.
+    skip_authorization
+    session[:ingredient_filter] = params[:recipe_ingredient][:ingredient]
+    redirect_to request.referer
+  end
+
+  def renumber_steps   # renumber recipe steps.
+    @recipe = Recipe.find_by(id: params[:id])
+    authorize @recipe
+    RecipeStep.renumber(@recipe.recipe_steps)
+    redirect_to request.referer
+  end
+
   def index
     @recipes = policy_scope(Recipe).order(:name)  # get recipes user is entitled to see.
 
