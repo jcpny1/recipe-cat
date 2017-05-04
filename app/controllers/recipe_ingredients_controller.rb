@@ -8,11 +8,13 @@ class RecipeIngredientsController < ApplicationController
 
   def create
     @recipe_ingredient = @recipe.recipe_ingredients.new(recipe_ingredient_params)
+    set_new_ingredient
     authorize @recipe_ingredient
+
     if @recipe_ingredient.save
       redirect_to @recipe
     else
-      flash[:alert] = @recipe_ingredient.errors.full_messages
+      flash.now[:alert] = @recipe_ingredient.errors.full_messages
       render :new
     end
   end
@@ -24,12 +26,15 @@ class RecipeIngredientsController < ApplicationController
 
   def update
     @recipe_ingredient = @recipe.recipe_ingredients.where(id: params[:id]).first
+    @recipe_ingredient.assign_attributes(recipe_ingredient_params)
+    set_new_ingredient
     authorize @recipe_ingredient
-    if @recipe_ingredient.update(recipe_ingredient_params)
+
+    if @recipe_ingredient.save
       redirect_to @recipe
     else
-      flash[:alert] = @recipe_ingredient.errors.full_messages
-      render 'edit'
+      flash.now[:alert] = @recipe_ingredient.errors.full_messages
+      render :edit
     end
   end
 
@@ -48,6 +53,13 @@ private
   end
 
   def recipe_ingredient_params
-    params.require(:recipe_ingredient).permit(:ingredient_id, :quantity, :unit_id)
+    params.require(:recipe_ingredient).permit(:ingredient_id, :new_ingredient, :quantity, :unit_id)
+  end
+
+  def set_new_ingredient
+    if @recipe_ingredient.new_ingredient.present? && @recipe_ingredient.ingredient.nil?
+      @recipe_ingredient.ingredient = Ingredient.create_ingredient(@recipe_ingredient.new_ingredient)
+      @recipe_ingredient.new_ingredient = ''  # clear out to pass validation.
+    end
   end
 end

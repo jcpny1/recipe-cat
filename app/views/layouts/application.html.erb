@@ -29,8 +29,12 @@
       </p>
     </header>
 
+    <% if flash[:alert] %>
+      <div class="alert"><%= flash[:alert] %></dev>
+    <% end %>
+
     <p class="notice"><%= notice %></p>
-    <p class="alert" ><%= alert  %></p>
+    <!-- <p class="alert" ><%= alert  %></p> -->
 
     <%= yield %>
 

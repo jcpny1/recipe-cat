@@ -15,10 +15,10 @@ class UserRecipeFavoritesController < ApplicationController
 
     favorite_flag = params[:user_recipe_favorite][:favorite] # "0" or "1"
 
-    if favorite_flag == "0" # remove favorite
-      user_favorite = user.user_recipe_favorites.where(recipe_id: recipe_id).first.destroy
-    elsif !user.user_recipe_favorites.exists?(recipe_id: recipe_id) # add favorite
-      user.user_recipe_favorites.create(user_id: user.id, recipe_id: recipe_id)
+    if favorite_flag == "0" # if favorite is off
+      user.user_recipe_favorites.where(recipe_id: recipe_id).first.destroy # remove favorite
+    elsif !user.user_recipe_favorites.exists?(recipe_id: recipe_id) # favorite is on
+      user.user_recipe_favorites.create(user_id: user.id, recipe_id: recipe_id) # add favorite
     end
     redirect_to request.referer
   end

@@ -4,7 +4,7 @@ Submitted by <%= link_to @recipe.user.email, user_recipes_path(@recipe.user) %>
 
 <table>
   <tr>
-    <td><%= image_tag(@recipe.photo_path, size: "360x200", alt: "#{@recipe.name} photo" ) %></td>
+    <td><%= image_tag(@recipe.photo_path, size: "360x200", alt: "#{@recipe.name} photo", title: 'recipe photo' ) %></td>
     <td><%= render partial: "recipes/favorite", locals: {recipe: @recipe} %></td>
   </tr>
 </table>

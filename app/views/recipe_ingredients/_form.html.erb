@@ -1,9 +1,24 @@
-<%= form_for recipe_ingredient, url: url do |f| %>
-  <%= f.label :ingredient_id %>
-  <%= f.select :ingredient_id, Ingredient.all.collect { |i| [ i.name, i.id ] }, include_blank: true %>
-  <%= f.label :quantity %>
-  <%= f.number_field :quantity %>
-  <%= f.label :unit_id %>
-  <%= f.select :unit_id, Unit.all.collect { |i| [ i.name, i.id ] }, include_blank: true %>
-  <%= f.submit %>
-<% end %>
+  <%= form_for recipe_ingredient, url: url do |f| %>
+  <table>
+    <tr>
+      <td>
+        <%= f.label :ingredient_id %>
+      </td>
+      <td>
+        <%= f.select :ingredient_id, Ingredient.pick_list, include_blank: true, prompt: 'Select an ingredient' %>
+        <%= f.text_field :new_ingredient, placeholder: 'or create a new ingredient' %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= f.label :quantity %>
+      </td>
+      <td>
+        <%= f.number_field :quantity %>
+        <%= f.label :unit_id %>
+        <%= f.select :unit_id, Unit.all.collect { |i| [ i.name, i.id ] }, include_blank: true %>
+      </td>
+    </tr>
+  </table>
+  <p><%= f.submit %></p>
+  <% end %>

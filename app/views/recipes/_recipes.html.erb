@@ -4,7 +4,7 @@
   <% recipes.each do |recipe| %>
     <tr>
       <td><%= link_to recipe.name, recipe %></td>
-      <td><%= image_tag(recipe.photo_path, size: "190x100", alt: "#{recipe.name} photo" ) %></td>
+      <td><%= image_tag(recipe.photo_path, size: "190x100", alt: "#{recipe.name} photo", title: 'recipe photo' ) %></td>
       <td><%= link_to image_tag("delete-icon.png", size:"16", title: "Delete recipe"), recipe_path(recipe), method: :delete, data: {confirm: "Are you sure!"} if policy(recipe).destroy? %></td>
       <td><table>
         <tr><td><%= pluralize(recipe.number_of_reviews, 'review') %></td></tr>
