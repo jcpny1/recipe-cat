@@ -8,7 +8,7 @@ Submitted by <%= link_to @recipe.user.email, user_recipes_path(@recipe.user) %>
     <td><%= render partial: "recipes/favorite", locals: {recipe: @recipe} %></td>
   </tr>
 </table>
-<%= link_to 'Reviews', recipe_user_recipe_reviews_path(@recipe) %>
+<%= link_to 'Reviews', recipe_recipe_reviews_path(@recipe) %>
 
 <br><br>
 <table width="40%">

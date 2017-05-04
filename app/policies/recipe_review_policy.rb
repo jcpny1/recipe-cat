@@ -1,4 +1,4 @@
-class UserRecipeReviewPolicy < ApplicationPolicy
+class RecipeReviewPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve

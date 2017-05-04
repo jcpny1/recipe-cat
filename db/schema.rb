@@ -32,6 +32,18 @@ ActiveRecord::Schema.define(version: 20170502013207) do
     t.index ["unit_id"], name: "index_recipe_ingredients_on_unit_id"
   end
 
+  create_table "recipe_reviews", force: :cascade do |t|
+    t.integer  "recipe_id"
+    t.integer  "user_id"
+    t.integer  "stars"
+    t.string   "title"
+    t.text     "comments"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["recipe_id"], name: "index_recipe_reviews_on_recipe_id"
+    t.index ["user_id"], name: "index_recipe_reviews_on_user_id"
+  end
+
   create_table "recipe_steps", force: :cascade do |t|
     t.integer  "recipe_id"
     t.integer  "step_number"
@@ -65,18 +77,6 @@ ActiveRecord::Schema.define(version: 20170502013207) do
     t.datetime "updated_at", null: false
     t.index ["recipe_id"], name: "index_user_recipe_favorites_on_recipe_id"
     t.index ["user_id"], name: "index_user_recipe_favorites_on_user_id"
-  end
-
-  create_table "user_recipe_reviews", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "recipe_id"
-    t.integer  "stars"
-    t.string   "title"
-    t.text     "comments"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["recipe_id"], name: "index_user_recipe_reviews_on_recipe_id"
-    t.index ["user_id"], name: "index_user_recipe_reviews_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

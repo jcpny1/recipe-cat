@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :user_recipe_review do
+  factory :recipe_review do
     recipe ""
     user ""
     stars 1

@@ -113,10 +113,10 @@ tofurkey_recipe = Recipe.create(
     garlic_shrimp_recipe.save
 
 user_other.user_recipe_favorites.new(recipe: salsa_chicken_recipe)
-user_other.user_recipe_reviews.new(recipe: garlic_shrimp_recipe, stars: 5, title: 'Best garlic shrimp!', comments: 'Very tasty and easy meal to make. I marinated the shrimp with italian dressing. Worked great! Shrimp did not dry out and the seasoning was just right!')
-user_other.user_recipe_reviews.new(recipe: salsa_chicken_recipe, stars: 5, title: 'Best salsa chicken!', comments: 'Very tasty and easy meal to make. I marinated the chicken with the package of taco seasoning and 2/3 cup of water so it would not come out so spicy. Worked great! Chicken did not dry out and the seasoning was just right!')
+user_other.recipe_reviews.new(recipe: garlic_shrimp_recipe, stars: 5, title: 'Best garlic shrimp!', comments: 'Very tasty and easy meal to make. I marinated the shrimp with italian dressing. Worked great! Shrimp did not dry out and the seasoning was just right!')
+user_other.recipe_reviews.new(recipe: salsa_chicken_recipe, stars: 5, title: 'Best salsa chicken!', comments: 'Very tasty and easy meal to make. I marinated the chicken with the package of taco seasoning and 2/3 cup of water so it would not come out so spicy. Worked great! Chicken did not dry out and the seasoning was just right!')
 user_other.save
 
 user_admin.user_recipe_favorites.new(recipe: parmesan_chicken_recipe)
-user_admin.user_recipe_reviews.new(recipe: salsa_chicken_recipe, stars: 2, title: 'Not the Best salsa chicken!', comments: "I've had better.")
+user_admin.recipe_reviews.new(recipe: salsa_chicken_recipe, stars: 2, title: 'Not the Best salsa chicken!', comments: "I've had better.")
 user_admin.save

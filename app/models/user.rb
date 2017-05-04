@@ -8,7 +8,7 @@ class User < ApplicationRecord
   has_many :recipes
   has_many :user_ingredients
   has_many :ingredients, through: :user_ingredients
-  has_many :user_recipe_reviews
+  has_many :recipe_reviews
   has_many :user_recipe_favorites
 
   enum role: [:user, :vip, :admin]

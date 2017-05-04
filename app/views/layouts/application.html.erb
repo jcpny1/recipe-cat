@@ -15,9 +15,9 @@
         <%= link_to "Recipe Cat", root_path %>  |
         <%= link_to "Recipes", recipes_path %>  |
         <% if user_signed_in? %>
-          <%= link_to "My Recipes", user_recipes_path(current_user) %>  |
+          <%= link_to "My Recipes",   user_recipes_path(current_user) %>  |
           <%= link_to "My Favorites", user_user_recipe_favorites_path(current_user) %>  |
-          <%= link_to "My Reviews", user_user_recipe_reviews_path(current_user) %>  |
+          <%= link_to "My Reviews",   user_recipe_reviews_path(current_user) %>  |
         <% end %>
         <%= link_to "Ingredients", ingredients_path %>  |
         <%= link_to "About", about_path %>

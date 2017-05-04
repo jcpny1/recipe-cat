@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe UserRecipeReviewPolicy do
+RSpec.describe RecipeReviewPolicy do
 
   let(:user) { User.new }
 
