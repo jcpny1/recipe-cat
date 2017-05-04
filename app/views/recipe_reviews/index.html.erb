@@ -3,8 +3,8 @@
     Reviews by <%= @user_email %>
   <% else %>
     Recipe Reviews
+    <%= link_to image_tag("add-icon.png", size:"16", title: "Add review"), new_recipe_recipe_review_path(current_user) if user_signed_in? %>
   <% end %>
-  <%= link_to image_tag("add-icon.png", size:"16", title: "Add review"), new_user_recipe_review_path(current_user) if user_signed_in? %>
 </h1>
 
 <% last_recipe_name = '' %>
@@ -13,8 +13,12 @@
     <h3><%= link_to recipe_review.recipe.name, recipe_review.recipe %></h3>
     <% last_recipe_name = recipe_review.recipe.name %>
   <% end %>
+
   ========== <%= recipe_review.created_at %>
-  by <%= link_to recipe_review.user.email, user_recipe_reviews_path(recipe_review.user.id) %><br>
+  by <%= link_to recipe_review.user.email, user_recipe_reviews_path(recipe_review.user.id) %>
+  <%= link_to image_tag("edit-icon.png",   size:"16", title: "Edit review"  ), edit_recipe_recipe_review_path(recipe_review.recipe, recipe_review) if policy(recipe_review).update? %>
+  <%= link_to(image_tag("delete-icon.png", size:"16", title: "Delete review"), recipe_recipe_review_path(recipe_review.recipe.id, recipe_review.id), method: :delete, data: {confirm: "Are you sure!"}) if policy(recipe_review).destroy? %>
+  <br>
   <%= pluralize(recipe_review.stars, 'star') %>
   <p class="review-title"><em><u><%= recipe_review.title %></u></em></p>
   <%= recipe_review.comments %>

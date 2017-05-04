@@ -50,5 +50,4 @@ private
   def recipe_ingredient_params
     params.require(:recipe_ingredient).permit(:ingredient_id, :quantity, :unit_id)
   end
-
 end

@@ -1,0 +1,9 @@
+<%= form_for recipe_review, url: url do |f| %>
+  <%= f.label :stars %>
+  <%= f.number_field :stars %>
+  <%= f.label :title %>
+  <%= f.text_field :title %>
+  <%= f.label :comments %>
+  <%= f.text_area :comments %>
+  <%= f.submit %>
+<% end %>

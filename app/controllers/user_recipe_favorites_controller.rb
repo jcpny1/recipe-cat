@@ -1,18 +1,10 @@
 class UserRecipeFavoritesController < ApplicationController
 
   def index # render a list of @recipes that are the user's favorites ordered by recipe name.
-    recipe_favorites = policy_scope(UserRecipeFavorite)
-
-    if params[:user_id].present?
-      recipe_favorites = UserRecipeFavorite.filter_array_by_user(recipe_favorites, params[:user_id])
-      user = User.find_by(id: params[:user_id])
-    else
-      user = current_user
-    end
-
-    @recipes = UserRecipeFavorite.get_recipes_from_favorites(recipe_favorites).sort! { |recipe1,recipe2| recipe1.name <=> recipe2.name }
-    @user_email = user.email if user
-    render 'recipes/index'
+    user = User.find_by(id: params[:user_id])
+    recipe_favorites = policy_scope(UserRecipeFavorite).where(user_id: user.id)
+    @user_email = user.email
+    @recipes = recipe_favorites.collect { |favorite| favorite.recipe }.sort! { |recipe1,recipe2| recipe1.name <=> recipe2.name }
   end
 
   def update

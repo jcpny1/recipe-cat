@@ -1,0 +1,2 @@
+<h2>Edit Recipe Review for <%= @recipe_name %></h2>
+<%= render partial: "form", locals: {recipe_review: @recipe_review, url: recipe_recipe_review_path(@recipe_review.recipe, @recipe_review) } %>
