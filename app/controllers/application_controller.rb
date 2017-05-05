@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   after_action :verify_authorized,    except: :index, unless: :devise_controller?
   after_action :verify_policy_scoped, only:   :index
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+  rescue_from Pundit::NotDefinedError, with: :route_not_defined
 
   protect_from_forgery with: :exception
 
@@ -17,6 +18,7 @@ class ApplicationController < ActionController::Base
 
   def welcome
     skip_authorization
+    @user_name = current_user.email
   end
 
 private
@@ -25,8 +27,13 @@ private
     render :template => "404", :status => 404
   end
 
+  def route_not_defined
+    flash[:alert] = "Undefined policy route."
+    redirect_to(request.referrer || root_path)
+  end
+
   def user_not_authorized
-    flash[:alert] = "You are not authorized to perform this action."
+    flash[:alert] = "Unauthorized action."
     redirect_to(request.referrer || root_path)
   end
 end

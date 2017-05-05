@@ -20,12 +20,12 @@ class RecipeIngredientsController < ApplicationController
   end
 
   def edit
-    @recipe_ingredient = @recipe.recipe_ingredients.where(id: params[:id]).first
+    @recipe_ingredient = @recipe.recipe_ingredients.find(params[:id])
     authorize @recipe_ingredient
   end
 
   def update
-    @recipe_ingredient = @recipe.recipe_ingredients.where(id: params[:id]).first
+    @recipe_ingredient = @recipe.recipe_ingredients.find(params[:id])
     @recipe_ingredient.assign_attributes(recipe_ingredient_params)
     set_new_ingredient
     authorize @recipe_ingredient

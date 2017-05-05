@@ -5,7 +5,7 @@ class RecipeReviewsController < ApplicationController
     if params[:user_id].present?
       user = User.find_by(id: params[:user_id])
       @recipe_reviews = policy_scope(RecipeReview).where(user_id: user.id)
-      @user_email = user.email
+      @user_name = user.email
       @user_reviews = true
     elsif params[:recipe_id].present?
       @recipe_reviews = policy_scope(RecipeReview).where(recipe_id: params[:recipe_id])
@@ -26,23 +26,23 @@ class RecipeReviewsController < ApplicationController
     if @recipe_review.save
       redirect_to recipe_recipe_reviews_path(@recipe)
     else
-      flash[:alert] = @recipe_review.errors.full_messages
+      flash.now[:alert] = @recipe_review.errors.full_messages
       render :new
     end
   end
 
   def edit
-    @recipe_review = @recipe.recipe_reviews.where(id: params[:id]).first
+    @recipe_review = @recipe.recipe_reviews.find(params[:id])
     authorize @recipe_review
   end
 
   def update
-    @recipe_review = @recipe.recipe_reviews.where(id: params[:id]).first
+    @recipe_review = @recipe.recipe_reviews.find(params[:id])
     authorize @recipe_review
     if @recipe_review.update(recipe_review_params)
       redirect_to recipe_recipe_reviews_path(@recipe)
     else
-      flash[:alert] = @recipe_review.errors.full_messages
+      flash.now[:alert] = @recipe_review.errors.full_messages
       render 'edit'
     end
   end

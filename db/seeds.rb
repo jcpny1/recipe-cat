@@ -9,7 +9,6 @@
 cup    = Unit.create(name: 'cup'   )
 floz   = Unit.create(name: 'fl oz' )
 gallon = Unit.create(name: 'gallon')
-none   = Unit.create(name: ''      )
 ounce  = Unit.create(name: 'ounce' )
 pound  = Unit.create(name: 'pound' )
 pint   = Unit.create(name: 'pint'  )
@@ -48,7 +47,7 @@ duck_fesenjan_recipe = Recipe.create(
   description: "Chef John's take on the classic Persian savory stew fesenjan features duck, pomegranate, and walnuts.",
   total_time: 210
   )
-  duck_fesenjan_recipe.recipe_ingredients.new(ingredient: duckLeg,               quantity:  8.0,   unit: none  )
+  duck_fesenjan_recipe.recipe_ingredients.new(ingredient: duckLeg,               quantity:  8.0,   unit: nil     )
   duck_fesenjan_recipe.save
 
 parmesan_chicken_recipe = Recipe.create(
@@ -58,13 +57,13 @@ parmesan_chicken_recipe = Recipe.create(
   description: 'A classic Italian dish prepared with tomato sauce and mozzarella, with a few additions by Chef John. Sure to impress your friends and family!',
   total_time: 60
   )
-  parmesan_chicken_recipe.recipe_ingredients.new(ingredient: basil,                 quantity:  0.25,  unit: cup )
+  parmesan_chicken_recipe.recipe_ingredients.new(ingredient: basil,                 quantity:  0.25,  unit: cup  )
   parmesan_chicken_recipe.recipe_ingredients.new(ingredient: breadCrumbsPanko,      quantity:  4.0,   unit: cup  )
   parmesan_chicken_recipe.recipe_ingredients.new(ingredient: cheeseMozzarella,      quantity:  0.25,  unit: cup  )
   parmesan_chicken_recipe.recipe_ingredients.new(ingredient: cheeseParmesanGrated,  quantity:  0.75,  unit: cup  )
   parmesan_chicken_recipe.recipe_ingredients.new(ingredient: cheeseProvoloneGrated, quantity:  0.5,   unit: cup  )
   parmesan_chicken_recipe.recipe_ingredients.new(ingredient: chickenBreasts,        quantity:  2.0,   unit: pound)
-  parmesan_chicken_recipe.recipe_ingredients.new(ingredient: eggs,                  quantity:  2.0,   unit: none )
+  parmesan_chicken_recipe.recipe_ingredients.new(ingredient: eggs,                  quantity:  2.0,   unit: nil  )
   parmesan_chicken_recipe.recipe_ingredients.new(ingredient: flourAllPurpose,       quantity:  2.0,   unit: tbl  )
   parmesan_chicken_recipe.recipe_ingredients.new(ingredient: oilOlive,              quantity:  1.0,   unit: cup  )
   parmesan_chicken_recipe.recipe_ingredients.new(ingredient: sauceTomato,           quantity:  4.0,   unit: floz )

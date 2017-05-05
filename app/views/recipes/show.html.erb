@@ -1,6 +1,6 @@
 <h1><%= @recipe.name %> <%= link_to image_tag("edit-icon.png", size:"16"), edit_recipe_path(@recipe) if @recipe.user == current_user %></h1>
 
-Submitted by <%= link_to @recipe.user.email, user_recipes_path(@recipe.user) %>
+Submitted by <%= link_to @recipe.user_name, user_recipes_path(@recipe.user) %>
 
 <table>
   <tr>

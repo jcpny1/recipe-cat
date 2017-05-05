@@ -6,13 +6,21 @@ class RecipeReview < ApplicationRecord
   validates :title,    presence:   true
   validates :comments, presence:   true
 
+  def recipe_name
+    self.recipe.name
+  end
+
   def self.sort_by_recipe_and_time(recipe_reviews)
     recipe_reviews.sort { |recipe_review_1,recipe_review_2|
-      if recipe_review_1.recipe.name != recipe_review_2.recipe.name
-        recipe_review_1.recipe.name <=> recipe_review_2.recipe.name
+      if recipe_review_1.recipe_name != recipe_review_2.recipe_name
+        recipe_review_1.recipe_name <=> recipe_review_2.recipe_name
       else
         recipe_review_1.created_at <=> recipe_review_2.created_at
       end
     }
+  end
+
+  def user_name
+    self.user.email
   end
 end

@@ -2,7 +2,7 @@
 <%= render partial: 'trademark' %>
 
 <% if user_signed_in? %>
-  <p>You are logged in as <%= current_user.email %>.</p>
+  <p>You are logged in as <%= @user_name %>.</p>
 <% else %>
   <p>
     <%= link_to 'Log In',  new_user_session_path %><br>

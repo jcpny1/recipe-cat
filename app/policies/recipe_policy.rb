@@ -31,7 +31,7 @@ class RecipePolicy < ApplicationPolicy
   end
 
   def update?
-    !!user && (user.admin? || user.id == record.user_id)
+    !!user && (user.admin? || record.user_id == user.id)
   end
 
   def destroy?

@@ -12,23 +12,23 @@ class RecipeStepsController < ApplicationController
     if @recipe_step.save
       redirect_to @recipe
     else
-      flash[:alert] = @recipe_step.errors.full_messages
+      flash.now[:alert] = @recipe_step.errors.full_messages
       render :new
     end
   end
 
   def edit
-    @recipe_step = @recipe.recipe_steps.where(id: params[:id]).first
+    @recipe_step = @recipe.recipe_steps.find(params[:id])
     authorize @recipe_step
   end
 
   def update
-    @recipe_step = @recipe.recipe_steps.where(id: params[:id]).first
+    @recipe_step = @recipe.recipe_steps.find(params[:id])
     authorize @recipe_step
     if @recipe_step.update(recipe_step_params)
       redirect_to @recipe
     else
-      flash[:alert] = @recipe_step.errors.full_messages
+      flash.now[:alert] = @recipe_step.errors.full_messages
       render 'edit'
     end
   end
@@ -50,5 +50,4 @@ private
   def recipe_step_params
     params.require(:recipe_step).permit(:step_number, :description)
   end
-
 end

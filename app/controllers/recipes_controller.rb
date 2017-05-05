@@ -25,7 +25,7 @@ class RecipesController < ApplicationController
     end
 
     @recipes = Recipe.filter_array_by_ingredient(@recipes, session[:ingredient_filter]) if session[:ingredient_filter].present?  # filter by ingredient, if necessary.
-    @user_email = user.email if user
+    @user_name = user.email if user
   end
 
   def show
@@ -46,7 +46,7 @@ class RecipesController < ApplicationController
     if @recipe.save
       redirect_to @recipe
     else
-      flash[:alert] = @recipe.errors.full_messages
+      flash.now[:alert] = @recipe.errors.full_messages
       render :new
     end
   end
@@ -62,7 +62,7 @@ class RecipesController < ApplicationController
     if @recipe.update(recipe_params)
       redirect_to @recipe
     else
-      flash[:alert] = @recipe.errors.full_messages
+      flash.now[:alert] = @recipe.errors.full_messages
       render 'edit'
     end
   end

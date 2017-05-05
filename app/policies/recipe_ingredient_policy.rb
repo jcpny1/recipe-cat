@@ -18,7 +18,7 @@ class RecipeIngredientPolicy < ApplicationPolicy
   end
 
   def update?
-    !!user && (user.admin? || record.recipe.user == user)
+    !!user && (user.admin? || record.recipe_user == user)
   end
 
   def destroy?
