@@ -1,5 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Unit, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  before do
+    @unit = Unit.create!(name: 'lbs')
+  end
+
+  it "has a name" do
+    expect(@unit.name).to eq('lbs')
+  end
 end
