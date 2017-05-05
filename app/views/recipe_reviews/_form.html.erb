@@ -1,6 +1,6 @@
 <%= form_for recipe_review, url: url do |f| %>
   <%= f.label :stars %>
-  <%= f.number_field :stars %>
+  <%= f.number_field :stars, min: 1, max: 5 %>
   <%= f.label :title %>
   <%= f.text_field :title %>
   <%= f.label :comments %>

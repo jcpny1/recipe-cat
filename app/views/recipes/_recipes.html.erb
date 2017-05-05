@@ -7,7 +7,7 @@
       <td><%= image_tag(recipe.photo_path, size: "190x100", alt: "#{recipe.name} photo", title: 'recipe photo' ) %></td>
       <td><%= link_to image_tag("delete-icon.png", size:"16", title: "Delete recipe"), recipe_path(recipe), method: :delete, data: {confirm: "Are you sure!"} if policy(recipe).destroy? %></td>
       <td><table>
-        <tr><td><%= pluralize(recipe.average_stars, 'star') %></td></tr>
+        <tr><td><%= render partial: "recipes/review_stars", locals: {stars: recipe.average_stars, url: recipe_recipe_reviews_path(recipe)} %></td></tr>
         <tr><td><%= link_to pluralize(recipe.number_of_reviews, 'review'), recipe_recipe_reviews_path(recipe) %></td></tr>
       </table></td>
       <td><%= render partial: "recipes/favorite", locals: {recipe: recipe} %></td>

@@ -11,7 +11,7 @@ class Recipe < ApplicationRecord
 
   def average_stars
     sum = recipe_reviews.sum { |urr| urr.stars }
-    sum.to_f / number_of_reviews if number_of_reviews != 0
+    number_of_reviews != 0 ? (sum.to_f / number_of_reviews).round : 0
   end
 
   def self.filter_array_by_ingredient(recipes, ingredient_id)

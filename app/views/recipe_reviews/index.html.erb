@@ -18,8 +18,7 @@
   by <%= link_to recipe_review.user_name, user_recipe_reviews_path(recipe_review.user_id) %>
   <%= link_to image_tag("edit-icon.png",   size:"16", title: "Edit review"  ), edit_recipe_recipe_review_path(recipe_review.recipe, recipe_review) if policy(recipe_review).update? %>
   <%= link_to(image_tag("delete-icon.png", size:"16", title: "Delete review"), recipe_recipe_review_path(recipe_review.recipe_id, recipe_review.id), method: :delete, data: {confirm: "Are you sure!"}) if policy(recipe_review).destroy? %>
-  <br>
-  <%= pluralize(recipe_review.stars, 'star') %>
+  <p><%= render partial: "recipes/review_stars", locals: {stars: recipe_review.stars, url: nil} %></p>
   <p class="review-title"><em><u><%= recipe_review.title %></u></em></p>
   <%= recipe_review.comments %>
   <br><br>
