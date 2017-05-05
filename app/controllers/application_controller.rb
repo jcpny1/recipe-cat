@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action      :authenticate_user!
-  skip_before_action :authenticate_user!, only: [:index, :show]
+  skip_before_action :authenticate_user!, only: [:about, :welcome, :index, :show]
 
   rescue_from ActiveRecord::RecordNotFound, with: :render_404
 
@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
 
   def welcome
     skip_authorization
-    @user_name = current_user.email
+    @user_name = current_user.email if user_signed_in?
   end
 
 private
