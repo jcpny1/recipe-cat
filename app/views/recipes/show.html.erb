@@ -1,6 +1,5 @@
 <h1>
   <%= @recipe.name %> <%= link_to image_tag("edit-icon.png", size:"16"), edit_recipe_path(@recipe) if @recipe.user == current_user %>
-  <%= render partial: "recipes/review_stars", locals: {stars: @recipe.average_stars, url: recipe_recipe_reviews_path(recipe)} %><br>
 </h1>
 
 Submitted by <%= link_to @recipe.user_name, user_recipes_path(@recipe.user) %>
@@ -11,7 +10,7 @@ Submitted by <%= link_to @recipe.user_name, user_recipes_path(@recipe.user) %>
     <td><%= render partial: "recipes/favorite", locals: {recipe: @recipe} %></td>
   </tr>
 </table>
-<%= render partial: "recipes/review_stars", locals: {stars: @recipe.average_stars, url: recipe_recipe_reviews_path(recipe)} %><%= '  ' %><%= link_to 'Reviews', recipe_recipe_reviews_path(@recipe) %>
+<%= render partial: "recipes/review_stars", locals: {stars: @recipe.average_stars, url: recipe_recipe_reviews_path(@recipe)} %><%= '  ' %><%= link_to 'Reviews', recipe_recipe_reviews_path(@recipe) %>
 
 <br><br>
 <table width="40%">
