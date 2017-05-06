@@ -22,4 +22,8 @@ class RecipeIngredient < ApplicationRecord
   def new_ingredient=(value)
     @new_ingredient = value
   end
+
+  def recipe_user
+    self.recipe.recipe_user
+  end
 end

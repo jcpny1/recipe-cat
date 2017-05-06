@@ -28,7 +28,11 @@ class Recipe < ApplicationRecord
     recipe_reviews.size
   end
 
+  def recipe_user
+    self.user
+  end
+
   def user_name
-    self.user.email
+    recipe_user.email
   end
 end
