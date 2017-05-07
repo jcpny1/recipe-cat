@@ -6,7 +6,8 @@
 //= require_tree ./channels
 
 (function() {
-  this.App || (this.App = {});
+  // this.App || (this.App = {});
+  if (typeof this.App === 'undefined') { this.App = {} }
 
   App.cable = ActionCable.createConsumer();
 
