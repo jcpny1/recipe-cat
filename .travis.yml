@@ -4,4 +4,4 @@ rvm:
 - jruby
 before_install:
 - openssl aes-256-cbc -K $encrypted_515e29b03de1_key -iv $encrypted_515e29b03de1_iv
-  -in secrets.yml.enc -out secrets.yml -d
+  -in config/secrets.yml.enc -out config/secrets.yml -d
