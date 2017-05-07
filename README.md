@@ -24,7 +24,7 @@ Things you may want to cover:
 * ...
 
 
-![Recipe-Cat Logo](https://raw.github.com/jcpny1/recipe-cat/app/assets/images/recipe-cat.jpg)
+![Recipe-Cat Logo](https://raw.github.com/jcpny1/recipe-cat/master/app/assets/images/recipe-cat.jpg)
 
 <!-- By [Plataformatec](http://plataformatec.com.br/). -->
 
