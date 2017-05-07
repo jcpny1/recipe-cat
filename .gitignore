@@ -26,6 +26,9 @@
 
 /spec/tmp
 
+# Don't bother tracking coverage results.
+coverage
+
 # Comment out these rules if you are OK with secrets being uploaded to the repo
 config/secrets.yml
 
