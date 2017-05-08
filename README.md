@@ -3,7 +3,7 @@
 [![Build Status](https://api.travis-ci.org/jcpny1/recipe-cat.svg?branch=master)](http://travis-ci.org/jcpny1/recipe-cat)
 [![Code Climate](https://codeclimate.com/github/jcpny1/recipe-cat.svg)](https://codeclimate.com/github/jcpny1/recipe-cat)
 [![Inline docs](http://inch-ci.org/github/jcpny1/recipe-cat.svg)](http://inch-ci.org/github/jcpny1/recipe-cat)
-<!-- [![Dependency Status](https://gemnasium.com/jcpny1/recipe-cat.svg)][Dependencies] -->
+[![Dependency Status](https://gemnasium.com/jcpny1/recipe-cat.svg)][Dependencies]
 
 Recipe-Cat is a Rails-based recipe catalog application.
 
