@@ -1,4 +1,6 @@
 class RecipesController < ApplicationController
+  skip_after_action :verify_authorized,    only: :updated_after
+  after_action      :verify_policy_scoped, only: :updated_after
 
   def filter   # only setting ingredient_filter value here.
     skip_authorization
@@ -11,6 +13,13 @@ class RecipesController < ApplicationController
     authorize @recipe
     RecipeStep.renumber(@recipe.recipe_steps)
     redirect_to request.referer
+  end
+
+  def updated_after   # list recipes created or updated after the specified date.
+    @date = params[:date]
+    @recipes = policy_scope(Recipe.updated_after(@date)).order(:name)
+    @updated_after = true
+    render :index
   end
 
   def index

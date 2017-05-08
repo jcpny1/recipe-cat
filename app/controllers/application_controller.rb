@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   after_action :verify_authorized,    except: :index, unless: :devise_controller?
   after_action :verify_policy_scoped, only:   :index
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
-  rescue_from Pundit::NotDefinedError, with: :route_not_defined
+  rescue_from Pundit::NotDefinedError,    with: :route_not_defined
 
   protect_from_forgery with: :exception
 

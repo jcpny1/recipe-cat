@@ -1,6 +1,8 @@
 <h1>
   <% if @user_recipes %>
     Recipes by <%= @user_name %>
+  <% elsif @updated_after %>
+    Recipes updated after <%= @date %>
   <% else %>
     Recipes
   <% end %>

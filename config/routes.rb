@@ -12,6 +12,9 @@ Rails.application.routes.draw do
     get 'renumber_steps', on: :member
   end
 
+  get '/recipes/updated_after/:date',        to: "recipes#updated_after"
+  get '/recipe_reviews/updated_after/:date', to: "recipe_reviews#updated_after"
+
   resources :users do
     resources :recipes,               only: [:index]
     resources :recipe_reviews,        only: [:index]
