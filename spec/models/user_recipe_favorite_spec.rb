@@ -17,4 +17,8 @@ RSpec.describe UserRecipeFavorite, type: :model do
   it "has a recipe" do
     expect(@user_recipe_favorite.recipe).to eq(@recipe)
   end
+
+  it "has a user" do
+    expect(@user_recipe_favorite.user).to eq(@review_author)
+  end
 end
