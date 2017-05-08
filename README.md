@@ -19,13 +19,13 @@ This application was created to meet the requirements of the learn.co Rails port
 
 ## Installation and Usage
 
-Fork and clone the recipe-cat repository.
-Execute bundle install.
-Rake db:migrate
-Rake db:seed
-Start a rails server.
-Connect to the rails server with a browser.
-From there you can log in to the application for full functionality or browse the data as a guest.
+* Fork and clone the recipe-cat repository.
+* Execute bundle install.
+* Rake db:migrate
+* Rake db:seed
+* Start a rails server.
+* Connect to the rails server with a browser.
+* From there you can log in to the application for full functionality or browse the data as a guest.
 
 ## Contributing
 
@@ -33,4 +33,4 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/jcpny1
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+The application is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
