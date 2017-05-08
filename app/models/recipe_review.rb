@@ -12,6 +12,10 @@ class RecipeReview < ApplicationRecord
     self.recipe.name
   end
 
+  def recipe_user
+    self.recipe.user
+  end
+
   def self.sort_by_recipe_and_time(recipe_reviews)
     recipe_reviews.sort { |recipe_review_1,recipe_review_2|
       if recipe_review_1.recipe_name != recipe_review_2.recipe_name
