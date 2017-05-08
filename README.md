@@ -20,6 +20,10 @@ This application was created to meet the requirements of the learn.co Rails port
 ## Installation and Usage
 
 * Fork and clone the recipe-cat repository.
+* Create a config/secrets.yml file to include
+  - secret_key_base
+  - facebook_key  (optional, for Facebook login ability)
+  - facebook_secret (optional, for Facebook login ability)
 * Execute bundle install.
 * Rake db:migrate
 * Rake db:seed
