@@ -9,6 +9,8 @@ class Recipe < ApplicationRecord
   validates :name, presence:   true
   validates :name, uniqueness: true
 
+  scope :created_after, ->(time) { where("created_at > ?", time) }
+
   def average_stars
     sum = recipe_reviews.sum { |urr| urr.stars }
     number_of_reviews != 0 ? (sum.to_f / number_of_reviews).round : 0

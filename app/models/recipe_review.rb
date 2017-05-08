@@ -6,6 +6,8 @@ class RecipeReview < ApplicationRecord
   validates :title,    presence:   true
   validates :comments, presence:   true
 
+  scope :created_after, ->(time) { where("created_at > ?", time) }
+
   def recipe_name
     self.recipe.name
   end
