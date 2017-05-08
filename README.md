@@ -1,7 +1,8 @@
 # RECIPE-CAT
 
-<img src="https://raw.github.com/jcpny1/recipe-cat/master/app/assets/images/recipe-cat.jpg" alt="Recipe-Cat Logo" width="10%" height="10%"/>
+<!-- <img src="https://raw.github.com/jcpny1/recipe-cat/master/app/assets/images/recipe-cat.jpg" alt="Recipe-Cat Logo" width="10%" height="10%"/> -->
 
+<!-- ![Recipe-Cat Logo](https://raw.github.com/jcpny1/recipe-cat/master/app/assets/images/recipe-cat.jpg) -->
 <!-- By [Plataformatec](http://plataformatec.com.br/). -->
 
 [![Build Status](https://api.travis-ci.org/jcpny1/recipe-cat.svg?branch=master)](http://travis-ci.org/jcpny1/recipe-cat)
