@@ -1,7 +1,7 @@
 class RecipeReviewsController < ApplicationController
-  before_action :get_recipe, except: [:updated_after, :index]
-  skip_after_action :verify_authorized,    only: :updated_after
-  after_action      :verify_policy_scoped, only: :updated_after
+  before_action     :get_recipe,           except: [:updated_after, :index]
+  skip_after_action :verify_authorized,    only:   [:updated_after]
+  after_action      :verify_policy_scoped, only:   [:updated_after]
 
   def updated_after   # list recipe reviews created or updated after the specified date.
     update_selector {
@@ -16,7 +16,8 @@ class RecipeReviewsController < ApplicationController
       @user_name = user.email
       @user_reviews = true
     elsif params[:recipe_id].present?
-      @recipe_reviews = policy_scope(RecipeReview).where(recipe_id: params[:recipe_id])
+      @recipe_id = params[:recipe_id]
+      @recipe_reviews = policy_scope(RecipeReview).where(recipe_id: @recipe_id)
     end
 
     @recipe_reviews = RecipeReview.sort_by_recipe_and_time(@recipe_reviews)

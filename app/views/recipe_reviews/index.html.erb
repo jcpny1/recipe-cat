@@ -5,7 +5,7 @@
     Reviews updated after <%= @date %>
   <% else %>
     Reviews
-    <%= link_to image_tag("add-icon.png", size:"16", title: "Add review"), new_recipe_recipe_review_path(current_user) if user_signed_in? %>
+    <%= link_to image_tag("add-icon.png", size:"16", title: "Add review"), new_recipe_recipe_review_path(@recipe_id) if user_signed_in? && @recipe_id %>
   <% end %>
 </h1>
 
