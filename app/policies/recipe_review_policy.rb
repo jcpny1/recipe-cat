@@ -6,11 +6,11 @@ class RecipeReviewPolicy < ApplicationPolicy
   end
 
   def new?
-    update?
+    create?
   end
 
   def create?
-    update?
+    !!user
   end
 
   def edit?
