@@ -10,7 +10,7 @@ class Recipe < ApplicationRecord
   validates :name, uniqueness: true
 
   after_initialize do |recipe|
-    recipe.photo_path ||= 'recipes/placeholder.jpg'
+    recipe.photo_path ||= 'recipes/placeholder.png'
   end
 
   def average_stars
