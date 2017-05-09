@@ -23,7 +23,6 @@ class RecipesController < ApplicationController
 
   def index
     @recipes = policy_scope(Recipe).order(:name)  # get recipes user is entitled to see.
-
     if params[:user_id].present?
       @recipes = Recipe.filter_array_by_user(@recipes, params[:user_id])  # reduce recipe list to just optional specified owner.
       user = User.find(params[:user_id])
@@ -48,6 +47,7 @@ class RecipesController < ApplicationController
 
   def create
     @recipe = current_user.recipes.new(recipe_params)
+    @recipe.name = @recipe.name.titleize
     authorize @recipe
     @recipe.total_time ||= 0
     if @recipe.save
