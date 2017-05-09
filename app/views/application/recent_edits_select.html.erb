@@ -1,0 +1,9 @@
+<h1>Recent Edits</h1>
+
+<%= form_tag("/recent_edits", method: 'post') do %>
+  <%= label_tag('entity', "Show") %>
+  <p><%= select_tag('entity', options_for_select(@entities)) %></p>
+  <%= label_tag('date', "created or updated after:") %>
+  <p><%= select_date(date = Date.current) %></p>
+  <%= submit_tag('Show') %>
+<% end %>

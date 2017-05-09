@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   include Pundit
-  after_action :verify_authorized,    except: :index, unless: :devise_controller?
-  after_action :verify_policy_scoped, only:   :index
+  after_action :verify_authorized,    except: [:recent_edits_select, :recent_edits, :index], unless: :devise_controller?
+  after_action :verify_policy_scoped, only:   [:index]
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   rescue_from Pundit::NotDefinedError,    with: :route_not_defined
 
@@ -14,6 +14,15 @@ class ApplicationController < ActionController::Base
 
   def about
     skip_authorization
+  end
+
+  def recent_edits_select
+    @entities = [['Ingredients', 'ingredients'], ['Recipes', 'recipes'], ['Reviews', 'recipe_reviews']]
+  end
+
+  def recent_edits
+    date = "#{params[:date][:year]}-#{params[:date][:month]}-#{params[:date][:day]}"
+    redirect_to "/#{params[:entity]}/updated_after/#{date}"
   end
 
   def welcome

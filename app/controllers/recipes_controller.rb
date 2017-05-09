@@ -16,7 +16,7 @@ class RecipesController < ApplicationController
   end
 
   def updated_after   # list recipes created or updated after the specified date.
-    @date = params[:date]
+    @date = DateTime.parse(params[:date])
     @recipes = policy_scope(Recipe.updated_after(@date)).order(:name)
     @updated_after = true
     render :index

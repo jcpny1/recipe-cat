@@ -5,6 +5,8 @@ class Ingredient < ApplicationRecord
   validates :name, presence:   true
   validates :name, uniqueness: true
 
+  scope :updated_after, ->(date) { where("updated_at > ?", date) }
+
   def self.create_ingredient(name)
     Ingredient.find_or_create_by(name: name.titleize, photo_path: 'ingredients/placeholder.jpg')
   end
