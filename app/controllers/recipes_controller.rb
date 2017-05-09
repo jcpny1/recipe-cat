@@ -16,9 +16,8 @@ class RecipesController < ApplicationController
   end
 
   def updated_after   # list recipes created or updated after the specified date.
-    @date = DateTime.parse(params[:date])
-    @recipes = policy_scope(Recipe.updated_after(@date)).order(:name)
-    @updated_after = true
+    update_selector {
+      @recipes = policy_scope(Recipe.updated_after(@date)).order(:name) }
     render :index
   end
 
@@ -51,7 +50,6 @@ class RecipesController < ApplicationController
     @recipe = current_user.recipes.new(recipe_params)
     authorize @recipe
     @recipe.total_time ||= 0
-    @recipe.photo_path = 'recipes/placeholder.png'
     if @recipe.save
       redirect_to @recipe
     else

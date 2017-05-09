@@ -5,6 +5,8 @@ class RecipeIngredient < ApplicationRecord
   validates :quantity, numericality: { greater_than: 0 }
   validate :check_ingredient
 
+  @new_ingredient  # holds user-inputted ingredient name rather than a picklist value.
+
   def check_ingredient
     if self.ingredient.present? && new_ingredient.present?
       errors.add(:ingredient, 'and New Ingredient cannot both be specified')

@@ -6,8 +6,6 @@ class RecipeReview < ApplicationRecord
   validates :title,    presence:   true
   validates :comments, presence:   true
 
-  scope :updated_after, ->(date) { where("updated_at > ?", date) }
-
   def recipe_name
     self.recipe.name
   end

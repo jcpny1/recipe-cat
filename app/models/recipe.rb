@@ -9,7 +9,9 @@ class Recipe < ApplicationRecord
   validates :name, presence:   true
   validates :name, uniqueness: true
 
-  scope :updated_after, ->(date) { where("updated_at > ?", date) }
+  after_initialize do |recipe|
+    recipe.photo_path ||= 'recipes/placeholder.jpg'
+  end
 
   def average_stars
     sum = recipe_reviews.sum { |urr| urr.stars }

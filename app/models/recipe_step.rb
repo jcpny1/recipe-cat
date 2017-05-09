@@ -2,6 +2,10 @@ class RecipeStep < ApplicationRecord
   belongs_to :recipe
   validates :step_number, uniqueness: { scope: :recipe, message: "must be unique for this recipe" }
 
+  def recipe_user
+    self.recipe.user
+  end
+
   def self.renumber(recipe_steps)
     step_counter = 1
     recipe_steps.each { |recipe_step|

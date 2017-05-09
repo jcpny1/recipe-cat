@@ -10,7 +10,6 @@ class RecipeIngredientsController < ApplicationController
     @recipe_ingredient = @recipe.recipe_ingredients.new(recipe_ingredient_params)
     set_new_ingredient
     authorize @recipe_ingredient
-
     if @recipe_ingredient.save
       redirect_to @recipe
     else
@@ -29,7 +28,6 @@ class RecipeIngredientsController < ApplicationController
     @recipe_ingredient.assign_attributes(recipe_ingredient_params)
     set_new_ingredient
     authorize @recipe_ingredient
-
     if @recipe_ingredient.save
       redirect_to @recipe
     else

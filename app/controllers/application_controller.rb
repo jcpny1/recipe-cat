@@ -30,6 +30,15 @@ class ApplicationController < ActionController::Base
     @user_name = current_user.email if user_signed_in?
   end
 
+protected
+
+  def update_selector   # common code for listing records created or updated after the specified date.
+    @date = DateTime.parse(params[:date]).next_day
+    yield
+    @date = DateTime.parse(params[:date]).strftime("%d-%^b-%Y")   #=> "19-NOV-2007"
+    @updated_after = true
+  end
+
 private
 
   def render_404

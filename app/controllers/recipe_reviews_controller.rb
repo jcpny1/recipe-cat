@@ -3,10 +3,9 @@ class RecipeReviewsController < ApplicationController
   skip_after_action :verify_authorized,    only: :updated_after
   after_action      :verify_policy_scoped, only: :updated_after
 
-  def updated_after   # list ingredients created or updated after the specified date.
-    @date = DateTime.parse(params[:date])
-    @recipe_reviews = RecipeReview.sort_by_recipe_and_time(policy_scope(RecipeReview.updated_after(@date)))
-    @updated_after = true
+  def updated_after   # list recipe reviews created or updated after the specified date.
+    update_selector {
+      @recipe_reviews = RecipeReview.sort_by_recipe_and_time(policy_scope(RecipeReview.updated_after(@date))) }
     render :index
   end
 
