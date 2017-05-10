@@ -21,9 +21,12 @@
     <%= f.password_field :password_confirmation, autocomplete: "off" %>
   </div>
 
+  <%= render partial: 'address', locals: {f: f, address: @user.address} %>
+
   <div class="actions">
     <%= f.submit "Sign up" %>
   </div>
 <% end %>
 
+<br />
 <%= render "users/shared/links" %>

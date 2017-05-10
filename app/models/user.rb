@@ -16,6 +16,10 @@ class User < ApplicationRecord
 
   enum role: [:user, :vip, :admin]
 
+  after_initialize do |user|
+    user.address ||= Address.new
+  end
+
   def name
     self.email
   end

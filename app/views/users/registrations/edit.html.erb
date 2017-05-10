@@ -31,17 +31,7 @@
     <%= f.password_field :current_password, autocomplete: "off" %>
   </div>
 
-  <%= f.fields_for :address, @user.address do |ff| %>
-    <div class="field">
-      <%= f.label :city %><br />
-      <%= ff.text_field :city %>
-    </div>
-    <div class="field">
-      <%= f.label :state %><br />
-      <%= ff.text_field :state %>
-    </div>
-  <% end %>
-  <br />
+  <%= render partial: 'address', locals: {f: f, address: @user.address} %>
 
   <div class="actions">
     <%= f.submit "Update" %>
