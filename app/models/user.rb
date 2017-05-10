@@ -8,11 +8,9 @@ class User < ApplicationRecord
   has_one  :address
   accepts_nested_attributes_for :address
 
-  has_many :recipes
-  has_many :user_ingredients
-  has_many :ingredients, through: :user_ingredients
-  has_many :recipe_reviews
-  has_many :user_recipe_favorites
+  has_many :recipes,               dependent: :destroy
+  has_many :recipe_reviews,        dependent: :destroy
+  has_many :user_recipe_favorites, dependent: :destroy
 
   enum role: [:user, :vip, :admin]
 

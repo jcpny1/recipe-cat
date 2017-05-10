@@ -1,5 +1,5 @@
 class Users::RegistrationsController < Devise::RegistrationsController
-  # before_action :configure_sign_up_params, only: [:create]
+  before_action :configure_sign_up_params,        only: [:create]
   before_action :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
@@ -19,7 +19,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # PUT /resource
   def update
-    binding.pry
     super
   end
 
@@ -40,19 +39,17 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # protected
 
   # If you have extra params to permit, append them to the sanitizer.
-  # def configure_sign_up_params
-  #   devise_parameter_sanitizer.permit(:sign_up, keys: [:attribute])
-  # end
+  def configure_sign_up_params
+    devise_parameter_sanitizer.permit(:sign_up) do |user_params|
+      user_params.permit(:email, :password, :password_confirmation, address_attributes: [:city, :state])
+    end
+  end
 
   # If you have extra params to permit, append them to the sanitizer.
   def configure_account_update_params
-    binding.pry
     devise_parameter_sanitizer.permit(:account_update) do |user_params|
-      user_params.permit(:email, :password, :password_confirmation, :current_password, addresses_attributes: [:city, :state])
+      user_params.permit(:email, :password, :password_confirmation, :current_password, address_attributes: [:city, :state])
     end
-
-
-
   end
 
   # The path used after sign up.
