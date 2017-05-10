@@ -3,7 +3,10 @@ class User < ApplicationRecord
   # :confirmable, :lockable, and :timeoutable.
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :omniauthable, :omniauth_providers => [:facebook]
+         :omniauthable, omniauth_providers: [:facebook]
+
+  has_one  :address
+  accepts_nested_attributes_for :address
 
   has_many :recipes
   has_many :user_ingredients
