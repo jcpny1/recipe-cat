@@ -18,7 +18,7 @@ tsp    = Unit.create!(name: 'tsp'   )
 pinch  = Unit.create!(name: 'pinch' )
 
 user_facebook = User.create!(email: 'jpfingst@outlook.com', password: 'fakeone', provider: 'facebook', uid: '1376916635679797', role: "user")
-user_         = User.create!(email: 'admin@aol.com',        password: '123456', role: "admin")
+user_admin    = User.create!(email: 'admin@aol.com',        password: '123456', role: "admin")
 user_john     = User.create!(email: 'pfingst@yahoo.com',    password: '123456', role: "user", :address_attributes => {city: 'West Islip', state: 'NY'})
 user_other    = User.create!(email: 'joe_user@aol.com',     password: '123456', role: "user" )
 user_vip      = User.create!(email: 'joe_vip@aol.com',      password: '123456', role: "vip"  )
