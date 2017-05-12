@@ -19,7 +19,8 @@ class Recipe < ApplicationRecord
 
   def recipe_ingredients_attributes=(recipe_ingredients_attributes)
     recipe_ingredients_attributes.values.each do |recipe_ingredients_attribute|
-      self.recipe_ingredients << RecipeIngredient.create_recipe_ingredient(recipe_ingredients_attribute)
+      recipe_ingredient = RecipeIngredient.create_recipe_ingredient(recipe_ingredients_attribute)
+      self.recipe_ingredients << recipe_ingredient if recipe_ingredient.present?
     end
   end
 
