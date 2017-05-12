@@ -1,7 +1,10 @@
 class Recipe < ApplicationRecord
   belongs_to :user
+
   has_many :recipe_ingredients,    dependent: :destroy
   has_many :ingredients, through: :recipe_ingredients
+  # accepts_nested_attributes_for :recipe_ingredients, reject_if: :all_blank, allow_destroy: true
+
   has_many :recipe_reviews,        dependent: :destroy
   has_many :user_recipe_favorites, dependent: :destroy
   has_many :recipe_steps,          dependent: :destroy
@@ -10,7 +13,14 @@ class Recipe < ApplicationRecord
   validates :name, uniqueness: true
 
   after_initialize do |recipe|
+    recipe.total_time ||= 0
     recipe.photo_path ||= 'recipes/placeholder.png'
+  end
+
+  def recipe_ingredients_attributes=(recipe_ingredients_attributes)
+    recipe_ingredients_attributes.values.each do |recipe_ingredients_attribute|
+      self.recipe_ingredients << RecipeIngredient.create_recipe_ingredient(recipe_ingredients_attribute)
+    end
   end
 
   def average_stars

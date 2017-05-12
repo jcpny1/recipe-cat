@@ -16,12 +16,12 @@
 
   <br>
   Ingredients:
-    <%= f.fields_for :ingredients do |ff| %>
+    <%= f.fields_for :recipe_ingredients do |ff| %>
       <table>
         <tr><%= render partial: "recipe_ingredients/form_ingredient", locals: {f: ff} %></tr>
       </table>
     <% end %>
-    <!-- <p><%= link_to 'Add another ingredient', new_recipe_path %></p> -->
+    <p><%= link_to 'Add another ingredient', new_recipe_path %></p>
 
   <p><%= f.submit %></p>
 <% end %>

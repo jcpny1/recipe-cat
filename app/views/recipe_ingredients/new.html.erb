@@ -1,2 +1,2 @@
 <h2>Add Recipe Ingredient to <%= @recipe_name %></h2>
-<%= render partial: "form", locals: {recipe_ingredient: @recipe_ingredient, new_ingredient: @new_ingredient, url: recipe_recipe_ingredients_path(@recipe_ingredient.recipe) } %>
+<%= render partial: "form", locals: {recipe_ingredients: @recipe_ingredient, new_ingredient: @new_ingredient, url: recipe_recipe_ingredients_path(@recipe_ingredient.recipe) } %>

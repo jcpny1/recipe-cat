@@ -6,7 +6,7 @@ class User < ApplicationRecord
          :omniauthable, omniauth_providers: [:facebook]
 
   has_one  :address
-  accepts_nested_attributes_for :address
+  accepts_nested_attributes_for :address, reject_if: :all_blank, allow_destroy: true
 
   has_many :recipes,               dependent: :destroy
   has_many :recipe_reviews,        dependent: :destroy

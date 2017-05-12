@@ -42,6 +42,7 @@ class RecipesController < ApplicationController
 
   def new
     @recipe = Recipe.new
+    @recipe.recipe_ingredients.new
     authorize @recipe
   end
 
@@ -49,7 +50,6 @@ class RecipesController < ApplicationController
     @recipe = current_user.recipes.new(recipe_params)
     @recipe.name = @recipe.name.titleize
     authorize @recipe
-    @recipe.total_time ||= 0
     if @recipe.save
       redirect_to @recipe
     else
@@ -84,7 +84,6 @@ class RecipesController < ApplicationController
 private
 
   def recipe_params
-    params.require(:recipe).permit(:name, :description, :total_time)
+    params.require(:recipe).permit(:name, :description, :total_time, recipe_ingredients_attributes: [:ingredient_id, :new_ingredient, :quantity, :unit_id, :_destroy])
   end
-
 end
