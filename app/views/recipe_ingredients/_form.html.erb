@@ -1,24 +1,6 @@
-  <%= form_for recipe_ingredient, url: url do |f| %>
+<%= form_for recipe_ingredient, url: url do |f| %>
   <table>
-    <tr>
-      <td>
-        <%= f.label :ingredient_id %>
-      </td>
-      <td>
-        <%= f.select :ingredient_id, Ingredient.pick_list, include_blank: true, prompt: 'Select an ingredient' %>
-        <%= f.text_field :new_ingredient, placeholder: 'or create a new ingredient' %>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <%= f.label :quantity %>
-      </td>
-      <td>
-        <%= f.number_field :quantity, step: :any, min: 1 %>
-        <%= f.label :unit_id %>
-        <%= f.select :unit_id, Unit.pick_list, include_blank: true %>
-      </td>
-    </tr>
+    <tr><%= render partial: "form_ingredient", locals: {f: f} %></tr>
   </table>
   <p><%= f.submit %></p>
-  <% end %>
+<% end %>
