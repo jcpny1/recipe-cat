@@ -29,8 +29,8 @@ class RecipeIngredient < ApplicationRecord
   end
 
   def self.create_recipe_ingredient(recipe_ingredients_params)
-    if recipe_ingredient_params[:ingredient_id].present? || recipe_ingredient_params[:new_ingredient].present?
-      recipe_ingredient = RecipeIngredient.new(recipe_ingredient_params)
+    if recipe_ingredients_params[:ingredient_id].present? || recipe_ingredients_params[:new_ingredient].present?
+      recipe_ingredient = RecipeIngredient.new(recipe_ingredients_params)
       recipe_ingredient.create_new_ingredient
     end
     recipe_ingredient
