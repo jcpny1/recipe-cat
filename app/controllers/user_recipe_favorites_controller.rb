@@ -1,12 +1,14 @@
 class UserRecipeFavoritesController < ApplicationController
 
-  def index # render a list of @recipes that are the user's favorites ordered by recipe name.
+  # display recipes that are the user's favorites, ordered by recipe name.
+  def index
     user = User.find_by(id: params[:user_id])
     user_recipe_favorites = policy_scope(UserRecipeFavorite).where(user_id: user.id)
     @user_name = user.email
     @recipes = UserRecipeFavorite.recipes(user_recipe_favorites)
   end
 
+  # update the user's recipe favorite indicator.
   def update
     user = User.find_by(id: params[:user_id])
     recipe_id = params[:id]

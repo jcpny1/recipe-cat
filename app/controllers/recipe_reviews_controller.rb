@@ -1,14 +1,17 @@
+# Rails controller for ReceipeReviews model.
 class RecipeReviewsController < ApplicationController
   before_action     :get_recipe,           except: [:updated_after, :index]
   skip_after_action :verify_authorized,    only:   [:updated_after]
   after_action      :verify_policy_scoped, only:   [:updated_after]
 
-  def updated_after   # list recipe reviews created or updated after the specified date.
+  # display recipe reviews created or updated after the specified date.
+  def updated_after
     update_selector {
       @recipe_reviews = RecipeReview.sort_by_recipe_and_time(policy_scope(RecipeReview.updated_after(@date))) }
     render :index
   end
 
+  # display all recipe reviews, possibly filterer by author or recipe.
   def index
     if params[:user_id].present?
       user = User.find_by(id: params[:user_id])
@@ -23,11 +26,13 @@ class RecipeReviewsController < ApplicationController
     @recipe_reviews = RecipeReview.sort_by_recipe_and_time(@recipe_reviews)
   end
 
+  # prepare to create a new recipe review.
   def new
     @recipe_review = @recipe.recipe_reviews.new
     authorize @recipe_review
   end
 
+  # add a new recipe review to a recipe.
   def create
     @recipe_review = @recipe.recipe_reviews.new(recipe_review_params)
     @recipe_review.user = current_user
@@ -40,11 +45,13 @@ class RecipeReviewsController < ApplicationController
     end
   end
 
+  # edit a recipe review record.
   def edit
     @recipe_review = @recipe.recipe_reviews.find(params[:id])
     authorize @recipe_review
   end
 
+  # commit recipe review edits to the database.
   def update
     @recipe_review = @recipe.recipe_reviews.find(params[:id])
     authorize @recipe_review
@@ -56,6 +63,7 @@ class RecipeReviewsController < ApplicationController
     end
   end
 
+  # remove a recipe review from a recipe and delete it.
   def destroy
     recipe_review = @recipe.recipe_reviews.find(params[:id])
     authorize recipe_review
@@ -65,11 +73,13 @@ class RecipeReviewsController < ApplicationController
 
 private
 
+  # load the recipe identified in the route.
   def get_recipe
     @recipe = Recipe.find_by(id: params[:recipe_id])
     @recipe_name = @recipe.name
   end
 
+  # filter params for allowed elements only.
   def recipe_review_params
     params.require(:recipe_review).permit(:stars, :title, :comments)
   end

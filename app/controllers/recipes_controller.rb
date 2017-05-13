@@ -1,26 +1,31 @@
+# Rails controller for Recipe model.
 class RecipesController < ApplicationController
   skip_after_action :verify_authorized,    only: :updated_after
   after_action      :verify_policy_scoped, only: :updated_after
 
-  def filter   # only setting ingredient_filter value here.
+  # save the selected ingredient filter value(s) for later display use.
+  def filter
     skip_authorization
     session[:ingredient_filter] = params[:recipe_ingredient][:ingredient]
     redirect_to request.referer
   end
 
-  def renumber_steps   # renumber recipe steps.
+  # renumber recipe steps from 1 to N to close any numbering gaps.
+  def renumber_steps
     @recipe = Recipe.find_by(id: params[:id])
     authorize @recipe
     RecipeStep.renumber(@recipe.recipe_steps)
     redirect_to request.referer
   end
 
-  def updated_after   # list recipes created or updated after the specified date.
+  # display recipes created or updated after the specified date.
+  def updated_after
     update_selector {
       @recipes = policy_scope(Recipe.updated_after(@date)).order(:name) }
     render :index
   end
 
+  # display all recipes.
   def index
     @recipes = policy_scope(Recipe).order(:name)  # get recipes user is entitled to see.
     if params[:user_id].present?
@@ -35,11 +40,13 @@ class RecipesController < ApplicationController
     @user_name = user.email if user
   end
 
+  # display a specific recipe.
   def show
     @recipe = Recipe.find_by(id: params[:id])
     authorize @recipe
   end
 
+  # prepare to create a new recipe.
   def new
     @recipe = Recipe.new
     @recipe.recipe_ingredients.new
@@ -48,6 +55,7 @@ class RecipesController < ApplicationController
     authorize @recipe
   end
 
+  # create a new recipe and persist it.
   def create
     @recipe = current_user.recipes.new(recipe_params)
     @recipe.name = @recipe.name.titleize
@@ -60,11 +68,13 @@ class RecipesController < ApplicationController
     end
   end
 
+  # edit a recipe.
   def edit
     @recipe = Recipe.find_by(id: params[:id])
     authorize @recipe
   end
 
+  # commit recipe edits to the database.
   def update
     @recipe = Recipe.find_by(id: params[:id])
     authorize @recipe
@@ -76,6 +86,7 @@ class RecipesController < ApplicationController
     end
   end
 
+  # delete a recipe.
   def destroy
     recipe = Recipe.find_by(id: params[:id])
     authorize recipe
@@ -85,6 +96,7 @@ class RecipesController < ApplicationController
 
 private
 
+  # filter params for allowed elements only.
   def recipe_params
     params.require(:recipe).permit(:name, :description, :total_time, recipe_ingredients_attributes: [:ingredient_id, :new_ingredient, :quantity, :unit_id, :_destroy])
   end

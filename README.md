@@ -9,7 +9,7 @@ Recipe-Cat is a Rails-based recipe catalog application.
 
 It was developed using Ruby v2.3.1.
 
-The user can add recipes, view everyone's recipes, search recipes by ingredient, favorite a recipe, and comment on a recipe.
+The user can add recipes, view recipes, search recipes by ingredient, favorite a recipe, and comment on a recipe.
 
 This application was created to meet the requirements of the learn.co Rails portfolio project.
 
@@ -22,7 +22,7 @@ This application was created to meet the requirements of the learn.co Rails port
 * Fork and clone the recipe-cat repository.
 * Update config/initializers/devise.rb's config.secret_key or instead, for full functionality, create a config/secrets.yml file, to include
   - secret_key_base
-  - facebook_key  (optional, for Facebook login ability)
+  - facebook_key    (optional, for Facebook login ability)
   - facebook_secret (optional, for Facebook login ability)
 * Execute bundle install.
 * Rake db:migrate
