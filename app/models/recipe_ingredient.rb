@@ -1,3 +1,4 @@
+# an ingredient that is used in a particular recipe.
 class RecipeIngredient < ApplicationRecord
   belongs_to :recipe
   belongs_to :ingredient
@@ -5,22 +6,26 @@ class RecipeIngredient < ApplicationRecord
   validates :quantity, numericality: { greater_than: 0 }
   validate :check_ingredient
 
-  @new_ingredient  # holds user-inputted ingredient name (rather than a pre-defined Ingredient's id).
+  @new_ingredient  # holds user-inputted ingredient name (for use in creating a new Ingredient, if necessary).
 
+  # new_ingredient getter.
   def new_ingredient
     @new_ingredient
   end
 
+  # new_ingredient setter.
   def new_ingredient=(value)
     @new_ingredient = value
   end
 
+  # validates that a pre-existing Ingredient and a new Ingredient are not both specified.
   def check_ingredient
     if self.ingredient.present? && self.new_ingredient.present?
       errors.add(:ingredient, 'and New Ingredient cannot both be specified')
     end
   end
 
+  # creates a new Ingredient and clears out new_ingredient value.
   def create_new_ingredient
     if self.new_ingredient.present?
       self.ingredient = Ingredient.create_ingredient(self.new_ingredient)
@@ -28,6 +33,8 @@ class RecipeIngredient < ApplicationRecord
     end
   end
 
+  # adds Ingredient to Recipe.
+  # returns a new recipe_ingredient record (or nil)
   def self.create_recipe_ingredient(recipe_ingredients_params)
     if recipe_ingredients_params[:ingredient_id].present? || recipe_ingredients_params[:new_ingredient].present?
       recipe_ingredient = RecipeIngredient.new(recipe_ingredients_params)
@@ -36,14 +43,17 @@ class RecipeIngredient < ApplicationRecord
     recipe_ingredient
   end
 
+  # returns the name of this recipe_ingredient's ingredient.
   def ingredient_name
     self.ingredient.name
   end
 
+  # returns this recipe_ingredient's user.
   def recipe_user
     self.recipe.recipe_user
   end
 
+  # updates existing recipe_ingredient with new values.
   def update_recipe_ingredient(recipe_ingredient_params)
     self.assign_attributes(recipe_ingredient_params)
     self.create_new_ingredient if self.new_ingredient.present?

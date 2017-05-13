@@ -1,3 +1,4 @@
+# A user's review of a particular recipe.
 class RecipeReview < ApplicationRecord
   belongs_to :user
   belongs_to :recipe
@@ -6,10 +7,12 @@ class RecipeReview < ApplicationRecord
   validates :title,    presence:   true
   validates :comments, presence:   true
 
+  # the name of the recipe of this review.
   def recipe_name
     self.recipe.name
   end
 
+  # returns recipe review list sorted by recipe name and review creation time within recipe name.
   def self.sort_by_recipe_and_time(recipe_reviews)
     recipe_reviews.sort { |recipe_review_1,recipe_review_2|
       if recipe_review_1.recipe_name != recipe_review_2.recipe_name
@@ -20,6 +23,7 @@ class RecipeReview < ApplicationRecord
     }
   end
 
+  # returns the user who created this recipe review.
   def user_name
     self.user.email
   end
