@@ -5,7 +5,8 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-# rails pulling in mail 2.6.5. gemnasium says use 2.6.6 for security.
+# rails is pulling in mail 2.6.5.
+# gemnasium says use 2.6.6 for security.
 gem 'mail', '~> 2.6.6.rc1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
