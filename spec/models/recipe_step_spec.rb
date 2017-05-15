@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe RecipeStep, type: :model do
   before do
     @recipe_owner = User.create!(email: 'owner@aol.com', password: 'alfalfa' )
-    @recipe       = Recipe.new(user: @recipe_owner, name: 'Scrambled Eggs', photo_path: 'recipes/placeholder.png', description: 'Eggs that are scrambled.', total_time: 15)
+    @recipe       = Recipe.new(author: @recipe_owner, name: 'Scrambled Eggs', photo_path: 'recipes/placeholder.png', description: 'Eggs that are scrambled.', total_time: 15)
     @recipe_step  = @recipe.recipe_steps.new(step_number: 1, description: 'Get an egg.')
     @recipe.save!
   end

@@ -42,7 +42,7 @@ water                   = Ingredient.create!(name: 'Water',                     
 oilOlive                = Ingredient.create!(name: 'Oil, Olive',                  photo_path: 'ingredients/Olive-Oil.jpg', description: 'Olive oil is a liquid fat obtained from olives (the fruit of Olea europaea; family Oleaceae), a traditional tree crop of the Mediterranean Basin. The oil is produced by pressing whole olives. It is commonly used in cooking, whether for frying or as a salad dressing. It is also used in cosmetics, pharmaceuticals, and soaps, and as a fuel for traditional oil lamps, and has additional uses in some religions. It is associated with the "Mediterranean diet" for its possible health benefits.')
 
 duck_fesenjan_recipe = Recipe.create!(
-  user: user_other,
+  author: user_other,
   name: 'Duck Fesenjan',
   photo_path: 'recipes/duck fesenjan.jpg',
   description: "Chef John's take on the classic Persian savory stew fesenjan features duck, pomegranate, and walnuts.",
@@ -52,7 +52,7 @@ duck_fesenjan_recipe = Recipe.create!(
   duck_fesenjan_recipe.save!
 
 parmesan_chicken_recipe = Recipe.create!(
-  user: user_john,
+  author: user_john,
   name: 'Chicken Parmesan',
   photo_path: 'recipes/cparm_001.jpg',
   description: 'A classic Italian dish prepared with tomato sauce and mozzarella, with a few additions by Chef John. Sure to impress your friends and family!',
@@ -83,7 +83,7 @@ parmesan_chicken_recipe = Recipe.create!(
   parmesan_chicken_recipe.save!
 
 salsa_chicken_recipe = Recipe.create!(
-  user: user_john,
+  author: user_john,
   name: 'Salsa Chicken',
   photo_path: 'recipes/salsa-chicken.jpg',
   description: 'Chicken seasoned with taco seasoning and topped with salsa, then baked.',
@@ -91,7 +91,7 @@ salsa_chicken_recipe = Recipe.create!(
   )
 
 tofurkey_recipe = Recipe.create!(
-  user: user_other,
+  author: user_other,
   name: 'Tofu Turkey',
   photo_path: 'recipes/tofurkey2.jpg',
   description: 'Just tofu really',
@@ -102,7 +102,7 @@ tofurkey_recipe = Recipe.create!(
   tofurkey_recipe.save!
 
   garlic_shrimp_recipe = Recipe.create!(
-    user: user_john,
+    author: user_john,
     name: 'Garlic Shrimp',
     photo_path: 'recipes/garlic_shrimp.jpg',
     description: 'If you like shrimp and LOVE garlic, I hope you give this fast and delicious recipe a try soon. Enjoy!',
