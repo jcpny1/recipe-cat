@@ -1,6 +1,6 @@
 # A user's review of a particular recipe.
 class RecipeReview < ApplicationRecord
-  belongs_to :user
+  belongs_to :author, class_name: :User, foreign_key: :user_id
   belongs_to :recipe
   validates :stars,    presence:   true
   validates :stars,    numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 5 }
@@ -24,7 +24,7 @@ class RecipeReview < ApplicationRecord
   end
 
   # returns the user who created this recipe review.
-  def user_name
-    self.user.email
+  def author_name
+    author.email
   end
 end

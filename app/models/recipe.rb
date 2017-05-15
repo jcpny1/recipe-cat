@@ -1,6 +1,6 @@
 # a set of instructions for preparing a particular dish, including a list of the ingredients required.
 class Recipe < ApplicationRecord
-  belongs_to :user
+  belongs_to :author, class_name: :User, foreign_key: :user_id
 
   has_many :recipe_ingredients,    dependent: :destroy
   has_many :ingredients, through: :recipe_ingredients
@@ -49,13 +49,8 @@ class Recipe < ApplicationRecord
     recipe_reviews.size
   end
 
-  # returns the user that created this recipe.
-  def recipe_user
-    self.user
-  end
-
   # returns the name of the user that created this recipe.
-  def user_name
-    recipe_user.email
+  def author_name
+    author.email
   end
 end
