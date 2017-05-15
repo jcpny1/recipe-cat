@@ -33,7 +33,7 @@ This application was created to meet the requirements of the learn.co Rails port
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/jcpny1/classifieds-cli-app. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/jcpny1/recipe-cat. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
