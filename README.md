@@ -16,7 +16,8 @@ The user can add recipes, view recipes, search recipes by ingredient, favorite a
 This application was created to meet the requirements of the learn.co Rails portfolio project.
 
 ```
-08-May-17  Initial release.  
+08-May-17  Initial release.
+14-Jul-17  Branch feature-js created to meet the requirements of the learn.co "Rails App with a jQuery Front End" portfolio project.
 ```
 
 ## Installation and Usage
@@ -28,7 +29,7 @@ This application was created to meet the requirements of the learn.co Rails port
   - facebook_secret (optional, for Facebook login ability)
 * Execute bundle install.
 * Rake db:migrate
-* Rake db:seed
+* Rake db:seed (If you want to load test data.)
 * Start a rails server.
 * Connect to the rails server with a browser.
 * From there you can log in to the application for full functionality or browse the data as a guest.
