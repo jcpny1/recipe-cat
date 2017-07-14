@@ -4,8 +4,8 @@ class RecipeStep < ApplicationRecord
   validates :step_number, uniqueness: { scope: :recipe, message: "must be unique for this recipe" }
 
   # returns the user who created this recipe step.
-  def recipe_user
-    self.recipe.user
+  def author
+    self.recipe.author
   end
 
   # renumbers the recipe steps in sequential order.

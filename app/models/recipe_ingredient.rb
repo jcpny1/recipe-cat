@@ -18,6 +18,11 @@ class RecipeIngredient < ApplicationRecord
     @new_ingredient = value
   end
 
+  # returns the user who created this recipe ingredient.
+  def author
+    self.recipe.author
+  end
+
   # validates that a pre-existing Ingredient and a new Ingredient are not both specified.
   def check_ingredient
     if self.ingredient.present? && self.new_ingredient.present?
@@ -46,11 +51,6 @@ class RecipeIngredient < ApplicationRecord
   # returns the name of this recipe_ingredient's ingredient.
   def ingredient_name
     self.ingredient.name
-  end
-
-  # returns this recipe_ingredient's user.
-  def recipe_user
-    self.recipe.recipe_user
   end
 
   # updates existing recipe_ingredient with new values.
