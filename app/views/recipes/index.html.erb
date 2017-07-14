@@ -1,10 +1,5 @@
-<h1>
-  <% if @user_recipes %>
-    Recipes by <%= @user_name %>
-  <% elsif @updated_after %>
-    Recipes updated after <%= @date %>
-  <% else %>
-    Recipes
-  <% end %>
+<h1>Recipes
+  <%= 'by '            + @user_name if @user_recipes %>
+  <%= 'updated after ' + @date      if @updated_after %>
 </h1>
 <%= render partial: "recipes/recipes", locals: {recipes: @recipes} %>
