@@ -1,12 +1,7 @@
-<h1>
-  <% if @user_reviews %>
-    Reviews by <%= @user_name %>
-  <% elsif @updated_after %>
-    Reviews updated after <%= @date %>
-  <% else %>
-    Reviews
-    <%= link_to image_tag("add-icon.png", size:"16", title: "Add review"), new_recipe_recipe_review_path(@recipe_id) if user_signed_in? && @recipe_id %>
-  <% end %>
+<h1>Reviews
+  <%= 'by '            + @user_name if @user_reviews %>
+  <%= 'updated after ' + @date      if @updated_after %>
+  <%= link_to image_tag("add-icon.png", size:"16", title: "Add review"), new_recipe_recipe_review_path(@recipe_id) if user_signed_in? && @recipe_id %>
 </h1>
 
 <% last_recipe_name = '' %>
