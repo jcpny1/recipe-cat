@@ -11,7 +11,10 @@ class UserRecipeFavoritePolicy < ApplicationPolicy
   end
 
   def update?
-    !!user && (user.admin? || record.author == user)
+# This logic is a little different than the other policies.
+# Just check that the user_id of this favorite record equals the user_id of the user making the change.
+# Do not consider the author of the recipe.
+    !!user && (user.admin? || record.user_id == user.id)
   end
 
 end

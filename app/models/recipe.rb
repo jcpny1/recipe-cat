@@ -32,6 +32,11 @@ class Recipe < ApplicationRecord
     number_of_reviews != 0 ? (sum.to_f / number_of_reviews).round : 0
   end
 
+  # Is this recipe a favorite of this user.
+  def favorite?(user_id)
+    self.user_recipe_favorites.exists?(user_id: user_id)
+  end
+
   # returns a list of recipes that contain the specified ingredient.
   def self.filter_array_by_ingredient(recipes, ingredient_id)
     recipes.find_all { |recipe|

@@ -1,6 +1,16 @@
 <% if user_signed_in? %>
-  <%= form_for UserRecipeFavorite.new(user_id: current_user.id, recipe_id: recipe.id), url: user_user_recipe_favorite_path(current_user.id, recipe.id), method: :patch do |f| %>
-    <%= f.check_box :favorite, :onclick => "javascript: this.form.submit();" %>
-    <%= f.label :favorite %>
-  <%end%>
+  <input type='checkbox' class='favorite' <%='checked' if recipe.favorite?(current_user.id)%> onchange="toggleFavorite(this)" data-user-id="<%=current_user.id%>" data-recipe-id="<%=recipe.id%>">Favorite</button>
 <% end %>
+
+<script type="text/javascript" charset="utf-8">
+function toggleFavorite(elem) {
+  var recipe_id = elem.dataset.recipeId;
+  var user_id   = elem.dataset.userId;
+  $.ajax({
+    type: "PATCH",
+    url: `/users/${user_id}/user_recipe_favorites/${recipe_id}`,
+    data: {'favorite': elem.checked},
+    dataType: 'json'
+  });
+}
+</script>
