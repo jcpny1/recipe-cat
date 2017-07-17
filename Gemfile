@@ -39,6 +39,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 
 ### Begin my additions ###
+gem 'active_model_serializers'
 gem 'devise'
 gem 'omniauth-facebook'
 gem 'pundit'
