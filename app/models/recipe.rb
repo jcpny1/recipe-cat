@@ -9,8 +9,8 @@ class Recipe < ApplicationRecord
   has_many :user_recipe_favorites, dependent: :destroy
   has_many :recipe_steps,          dependent: :destroy
 
-  accepts_nested_attributes_for :recipe_ingredients
-  accepts_nested_attributes_for :recipe_steps
+  accepts_nested_attributes_for :recipe_ingredients, allow_destroy: true
+  accepts_nested_attributes_for :recipe_steps, allow_destroy: true
 
   validates :name, presence:   true
   validates :name, uniqueness: true
