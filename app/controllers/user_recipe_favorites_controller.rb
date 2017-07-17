@@ -4,8 +4,9 @@ class UserRecipeFavoritesController < ApplicationController
   def index
     user = User.find_by(id: params[:user_id])
     user_recipe_favorites = policy_scope(UserRecipeFavorite).where(user_id: user.id)
-    @user_name = user.email
     @recipes = UserRecipeFavorite.recipes(user_recipe_favorites)
+    @recipes = Recipe.filter_array_by_ingredient(@recipes, session[:ingredient_filter]) if session[:ingredient_filter].present?  # filter by ingredient, if necessary.
+    @user_name = user.email
   end
 
   # update the user's recipe favorite indicator.

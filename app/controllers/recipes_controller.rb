@@ -35,7 +35,6 @@ class RecipesController < ApplicationController
     else
       user = current_user
     end
-
     @recipes = Recipe.filter_array_by_ingredient(@recipes, session[:ingredient_filter]) if session[:ingredient_filter].present?  # filter by ingredient, if necessary.
     @user_name = user.email if user
   end
