@@ -1,2 +1,5 @@
 #!/bin/bash
-CODECLIMATE_REPO_TOKEN=73c65f5c12d49d807064c1ad93ac5abfb9f7b0b7965261c27ddfbb012ba0e020 bundle exec codeclimate-test-reporter
+#
+# Make sure that CODECLIMATE_REPO_TOKEN is defined in the environment.
+#
+bundle exec codeclimate-test-reporter
