@@ -59,6 +59,9 @@ class RecipesController < ApplicationController
     @recipe.recipe_ingredients.new
     @recipe.recipe_ingredients.new
     @recipe.recipe_ingredients.new
+    @recipe.recipe_steps.new
+    @recipe.recipe_steps.new
+    @recipe.recipe_steps.new
     authorize @recipe
   end
 
@@ -105,6 +108,6 @@ private
 
   # filter params for allowed elements only.
   def recipe_params
-    params.require(:recipe).permit(:name, :description, :total_time, recipe_ingredients_attributes: [:ingredient_id, :new_ingredient, :quantity, :unit_id, :_destroy])
+    params.require(:recipe).permit(:name, :description, :total_time, recipe_ingredients_attributes: [:ingredient_id, :new_ingredient, :quantity, :unit_id, :_destroy], recipe_steps_attributes: [:step_id, :step_number, :description, :_destroy])
   end
 end

@@ -15,12 +15,20 @@
   </table>
 
   <br>
-  Ingredients:
+  Ingredients: <%= recipe.recipe_ingredients.length %>
+  <table>
     <%= f.fields_for :recipe_ingredients do |ff| %>
-      <table>
-        <tr><%= render partial: "recipe_ingredients/form_ingredient", locals: {f: ff} %></tr>
-      </table>
+      <tr><%= render partial: "recipe_ingredients/form_ingredient", locals: {f: ff} %></tr>
     <% end %>
+  </table>
+
+  <br>
+  Steps: <%= recipe.recipe_steps.length %>
+  <table>
+    <%= f.fields_for :recipe_steps do |ff| %>
+      <tr><%= render partial: "recipe_steps/form_step", locals: {f: ff} %></tr>
+    <% end %>
+  </table>
 
   <p><%= f.submit %></p>
 <% end %>

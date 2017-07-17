@@ -8,7 +8,7 @@ class RecipeStepsController < ApplicationController
     authorize @recipe_step
   end
 
-  # add a new step tp a recipe.
+  # add a new step to a recipe.
   def create
     @recipe_step = @recipe.recipe_steps.new(recipe_step_params)
     authorize @recipe_step
