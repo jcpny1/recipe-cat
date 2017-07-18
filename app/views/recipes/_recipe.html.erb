@@ -15,7 +15,10 @@
   </table>
 
   <br>
-  Ingredients: <%= recipe.recipe_ingredients.length %>
+  Ingredients:
+  <%= link_to image_tag("add-icon.png", size:"16", title: "Add step"), new_recipe_recipe_step_path(recipe) if policy(recipe).update? %>
+  <%= link_to image_tag("resequence-icon.png", size:"16", title: "Renumber steps"), renumber_steps_recipe_path(recipe) if policy(recipe).update? %>
+
   <table>
     <%= f.fields_for :recipe_ingredients do |ff| %>
       <tr><%= render partial: "recipe_ingredients/form_ingredient", locals: {f: ff} %></tr>
@@ -23,7 +26,7 @@
   </table>
 
   <br>
-  Steps: <%= recipe.recipe_steps.length %>
+  Steps:
   <table>
     <%= f.fields_for :recipe_steps do |ff| %>
       <tr><%= render partial: "recipe_steps/form_step", locals: {f: ff} %></tr>

@@ -2,37 +2,24 @@
   <%= @recipe.name %> <%= link_to image_tag("edit-icon.png", size:"16", title: "Edit recipe"), edit_recipe_path(@recipe) if @recipe.author == current_user %>
   <%= link_to image_tag("delete-icon.png", size:"16", title: "Delete recipe"), recipe_path(@recipe), method: :delete, data: {confirm: "Are you sure!"} if policy(@recipe).destroy? %>
 </h1>
-
-Submitted by <%= link_to @recipe.author_name, user_recipes_path(@recipe.author) %>
-
-<table>
-  <tr>
-    <td><%= image_tag(@recipe.photo_path, size: "360x200", alt: "#{@recipe.name} photo", title: 'recipe photo' ) %></td>
-    <td><%= render partial: "recipes/favorite", locals: {recipe: @recipe} %></td>
-  </tr>
-</table>
-<%= render partial: "recipes/review_stars", locals: {stars: @recipe.average_stars, url: recipe_recipe_reviews_path(@recipe)} %><%= '  ' %><%= link_to 'Reviews', recipe_recipe_reviews_path(@recipe) %>
-
-<br><br>
-<table width="40%">
-  <tr>
-    <td align="justify"><%= @recipe.description %></td>
-  </tr>
-</table>
-
+<p>Submitted by <%= link_to @recipe.author_name, user_recipes_path(@recipe.author) %></p>
+<p>
+  <%= image_tag(@recipe.photo_path, size: "360x200", alt: "#{@recipe.name} photo", title: 'recipe photo' ) %>
+  <%= render partial: "recipes/favorite", locals: {recipe: @recipe} %>
+</p>
+<p style="width:40%" align="justify"><%= @recipe.description %></p>
 <p>Total time: <%= pluralize(number_with_precision(@recipe.total_time, precision: 0), 'minute') %></p>
-
-<table width="65%">
-  <tr>
-    <td width='40%'><a class='ingredients' data-id="<%=@recipe.id%>" href='https://www.w3schools.com'>Ingredients</a></td>
-    <td width='40%'>
-      <a class='steps'       data-id="<%=@recipe.id%>" href='https://www.w3schools.com'>Steps</a>
-      <%= link_to image_tag("add-icon.png", size:"16", title: "Add step"), new_recipe_recipe_step_path(@recipe) if policy(@recipe).update? %>
-      <%= link_to image_tag("resequence-icon.png", size:"16", title: "Renumber steps"), renumber_steps_recipe_path(@recipe) if policy(@recipe).update? %>
-    </td>
-  </tr>
-  <tr>
-    <td valign="top"><%= render partial: "recipe_ingredients/ingredients", locals: {recipe_ingredients: @recipe.recipe_ingredients} %></td>
-    <td><%= render partial: "recipe_steps/steps", locals: {recipe_steps: @recipe.recipe_steps} %></td>
-  </tr>
-</table>
+<p>
+  <%= render partial: "recipes/review_stars", locals: {stars: @recipe.average_stars, url: recipe_recipe_reviews_path(@recipe)} %>
+  <%= '  ' %>
+  <%= link_to 'Reviews', recipe_recipe_reviews_path(@recipe) %>
+  (<%= @recipe.recipe_reviews.length %>)
+</p>
+<p>
+  <a class='ingredients' data-id="<%=@recipe.id%>" href='https://www.w3schools.com'>Ingredients</a>
+  (<%= @recipe.recipe_ingredients.length %>)
+</p>
+<p>
+  <a class='steps' data-id="<%=@recipe.id%>" href='https://www.w3schools.com'>Steps</a>
+  (<%= @recipe.recipe_steps.length %>)
+</p>
