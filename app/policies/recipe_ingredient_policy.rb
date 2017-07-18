@@ -5,6 +5,10 @@ class RecipeIngredientPolicy < ApplicationPolicy
     end
   end
 
+  def index?
+    true
+  end
+
   def new?
     update?
   end

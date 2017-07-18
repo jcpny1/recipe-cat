@@ -1,25 +1,44 @@
 <h1>
-  <%= @recipe.name %> <%= link_to image_tag("edit-icon.png", size:"16", title: "Edit recipe"), edit_recipe_path(@recipe) if @recipe.author == current_user %>
-  <%= link_to image_tag("delete-icon.png", size:"16", title: "Delete recipe"), recipe_path(@recipe), method: :delete, data: {confirm: "Are you sure!"} if policy(@recipe).destroy? %>
+  <%= @recipe.name %> <%= link_to image_tag('edit-icon.png', size:'16', title: 'Edit recipe'), edit_recipe_path(@recipe) if @recipe.author == current_user %>
+  <%= link_to image_tag('delete-icon.png', size:'16', title: 'Delete recipe'), recipe_path(@recipe), method: :delete, data: {confirm: 'Are you sure!'} if policy(@recipe).destroy? %>
 </h1>
 <p>Submitted by <%= link_to @recipe.author_name, user_recipes_path(@recipe.author) %></p>
 <p>
-  <%= image_tag(@recipe.photo_path, size: "360x200", alt: "#{@recipe.name} photo", title: 'recipe photo' ) %>
-  <%= render partial: "recipes/favorite", locals: {recipe: @recipe} %>
+  <%= image_tag(@recipe.photo_path, size: '360x200', alt: '#{@recipe.name} photo', title: 'recipe photo' ) %>
+  <%= render partial: 'recipes/favorite', locals: {recipe: @recipe} %>
 </p>
-<p style="width:40%" align="justify"><%= @recipe.description %></p>
+<p style='width:40%' align='justify'><%= @recipe.description %></p>
 <p>Total time: <%= pluralize(number_with_precision(@recipe.total_time, precision: 0), 'minute') %></p>
 <p>
-  <%= render partial: "recipes/review_stars", locals: {stars: @recipe.average_stars, url: recipe_recipe_reviews_path(@recipe)} %>
+  <%= render partial: 'recipes/review_stars', locals: {stars: @recipe.average_stars, url: recipe_recipe_reviews_path(@recipe)} %>
   <%= '  ' %>
   <%= link_to 'Reviews', recipe_recipe_reviews_path(@recipe) %>
   (<%= @recipe.recipe_reviews.length %>)
 </p>
 <p>
-  <a class='ingredients' data-id="<%=@recipe.id%>" href='https://www.w3schools.com'>Ingredients</a>
+  <a href='#' class='js-ingredients' data-recipe-id='<%=@recipe.id%>'>Ingredients</a>
   (<%= @recipe.recipe_ingredients.length %>)
 </p>
+<p id='ingredients'></p>
 <p>
-  <a class='steps' data-id="<%=@recipe.id%>" href='https://www.w3schools.com'>Steps</a>
+  <a class='steps' data-id='<%=@recipe.id%>' href='https://www.w3schools.com'>Steps</a>
   (<%= @recipe.recipe_steps.length %>)
 </p>
+
+<script type='text/javascript' charset='utf-8'>
+$(function () {
+  $('.js-ingredients').on('click', function(e) {
+    var recipe_id = parseInt($(this).data('recipe-id'));
+    $.get(`/recipes/${recipe_id}/recipe_ingredients.json`, function(data) {
+      var ingredients = '';
+      data.data.forEach(function(recipe_ingredient) {
+        ingredients += recipe_ingredient.attributes['ingredient-id'] + ' ' +
+                       recipe_ingredient.attributes['quantity']      + ' ' +
+                       recipe_ingredient.attributes['unit-id']       + '<br>';
+      });
+      $('#ingredients').html(ingredients);
+    });
+    e.preventDefault();
+  });
+});
+</script>

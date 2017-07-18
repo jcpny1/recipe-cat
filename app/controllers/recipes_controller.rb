@@ -101,7 +101,7 @@ class RecipesController < ApplicationController
     recipe = Recipe.find_by(id: params[:id])
     authorize recipe
     recipe.destroy
-    redirect_to request.referer
+    redirect_to user_recipes_path(current_user)
   end
 
 private

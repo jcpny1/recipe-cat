@@ -1,15 +1,13 @@
 Rails.application.routes.draw do
-  get 'recipe_ingredients/index'
-
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks', registrations: 'users/registrations' }
 
   resources :ingredients, only: [:index, :show]
 
   resources :recipes do
-    resources :recipe_ingredients, only: [:new, :create, :edit, :update, :destroy]
-    resources :recipe_reviews,     only: [:index, :new, :create, :edit, :update, :destroy]
-    resources :recipe_steps,       only: [:new, :create, :edit, :update, :destroy]
+    resources :recipe_ingredients, except: [:show]
+    resources :recipe_reviews,     except: [:show]
+    resources :recipe_steps,       except: [:show]
     collection { post 'filter' }
     get 'renumber_steps', on: :member
   end

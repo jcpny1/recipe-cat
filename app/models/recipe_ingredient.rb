@@ -53,6 +53,13 @@ class RecipeIngredient < ApplicationRecord
     self.ingredient.name
   end
 
+  # returns recipe ingredient list sorted by ingredient name.
+  def self.sort_by_ingredient_name(recipe_ingredients)
+    recipe_ingredients.sort { |recipe_ingredient_1,recipe_ingredient_2|
+      recipe_ingredient_1.ingredient.name <=> recipe_ingredient_2.ingredient.name
+    }
+  end
+
   # updates existing recipe_ingredient with new values.
   def update_recipe_ingredient(recipe_ingredient_params)
     self.assign_attributes(recipe_ingredient_params)
