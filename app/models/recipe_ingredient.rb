@@ -39,7 +39,7 @@ class RecipeIngredient < ApplicationRecord
   end
 
   # adds Ingredient to Recipe.
-  # returns a new recipe_ingredient record (or nil)
+  # returns a new recipe_ingredient record (or nil).
   def self.create_recipe_ingredient(recipe_ingredients_params)
     if recipe_ingredients_params[:ingredient_id].present? || recipe_ingredients_params[:new_ingredient].present?
       recipe_ingredient = RecipeIngredient.new(recipe_ingredients_params)

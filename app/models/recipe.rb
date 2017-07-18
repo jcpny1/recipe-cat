@@ -9,9 +9,6 @@ class Recipe < ApplicationRecord
   has_many :user_recipe_favorites, dependent: :destroy
   has_many :recipe_steps,          dependent: :destroy
 
-  accepts_nested_attributes_for :recipe_ingredients, allow_destroy: true
-  accepts_nested_attributes_for :recipe_steps, allow_destroy: true
-
   validates :name, presence:   true
   validates :name, uniqueness: true
 
@@ -26,6 +23,14 @@ class Recipe < ApplicationRecord
     recipe_ingredients_attributes.values.each do |recipe_ingredients_attribute|
       recipe_ingredient = RecipeIngredient.create_recipe_ingredient(recipe_ingredients_attribute)
       self.recipe_ingredients << recipe_ingredient if recipe_ingredient.present?
+    end
+  end
+
+  # nested form attribute setter
+  def recipe_steps_attributes=(recipe_steps_attributes)
+    recipe_steps_attributes.values.each do |recipe_steps_attribute|
+      recipe_step = RecipeStep.create_recipe_step(recipe_steps_attribute)
+      self.recipe_steps << recipe_step if recipe_step.present?
     end
   end
 

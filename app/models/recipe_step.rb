@@ -1,11 +1,20 @@
 # an instruction that is used in a particular recipe.
 class RecipeStep < ApplicationRecord
   belongs_to :recipe
-  validates :step_number, uniqueness: { scope: :recipe, message: "must be unique for this recipe" }
+  validates :step_number, numericality: { greater_than: 0 }, uniqueness: { scope: :recipe, message: "must be unique for this recipe" }
 
   # returns the user who created this recipe step.
   def author
     self.recipe.author
+  end
+
+  # adds Step to Recipe.
+  # returns a new recipe_step record (or nil).
+  def self.create_recipe_step(recipe_steps_params)
+    if recipe_steps_params[:step_id].present?
+      recipe_step = RecipeStep.new(recipe_steps_params)
+    end
+    recipe_step
   end
 
   # renumbers the recipe steps in sequential order.

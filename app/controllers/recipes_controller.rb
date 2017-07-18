@@ -65,7 +65,7 @@ class RecipesController < ApplicationController
     authorize @recipe
   end
 
-  # create a new recipe and persist it.
+  # create a new recipe and save it to the database.
   def create
     @recipe = current_user.recipes.new(recipe_params)
     @recipe.name = @recipe.name.titleize
