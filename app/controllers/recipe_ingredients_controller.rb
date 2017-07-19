@@ -6,7 +6,7 @@ class RecipeIngredientsController < ApplicationController
     @recipe_ingredients = RecipeIngredient.sort_by_ingredient_name(policy_scope(RecipeIngredient.where("recipe_id = ?", params[:recipe_id])).order(:ingredient_id))
     respond_to do |format|
       format.html { render :index }
-      format.json { render json: @recipe_ingredients}
+      format.json { render json: @recipe_ingredients, include: ['ingredient']}
     end
   end
 

@@ -37,20 +37,12 @@ class RecipesController < ApplicationController
     end
     @recipes = Recipe.filter_array_by_ingredient(@recipes, session[:ingredient_filter]) if session[:ingredient_filter].present?  # filter by ingredient, if necessary.
     @user_name = user.email if user
-    respond_to do |format|
-      format.html { render :index }
-      format.json { render json: @recipes}
-    end
   end
 
   # display a specific recipe.
   def show
     @recipe = Recipe.find_by(id: params[:id])
     authorize @recipe
-    respond_to do |format|
-      format.html { render :show }
-      format.json { render json: @recipe}
-    end
   end
 
   # prepare to create a new recipe.

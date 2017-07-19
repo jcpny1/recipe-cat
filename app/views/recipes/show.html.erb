@@ -30,13 +30,20 @@ $(function () {
   $('.js-ingredients').on('click', function(e) {
     var recipe_id = parseInt($(this).data('recipe-id'));
     $.get(`/recipes/${recipe_id}/recipe_ingredients.json`, function(data) {
-      var ingredients = '';
-      data.data.forEach(function(recipe_ingredient) {
-        ingredients += recipe_ingredient.attributes['ingredient-id'] + ' ' +
-                       recipe_ingredient.attributes['quantity']      + ' ' +
-                       recipe_ingredient.attributes['unit-id']       + '<br>';
+      var ingredients = {};
+      data.included.forEach(function(ingredient) {
+        ingredients[ingredient['id']] = ingredient.attributes['name'];
       });
-      $('#ingredients').html(ingredients);
+      var recipe_ingredients = '<table>';
+      data.data.forEach(function(recipe_ingredient) {
+        recipe_ingredients += '<tr>' +
+                                '<td>' + ingredients[recipe_ingredient.relationships.ingredient.data['id']] + '</td>' +
+                                '<td>' + recipe_ingredient.attributes['quantity'] + '</td>' +
+                                '<td>' + recipe_ingredient.attributes['unit-id']  + '</td>' +
+                              '</tr>';
+      });
+      recipe_ingredients += '</table>';
+      $('#ingredients').html(recipe_ingredients);
     });
     e.preventDefault();
   });
