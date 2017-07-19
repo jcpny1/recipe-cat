@@ -1,5 +1,7 @@
-<h1>Recipes
-  <%= 'by '            + @user_name if @user_recipes %>
-  <%= 'updated after ' + @date      if @updated_after %>
-</h1>
-<%= render partial: "recipes/recipes", locals: {recipes: @recipes} %>
+<div class="col-sm-12">
+  <h1>Recipes
+    <%= 'by '            + @user_name if @user_recipes %>
+    <%= 'updated after ' + @date      if @updated_after %>
+  </h1>
+  <%= render partial: "recipes/recipes", locals: {recipes: @recipes} %>
+</div>

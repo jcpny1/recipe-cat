@@ -1,11 +1,11 @@
-  <%= f.fields_for :address, address do |ff| %>
-    <div class="field">
-      <%= f.label :city %><br />
-      <%= ff.text_field :city %>
-    </div>
-    <div class="field">
-      <%= f.label :state %><br />
-      <%= ff.text_field :state %>
-    </div>
-  <% end %>
-  <br />
+<%= f.fields_for :address, address do |ff| %>
+  <div class="field">
+    <%= f.label :city %><br />
+    <%= ff.text_field :city %>
+  </div>
+  <div class="field">
+    <%= f.label :state %><br />
+    <%= ff.text_field :state %>
+  </div>
+<% end %>
+<br />

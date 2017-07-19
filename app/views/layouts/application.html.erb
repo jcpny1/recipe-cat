@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
     <title>Recipe Cat</title>
     <%= favicon_link_tag %>
     <%= csrf_meta_tags %>
@@ -11,26 +16,48 @@
 
   <body>
     <header>
-      <p>
-        <%= link_to "Recipe Cat", root_path %>  |
-        <%= link_to "Recipes", recipes_path %>  |
-        <% if user_signed_in? %>
-          <%= link_to "My Recipes",   user_recipes_path(current_user) %>  |
-          <%= link_to "My Favorites", user_user_recipe_favorites_path(current_user) %>  |
-          <%= link_to "My Reviews",   user_recipe_reviews_path(current_user) %>  |
-          <%= link_to "Ingredients",  ingredients_path %>  |
-          <% if current_user.admin? %>
-            <%= link_to "Recent Edits", recent_edits_path %>  |
-          <% end %>
-        <% end %>
-        <%= link_to "About", about_path %>
-        <% if user_signed_in? %>
-          | <%= link_to "Account", edit_user_registration_path %>
-          | <%= link_to "Log out", destroy_user_session_path, method: :delete %>
-        <% else %>
-          | <%= link_to "Log in", new_user_session_path %>
-        <% end %>
-      </p>
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <%= link_to "Recipe Cat", root_path, class: "navbar-brand" %>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li><%= link_to "Recipes", recipes_path %></li>
+              <% if user_signed_in? %>
+                <li><%= link_to "My Recipes",   user_recipes_path(current_user) %></li>
+                <li><%= link_to "My Favorites", user_user_recipe_favorites_path(current_user) %></li>
+                <li><%= link_to "My Reviews",   user_recipe_reviews_path(current_user) %></li>
+                <li><%= link_to "Ingredients",  ingredients_path %></li>
+                <li><%= link_to "Recent Edits", recent_edits_path if current_user.admin? %></li>
+                <li><%= link_to "Account", edit_user_registration_path %></li>
+              <% end %>
+              <li class="active"><%= link_to "About", about_path %></li>
+              <% if user_signed_in? %>
+                <li><%= link_to "Log out", destroy_user_session_path, method: :delete %></li>
+              <% else %>
+                <li><%= link_to "Log in", new_user_session_path %></li>
+              <% end %>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a class="twit" href="#" title="Twitter">Twitter</a></li>
+              <li><a class="fbook" href="#" title="Facebook">Facebook</a></li>
+              <li><a class="gplus" href="#" title="Google Plus">Google Plus</a></li>
+            </ul>
+            <!-- social nav links -->
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+      </nav>
+
     </header>
 
     <% if flash[:alert] %>
@@ -44,6 +71,9 @@
     <%= yield %>
 
     <footer>
+      <!-- <div class="col-sm-12">
+        &copy; 2017 Chatterbox Mimes. All Rights Reserved.
+      </div> -->
     </footer>
   </body>
 </html>

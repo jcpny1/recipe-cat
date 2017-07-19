@@ -1,11 +1,13 @@
-<h1>
-  <% if @updated_after %>
-    Ingredients updated after <%= @date %>
-  <% else %>
-    Ingredients
-  <% end %>
-</h1>
+<div class="col-sm-12">
+  <h1>
+    <% if @updated_after %>
+      Ingredients updated after <%= @date %>
+    <% else %>
+      Ingredients
+    <% end %>
+  </h1>
 
-<% @ingredients.each do |ingredient| %>
-  <p><%= link_to ingredient.name, ingredient %></p>
-<% end %>
+  <% @ingredients.each do |ingredient| %>
+    <p><%= link_to ingredient.name, ingredient %></p>
+  <% end %>
+</div>

@@ -1,2 +1,4 @@
-<h1>Favorites of <%= @user_name %></h1>
-<%= render partial: "recipes/recipes", locals: {recipes: @recipes} %>
+<div class="col-sm-12">
+  <h1>Favorites of <%= @user_name %></h1>
+  <%= render partial: "recipes/recipes", locals: {recipes: @recipes} %>
+</div>

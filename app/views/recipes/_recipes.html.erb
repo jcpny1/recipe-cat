@@ -1,18 +1,19 @@
 <%= render partial: "recipes/recipe_options" if user_signed_in? %>
 
-<table>
-  <% recipes.each do |recipe| %>
-    <tr>
-      <td><%= link_to recipe.name, recipe %></td>
-      <td><%= image_tag(recipe.photo_path, size: "190x100", alt: "#{recipe.name} photo", title: 'recipe photo' ) %></td>
-      <td>
-        <table>
-          <tr><td><%= render partial: "recipes/review_stars", locals: {stars: recipe.average_stars, url: recipe_recipe_reviews_path(recipe)} %></td></tr>
-          <tr><td><%= link_to pluralize(recipe.number_of_reviews, 'review'), recipe_recipe_reviews_path(recipe) %></td>
-          <td><%= render partial: "recipes/favorite", locals: {recipe: recipe} %><td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-  <% end %>
-</table>
+<% recipes.each do |recipe| %>
+  <div class="row">
+    <div class="col-sm-1">
+      <%= link_to recipe.name, recipe %>
+    </div>
+    <div class="col-sm-2">
+      <%= image_tag(recipe.photo_path, size: "190x100", alt: "#{recipe.name} photo", title: 'recipe photo' ) %>
+    </div>
+    <div class="col-sm-1">
+      <%= link_to pluralize(recipe.number_of_reviews, 'review'), recipe_recipe_reviews_path(recipe) %><br>
+      <%= render partial: "recipes/review_stars", locals: {stars: recipe.average_stars, url: recipe_recipe_reviews_path(recipe)} %>
+    </div>
+    <div class="col-sm-8">
+      <%= render partial: "recipes/favorite", locals: {recipe: recipe} %>
+    </div>
+  </div>
+<% end %>
