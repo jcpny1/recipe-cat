@@ -23,6 +23,7 @@ gem 'turbolinks', '~> 5'  # Turbolinks makes navigating your web application fas
 
 ### Begin my additions ###
 gem 'active_model_serializers', '~> 0.10.0'
+gem 'bootstrap-sass', '~> 3.3.6'
 gem 'devise'
 gem 'omniauth-facebook'
 gem 'pundit'
