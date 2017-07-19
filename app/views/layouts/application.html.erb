@@ -60,13 +60,15 @@
 
     </header>
 
-    <% if flash[:alert] %>
-      <div class="alert"><%= flash[:alert] %></dev>
-    <% end %>
+    <div class="col-sm-12">
+      <% if flash[:alert] %>
+        <div class="alert"><%= flash[:alert] %></dev>
+      <% end %>
 
-    <p class="notice"><%= notice %></p>
-    <!-- the following tag seemed to not clear out flash message soon enough. -->
-    <!-- <p class="alert" ><%= alert  %></p> -->
+      <p class="notice"><%= notice %></p>
+      <!-- the following tag seemed to not clear out flash message soon enough. -->
+      <!-- <p class="alert" ><%= alert  %></p> -->
+    </div>
 
     <%= yield %>
 
