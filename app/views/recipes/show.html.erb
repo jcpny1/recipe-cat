@@ -27,13 +27,22 @@
 </p>
 </div>
 
+<script id="ingredients-template" type="text/x-handlebars-template">
+  {{#each this}}
+  <div class='row'>
+    <div class='col-sm-2'>{{ingredient}}</div>
+    <div class='col-sm-1'>{{quantity}}</div>
+    <div class='col-sm-1'>{{unit}}</div>
+  </div>
+  {{/each}}
+</script>
+
 <script type='text/javascript' charset='utf-8'>
 $(function () {
   $('.js-ingredients').on('click', function(e) {
     var show = $(this).attr('show-detail');
     if (show == 0) {
       $('#ingredients').html('');
-      // $(this).data('show-detail') = 1;
       $(this).attr('show-detail', 1);
     } else {
       var recipe_id = parseInt($(this).data('recipe-id'));
@@ -48,15 +57,15 @@ $(function () {
           }
         });
 
-        var recipe_ingredients = "";
+        var recipe_ingredients = [];
         data.data.forEach(function(recipe_ingredient) {
-          var units_name = recipe_ingredient.attributes['unit-id'] == null ? '' : units[recipe_ingredient.attributes['unit-id']];
-          recipe_ingredients += "<div class='row'>" +
-                                  "<div class='col-sm-2'>" + ingredients[recipe_ingredient.relationships.ingredient.data['id']] + '</div>' +
-                                  "<div class='col-sm-1'>" + recipe_ingredient.attributes['quantity'] + ' ' + units_name + '</div>' +
-                                '</div>';
+          var ingredient_name = ingredients[recipe_ingredient.relationships.ingredient.data['id']];
+          var quantity        = recipe_ingredient.attributes['quantity'];
+          var units_name      = recipe_ingredient.attributes['unit-id'] == null ? '' : units[recipe_ingredient.attributes['unit-id']];
+          recipe_ingredients.push({ingredient: ingredient_name, quantity: quantity, unit: units_name });
         });
-        $('#ingredients').html(recipe_ingredients);
+        var template = Handlebars.compile(document.getElementById("ingredients-template").innerHTML);
+        $('#ingredients').html(template(recipe_ingredients));
       });
       $(this).attr('show-detail', 0);
     }
