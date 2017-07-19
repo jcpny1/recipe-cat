@@ -16,7 +16,7 @@
   (<%= @recipe.recipe_reviews.length %>)
 </p>
 <p>
-  <a href='#' class='js-ingredients' data-recipe-id='<%=@recipe.id%>'>Ingredients</a>
+  <a href='#' class='js-ingredients' data-recipe-id='<%=@recipe.id%>' data-show-detail='1'>Ingredients</a>
   (<%= @recipe.recipe_ingredients.length %>)
 </p>
 <p id='ingredients'></p>
@@ -28,23 +28,36 @@
 <script type='text/javascript' charset='utf-8'>
 $(function () {
   $('.js-ingredients').on('click', function(e) {
-    var recipe_id = parseInt($(this).data('recipe-id'));
-    $.get(`/recipes/${recipe_id}/recipe_ingredients.json`, function(data) {
-      var ingredients = {};
-      data.included.forEach(function(ingredient) {
-        ingredients[ingredient['id']] = ingredient.attributes['name'];
+    var show = $(this).attr('show-detail');
+    if (show == 0) {
+      $('#ingredients').html('');
+      // $(this).data('show-detail') = 1;
+      $(this).attr('show-detail', 1);
+    } else {
+      var recipe_id = parseInt($(this).data('recipe-id'));
+      $.get(`/recipes/${recipe_id}/recipe_ingredients.json`, function(data) {
+        var ingredients = {};
+        var units = {};
+        data.included.forEach(function(relation) {
+          if (relation.type == 'ingredients') {
+            ingredients[relation['id']] = relation.attributes['name'];
+          } else if (relation.type == 'units') {
+            units[relation['id']] = relation.attributes['name'];
+          }
+        });
+        var recipe_ingredients = '<table>';
+        data.data.forEach(function(recipe_ingredient) {
+          recipe_ingredients += '<tr>' +
+                                  '<td>' + ingredients[recipe_ingredient.relationships.ingredient.data['id']] + '</td>' +
+                                  '<td>' + recipe_ingredient.attributes['quantity'] + '</td>' +
+                                  '<td>' + units[recipe_ingredient.attributes['unit-id']]  + '</td>' +
+                                '</tr>';
+        });
+        recipe_ingredients += '</table>';
+        $('#ingredients').html(recipe_ingredients);
       });
-      var recipe_ingredients = '<table>';
-      data.data.forEach(function(recipe_ingredient) {
-        recipe_ingredients += '<tr>' +
-                                '<td>' + ingredients[recipe_ingredient.relationships.ingredient.data['id']] + '</td>' +
-                                '<td>' + recipe_ingredient.attributes['quantity'] + '</td>' +
-                                '<td>' + recipe_ingredient.attributes['unit-id']  + '</td>' +
-                              '</tr>';
-      });
-      recipe_ingredients += '</table>';
-      $('#ingredients').html(recipe_ingredients);
-    });
+      $(this).attr('show-detail', 0);
+    }
     e.preventDefault();
   });
 });
