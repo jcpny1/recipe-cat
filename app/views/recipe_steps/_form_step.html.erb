@@ -1,8 +1,8 @@
 <td>
   <%= f.label :step_number %>
-  <%= f.number_field :step_number, step: 1, min: 0 %>
+  <%= f.number_field :step_number, step: 1, min: 0, max: 100 %>
 </td>
 <td>
   <%= f.label :description %>
-  <%= f.text_area :description %>
+  <%= f.text_area :description, size:'45x4' %>
 </td>

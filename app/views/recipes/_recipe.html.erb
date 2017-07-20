@@ -1,37 +1,93 @@
-<%= form_for recipe do |f| %>
-  <table>
-    <tr>
-      <td><%= f.label :name %></td>
-      <td><%= f.text_field :name %></td>
-    </tr>
-    <tr>
-      <td><%= f.label :description %></td>
-      <td><%= f.text_area :description %></td>
-    </tr>
-    <tr>
-      <td><%= f.label :total_time %></td>
-      <td><%= f.number_field :total_time %> minutes</td>
-    </tr>
-  </table>
+<div class="col-sm-12">
+  <%= form_for recipe do |f| %>
+    <div class="row">
+      <div class="col-sm-1">
+        <%= f.label :name %>
+      </div>
+      <div class="col-sm-4">
+        <%= f.text_field :name %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-1">
+        <%= f.label :description %>
+      </div>
+      <div class="col-sm-4">
+        <%= f.text_area :description %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-1">
+        <%= f.label :total_time %>
+      </div>
+      <div class="col-sm-4">
+        <%= f.number_field :total_time %> minutes
+      </div>
+    </div>
 
-  <br>
-  Ingredients:
-  <%= link_to image_tag("add-icon.png", size:"16", title: "Add step"), new_recipe_recipe_step_path(recipe) if policy(recipe).update? %>
-  <%= link_to image_tag("resequence-icon.png", size:"16", title: "Renumber steps"), renumber_steps_recipe_path(recipe) if policy(recipe).update? %>
+    <div class="row">
+      <div class="col-sm-12">
+        <h3>
+          Ingredients:
+          <%= link_to(image_tag("add-icon.png", size:"16", title: "Add ingredient"), '#', class:'js-addIngredient') if policy(recipe).update? %>
+        </h3>
+        <table id='ingredientTable'>
+          <tbody>
+            <%= f.fields_for :recipe_ingredients do |ff| %>
+              <tr><%= render partial: "recipe_ingredients/form_ingredient", locals: {f: ff} %></tr>
+<% @rowInfo = render partial: 'recipe_ingredients/form_ingredient', locals: {f: ff} %>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+      <h3>
+        Steps:
+        <%= link_to image_tag("add-icon.png", size:"16", title: "Add step"), new_recipe_recipe_step_path(recipe) if policy(recipe).update? %>
+        <%= link_to image_tag("resequence-icon.png", size:"16", title: "Renumber steps"), renumber_steps_recipe_path(recipe) if policy(recipe).update? %>
+      </h3>
+      <table>
+        <%= f.fields_for :recipe_steps do |ff| %>
+          <tr><%= render partial: "recipe_steps/form_step", locals: {f: ff} %></tr>
+        <% end %>
+      </table>
 
-  <table>
-    <%= f.fields_for :recipe_ingredients do |ff| %>
-      <tr><%= render partial: "recipe_ingredients/form_ingredient", locals: {f: ff} %></tr>
-    <% end %>
-  </table>
+    <p><%= f.submit %></p>
+  <% end %>
+</div>
 
-  <br>
-  Steps:
-  <table>
-    <%= f.fields_for :recipe_steps do |ff| %>
-      <tr><%= render partial: "recipe_steps/form_step", locals: {f: ff} %></tr>
-    <% end %>
-  </table>
+<script type='text/javascript' charset='utf-8'>
+$(function () {
+  $('.js-addIngredient').on('click', function(e) {
+    var ingredientTable = $('#ingredientTable');
+    var newRow   = $('#ingredientTable tr:eq(0)').clone();
+    var newRowId = $('#ingredientTable tr').length;
 
-  <p><%= f.submit %></p>
-<% end %>
+    // These are the attributes that need to be edited when cloning a table row.
+    // The index values need updating to be a unique value.
+    // 1. "recipe[recipe_ingredients_attributes][0][ingredient_id]"
+    // 2. "recipe_recipe_ingredients_attributes_0_ingredient_id"
+
+    var newRowHTML = '';
+
+    // Replace id in name attribute.
+    newRowHTML = newRow.html().replace(/recipe_ingredients_attributes\]\[[\d]+\]/g, `recipe_ingredients_attributes][${newRowId}]`);
+    // Replace id in id attribute.
+    newRowHTML = newRowHTML.replace(/recipe_recipe_ingredients_attributes_[\d]+/g,   `recipe_recipe_ingredients_attributes_${newRowId}`);
+    // Turn off any existing selected entries.
+    newRowHTML = newRowHTML.replace(/selected="selected" /g, '');
+    // Clear out any pre-existing values.
+    newRowHTML = newRowHTML.replace(/ value="[\w]*[.]?[\w]+" /g, ' value="" ');
+    // Add table row tags.
+    newRowHTML = '<tr>' + newRowHTML + '</tr>';
+
+debugger;
+    $('#ingredientTable tbody').prepend(newRowHTML);
+debugger;
+
+    e.preventDefault();
+  });
+});
+</script>
