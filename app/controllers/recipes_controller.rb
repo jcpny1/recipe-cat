@@ -100,6 +100,8 @@ private
 
   # filter params for allowed elements only.
   def recipe_params
-    params.require(:recipe).permit(:name, :description, :total_time, recipe_ingredients_attributes: [:ingredient_id, :new_ingredient, :quantity, :unit_id, :_destroy], recipe_steps_attributes: [:step_number, :step_number, :description, :_destroy])
+    params.require(:recipe).permit(:name, :description, :total_time,
+      recipe_ingredients_attributes: [:id, :ingredient_id, :new_ingredient, :quantity, :unit_id, :_destroy],
+      recipe_steps_attributes: [:id, :step_number, :step_number, :description, :_destroy])
   end
 end

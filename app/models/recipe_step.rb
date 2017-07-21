@@ -2,6 +2,7 @@
 class RecipeStep < ApplicationRecord
   belongs_to :recipe
   validates :step_number, numericality: { greater_than: 0 }, uniqueness: { scope: :recipe, message: "must be unique for this recipe" }
+  default_scope { order(:step_number) }
 
   # returns the user who created this recipe step.
   def author

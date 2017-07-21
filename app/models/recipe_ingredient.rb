@@ -5,6 +5,7 @@ class RecipeIngredient < ApplicationRecord
   belongs_to :unit, optional: true
   validates :quantity, numericality: { greater_than: 0 }
   validate :check_ingredient
+  default_scope { joins(:ingredient).order('ingredients.name') }
 
   @new_ingredient  # holds user-inputted ingredient name (for use in creating a new Ingredient, if necessary).
 
