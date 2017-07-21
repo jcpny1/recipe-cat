@@ -34,8 +34,10 @@
         <table id='ingredientTable'>
           <tbody>
             <%= f.fields_for :recipe_ingredients do |ff| %>
-              <tr><%= render partial: "recipe_ingredients/form_ingredient", locals: {f: ff} %></tr>
-<% @rowInfo = render partial: 'recipe_ingredients/form_ingredient', locals: {f: ff} %>
+              <tr id='recipe-ingredient-id-<%=ff.object.id%>'>
+                <%= render partial: "recipe_ingredients/form_ingredient", locals: {f: ff} %>
+                <td><%= link_to(image_tag('delete-icon.png', size:'16', title: 'Delete ingredient'), '#', class:'js-deleteIngredient', data: {'recipe-ingredient-id':ff.object.id}) if policy(recipe).update? %></td>
+              </tr>
             <% end %>
           </tbody>
         </table>
@@ -75,18 +77,25 @@ $(function () {
     // Replace id in name attribute.
     newRowHTML = newRow.html().replace(/recipe_ingredients_attributes\]\[[\d]+\]/g, `recipe_ingredients_attributes][${newRowId}]`);
     // Replace id in id attribute.
-    newRowHTML = newRowHTML.replace(/recipe_recipe_ingredients_attributes_[\d]+/g,   `recipe_recipe_ingredients_attributes_${newRowId}`);
+    newRowHTML = newRowHTML.replace(/recipe_recipe_ingredients_attributes_[\d]+/g,  `recipe_recipe_ingredients_attributes_${newRowId}`);
     // Turn off any existing selected entries.
     newRowHTML = newRowHTML.replace(/selected="selected" /g, '');
     // Clear out any pre-existing values.
     newRowHTML = newRowHTML.replace(/ value="[\w]*[.]?[\w]+" /g, ' value="" ');
     // Add table row tags.
     newRowHTML = '<tr>' + newRowHTML + '</tr>';
-
-debugger;
     $('#ingredientTable tbody').prepend(newRowHTML);
-debugger;
+    e.preventDefault();
+  });
 
+  // On confirm delete recipe ingredient, hide the row and set id to negative id (for use by back end).
+  $('.js-deleteIngredient').on('click', function(e) {
+    if (confirm('Are you sure?') == true) {
+      var recipe_ingredient_id = parseInt($(this).data('recipeIngredientId'));
+      $('tr#recipe-ingredient-id-'+recipe_ingredient_id).hide();
+      recipe_ingredient_id = recipe_ingredient_id < 0 ? recipe_ingredient_id : -recipe_ingredient_id;
+      $(this).attr('data-recipe-ingredient-id', recipe_ingredient_id);
+    }
     e.preventDefault();
   });
 });
