@@ -21,8 +21,13 @@ class Recipe < ApplicationRecord
   # nested form attribute setter
   def recipe_ingredients_attributes=(recipe_ingredients_attributes)
     recipe_ingredients_attributes.values.each do |recipe_ingredients_attribute|
-      if recipe_ingredients_attribute[:id]
-        RecipeIngredient.find(recipe_ingredients_attribute[:id]).update(recipe_ingredients_attribute)
+      recipe_ingredient_id = recipe_ingredients_attribute[:id]
+      if recipe_ingredient_id
+        if recipe_ingredient_id.to_i > 0
+          RecipeIngredient.find(recipe_ingredient_id).update(recipe_ingredients_attribute)
+        else
+          RecipeIngredient.destroy(recipe_ingredient_id.to_i.abs)
+        end
       else
         recipe_ingredient = RecipeIngredient.create_recipe_ingredient(recipe_ingredients_attribute)
         self.recipe_ingredients << recipe_ingredient if recipe_ingredient.present?

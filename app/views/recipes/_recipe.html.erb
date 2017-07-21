@@ -68,12 +68,11 @@ $(function () {
     var newRowId = $('#ingredientTable tr').length;
 
     // These are the attributes that need to be edited when cloning a table row.
-    // The index values need updating to be a unique value.
-    // 1. "recipe[recipe_ingredients_attributes][0][ingredient_id]"
-    // 2. "recipe_recipe_ingredients_attributes_0_ingredient_id"
+    // The index values need updating to a new, unique, value.
+    //  > "recipe[recipe_ingredients_attributes][0][ingredient_id]"
+    //  > "recipe_recipe_ingredients_attributes_0_ingredient_id"
 
     var newRowHTML = '';
-
     // Replace id in name attribute.
     newRowHTML = newRow.html().replace(/recipe_ingredients_attributes\]\[[\d]+\]/g, `recipe_ingredients_attributes][${newRowId}]`);
     // Replace id in id attribute.
@@ -94,7 +93,7 @@ $(function () {
       var recipe_ingredient_id = parseInt($(this).data('recipeIngredientId'));
       $('tr#recipe-ingredient-id-'+recipe_ingredient_id).hide();
       recipe_ingredient_id = recipe_ingredient_id < 0 ? recipe_ingredient_id : -recipe_ingredient_id;
-      $(this).attr('data-recipe-ingredient-id', recipe_ingredient_id);
+      $("tr#recipe-ingredient-id-" + Math.abs(recipe_ingredient_id) + " + input:hidden").attr('value', recipe_ingredient_id);
     }
     e.preventDefault();
   });
