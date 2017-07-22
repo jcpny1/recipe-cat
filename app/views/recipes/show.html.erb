@@ -47,7 +47,6 @@ $(function () {
     } else {
       var recipe_id = parseInt($(this).data('recipe-id'));
       $.get(`/recipes/${recipe_id}/recipe_ingredients.json`, function(data) {
-
         var ingredients = {};
         var units = {};
         data.included.forEach(function(relation) {

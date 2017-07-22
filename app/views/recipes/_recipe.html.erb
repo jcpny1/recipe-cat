@@ -47,8 +47,9 @@
       <div class="col-sm-12">
       <h3>
         Steps:
-        <%= link_to image_tag("add-icon.png", size:"16", title: "Add step"), new_recipe_recipe_step_path(recipe) if policy(recipe).update? %>
-        <%= link_to image_tag("resequence-icon.png", size:"16", title: "Renumber steps"), renumber_steps_recipe_path(recipe) if policy(recipe).update? %>
+        <%= link_to(image_tag("add-icon.png", size:"16", title: "Add step"), '#', class:'js-addStep') if policy(recipe).update? %>
+        <%= link_to(image_tag("resequence-icon.png", size:"16", title: "Renumber steps"), '#', class:'js-renumberStepS') if policy(recipe).update? %>
+<!-- link_to image_tag("resequence-icon.png", size:"16", title: "Renumber steps"), renumber_steps_recipe_path(recipe) if policy(recipe).update? -->
       </h3>
       <table>
         <%= f.fields_for :recipe_steps do |ff| %>
@@ -63,6 +64,7 @@
 <script type='text/javascript' charset='utf-8'>
 $(function () {
   $('.js-addIngredient').on('click', function(e) {
+
     var ingredientTable = $('#ingredientTable');
     var newRow   = $('#ingredientTable tr:eq(0)').clone();
     var newRowId = $('#ingredientTable tr').length;
@@ -71,29 +73,37 @@ $(function () {
     // The index values need updating to a new, unique, value.
     //  > "recipe[recipe_ingredients_attributes][0][ingredient_id]"
     //  > "recipe_recipe_ingredients_attributes_0_ingredient_id"
-
+    //  > data-recipe-ingredient-id="16"
     var newRowHTML = '';
     // Replace id in name attribute.
     newRowHTML = newRow.html().replace(/recipe_ingredients_attributes\]\[[\d]+\]/g, `recipe_ingredients_attributes][${newRowId}]`);
     // Replace id in id attribute.
     newRowHTML = newRowHTML.replace(/recipe_recipe_ingredients_attributes_[\d]+/g,  `recipe_recipe_ingredients_attributes_${newRowId}`);
+    // Replace id in tag id.
+    newRowHTML = newRowHTML.replace(/ data-recipe-ingredient-id="[\d]+"/g, ` data-temp-id="${newRowId}"`);
     // Turn off any existing selected entries.
     newRowHTML = newRowHTML.replace(/selected="selected" /g, '');
     // Clear out any pre-existing values.
-    newRowHTML = newRowHTML.replace(/ value="[\w]*[.]?[\w]+" /g, ' value="" ');
+    newRowHTML = newRowHTML.replace(/ value="[\w]*[.]?[\w]+" /g, ' value=""');
     // Add table row tags.
-    newRowHTML = '<tr>' + newRowHTML + '</tr>';
+    newRowHTML = `<tr id='temp-recipe-ingredient-id-${newRowId}'>` + newRowHTML + '</tr>';
+
     $('#ingredientTable tbody').prepend(newRowHTML);
     e.preventDefault();
   });
 
-  // On confirm delete recipe ingredient, hide the row and set id to negative id (for use by back end).
+  //  Hide the row and set id to its negative (for use by back end).
   $('.js-deleteIngredient').on('click', function(e) {
-    if (confirm('Are you sure?') == true) {
-      var recipe_ingredient_id = parseInt($(this).data('recipeIngredientId'));
+    // var recipe_ingredient_id = parseInt($(this).data('recipeIngredientId'));
+    var row_id = $(this).data('tempId');
+
+    if (!isNaN(row_id)) {  // then we're deleting an unsaved new record.
+      $('tr#temp-recipe-ingredient-id-'+row_id).hide();
+    } else if (confirm('Are you sure?') == true) {
+      var recipe_ingredient_id = $(this).data('recipeIngredientId');
       $('tr#recipe-ingredient-id-'+recipe_ingredient_id).hide();
-      recipe_ingredient_id = recipe_ingredient_id < 0 ? recipe_ingredient_id : -recipe_ingredient_id;
-      $("tr#recipe-ingredient-id-" + Math.abs(recipe_ingredient_id) + " + input:hidden").attr('value', recipe_ingredient_id);
+      var deleted_recipe_ingredient_id = recipe_ingredient_id < 0 ? recipe_ingredient_id : -recipe_ingredient_id;
+      $("tr#recipe-ingredient-id-" + recipe_ingredient_id + " + input:hidden").attr('value', deleted_recipe_ingredient_id);
     }
     e.preventDefault();
   });

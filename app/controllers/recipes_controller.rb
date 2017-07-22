@@ -49,10 +49,6 @@ class RecipesController < ApplicationController
   def new
     @recipe = Recipe.new
     @recipe.recipe_ingredients.new
-    @recipe.recipe_ingredients.new
-    @recipe.recipe_ingredients.new
-    @recipe.recipe_steps.new
-    @recipe.recipe_steps.new
     @recipe.recipe_steps.new
     authorize @recipe
   end
@@ -73,6 +69,8 @@ class RecipesController < ApplicationController
   # edit a recipe.
   def edit
     @recipe = Recipe.find_by(id: params[:id])
+    @recipe.recipe_ingredients.new if @recipe.recipe_ingredients.length == 0
+    @recipe.recipe_steps.new if @recipe.recipe_steps.length == 0
     authorize @recipe
   end
 

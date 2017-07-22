@@ -4,5 +4,9 @@
 </td>
 <td>
   <%= f.label :description %>
-  <%= f.text_area :description, size:'45x4' %>
+  <% rowLength = 45 %>
+  <% lineCount = 1 %>
+  <% lineCount = f.object.description.length / rowLength if f.object.description%>
+  <% textAreaSize = rowLength.to_s + 'x' + lineCount.to_s %>
+  <%= f.text_area :description, size:textAreaSize %>
 </td>
