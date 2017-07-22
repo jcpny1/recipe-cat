@@ -9,7 +9,7 @@ RSpec.describe RecipeIngredient, type: :model do
   end
 
   it "has a recipe" do
-    expect(@ingredient1.recipes.first).to eq(@recipe)
+    expect(@ingredient1.recipes.unscoped.last).to eq(@recipe)
   end
 
   it "has an ingredient" do
