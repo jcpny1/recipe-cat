@@ -17,7 +17,11 @@
   (<%= @recipe.recipe_reviews.length %>)
 </p>
 <p>
-  <a href='#' class='js-ingredients' data-recipe-id='<%=@recipe.id%>' data-show-detail='1'>Ingredients</a>
+  <% if @recipe.recipe_ingredients.length > 0 %>
+    <a href='#' class='js-ingredients' data-recipe-id='<%=@recipe.id%>' data-show-detail='1'>Ingredients</a>
+  <% else %>
+    Ingredients
+  <% end %>
   (<%= @recipe.recipe_ingredients.length %>)
 </p>
 <p id='ingredients'></p>
@@ -40,15 +44,15 @@
 <script type='text/javascript' charset='utf-8'>
 $(function () {
   $('.js-ingredients').on('click', function(e) {
-    var show = $(this).attr('show-detail');
-    if (show == 0) {
+    var show_detail = $(this).attr('show-detail');
+    if (show_detail == 0) {   // hide ingredients detail.
       $('#ingredients').html('');
-      $(this).attr('show-detail', 1);
-    } else {
+    } else {                  // show ingredients detail.
       var recipe_id = parseInt($(this).data('recipe-id'));
       $.get(`/recipes/${recipe_id}/recipe_ingredients.json`, function(data) {
-        var ingredients = {};
-        var units = {};
+        var ingredients = {}, units = {};
+
+        // Gather up reference data.
         data.included.forEach(function(relation) {
           if (relation.type == 'ingredients') {
             ingredients[relation['id']] = relation.attributes['name'];
@@ -57,6 +61,7 @@ $(function () {
           }
         });
 
+        // Create data array for display.
         var recipe_ingredients = [];
         data.data.forEach(function(recipe_ingredient) {
           var ingredient_name = ingredients[recipe_ingredient.relationships.ingredient.data['id']];
@@ -64,11 +69,13 @@ $(function () {
           var units_name      = recipe_ingredient.attributes['unit-id'] == null ? '' : units[recipe_ingredient.attributes['unit-id']];
           recipe_ingredients.push({ingredient: ingredient_name, quantity: quantity, unit: units_name });
         });
+
+        // Display data via Handlebars template.
         var template = Handlebars.compile(document.getElementById("ingredients-template").innerHTML);
         $('#ingredients').html(template(recipe_ingredients));
       });
-      $(this).attr('show-detail', 0);
     }
+    $(this).attr('show-detail', show_detail == 0 ? 1 : 0);  // flip the show_detail flag.
     e.preventDefault();
   });
 });
