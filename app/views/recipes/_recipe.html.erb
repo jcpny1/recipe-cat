@@ -90,7 +90,7 @@ $(function () {
     var newRow   = ingredientTable.find('tr:first').clone();
     var newRowId = ingredientTable.find('tr').length;
     var newId   = `recipe_recipe_ingredients_attributes_${newRowId}_`;
-    var newName = `recipe_ingredients_attributes][${newRowId}]`;
+    var newName = `recipe[recipe_ingredients_attributes][${newRowId}]`;
 
     // These are the attributes that need to be edited when cloning a table row.
     // The index values need updating to a new, unique, value -
@@ -101,7 +101,7 @@ $(function () {
     //   selected="selected"
     //   value='4'
 
-    newRow[0].removeAttribute('id');
+    newRow[0].setAttribute('id', 'recipe-ingredient-id-');
 
     var selectElems = newRow.find('select');
     selectElems[0].setAttribute('name', newName + '[ingredient_id]');
@@ -129,6 +129,7 @@ $(function () {
     });
 
     ingredientTable.append(newRow);
+console.log(ingredientTable.html());
     e.preventDefault();
   }
 
@@ -137,7 +138,7 @@ $(function () {
     var newRow    = stepTable.find('tr:first').clone();
     var newRowId  = stepTable.find('tr').length;
     var newId   = `recipe_recipe_steps_attributes_${newRowId}_`;
-    var newName = `recipe_steps_attributes][${newRowId}]`;
+    var newName = `recipe[recipe_steps_attributes][${newRowId}]`;
     var newStepNumber = 0;
 
     Array.from(stepTable.find('label + input')).forEach(function(e) {
