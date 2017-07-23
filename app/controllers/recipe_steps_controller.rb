@@ -1,6 +1,14 @@
 # Rails controller for RecipeStep model.
 class RecipeStepsController < ApplicationController
-  before_action :get_recipe
+  before_action :get_recipe, except: [:index]
+
+  def index
+    @recipe_steps = policy_scope(RecipeStep.where("recipe_id = ?", params[:recipe_id])).order(:step_number)
+    respond_to do |format|
+      format.html { render :index }
+      format.json { render json: @recipe_steps }
+    end
+  end
 
   # prepare to create a new recipe step.
   def new

@@ -26,8 +26,14 @@
 </p>
 <p id='ingredients'></p>
 <p>
-  <a class='steps' data-id='<%=@recipe.id%>' href='https://www.w3schools.com'>Steps</a>
+  <% if @recipe.recipe_steps.length > 0 %>
+    <a href='#' class='js-steps' data-recipe-id='<%=@recipe.id%>' data-show-detail='1'>Steps</a>
+  <% else %>
+    Steps
+  <% end %>
   (<%= @recipe.recipe_steps.length %>)
+</p>
+<p id='steps'></p>
 </p>
 </div>
 
@@ -37,6 +43,15 @@
     <div class='col-sm-2'>{{ingredient}}</div>
     <div class='col-sm-1'>{{quantity}}</div>
     <div class='col-sm-1'>{{unit}}</div>
+  </div>
+  {{/each}}
+</script>
+
+<script id="steps-template" type="text/x-handlebars-template">
+  {{#each this}}
+  <div class='row'>
+    <div class='col-sm-2'>{{step_number}}</div>
+    <div class='col-sm-4'>{{description}}</div>
   </div>
   {{/each}}
 </script>
@@ -73,6 +88,32 @@ $(function () {
         // Display data via Handlebars template.
         var template = Handlebars.compile(document.getElementById("ingredients-template").innerHTML);
         $('#ingredients').html(template(recipe_ingredients));
+      });
+    }
+    $(this).attr('show-detail', show_detail == 0 ? 1 : 0);  // flip the show_detail flag.
+    e.preventDefault();
+  });
+});
+
+$(function () {
+  $('.js-steps').on('click', function(e) {
+    var show_detail = $(this).attr('show-detail');
+    if (show_detail == 0) {   // hide steps detail.
+      $('#steps').html('');
+    } else {                  // show steps detail.
+      var recipe_id = parseInt($(this).data('recipe-id'));
+      $.get(`/recipes/${recipe_id}/recipe_steps.json`, function(data) {
+        // Create data array for display.
+        var recipe_steps = [];
+        data.data.forEach(function(recipe_step) {
+          var step_number = recipe_step.attributes['step-number'];
+          var description = recipe_step.attributes['description'];
+          recipe_steps.push({step_number: step_number, description: description });
+        });
+
+        // Display data via Handlebars template.
+        var template = Handlebars.compile(document.getElementById("steps-template").innerHTML);
+        $('#steps').html(template(recipe_steps));
       });
     }
     $(this).attr('show-detail', show_detail == 0 ? 1 : 0);  // flip the show_detail flag.

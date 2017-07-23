@@ -6,7 +6,7 @@
   <%= f.label :quantity %>
 </td>
 <td>
-  <%= f.number_field :quantity, step: :any, min: 1 %>
+  <%= f.number_field :quantity, step: :any, min: 0 %>
   <%= f.label :unit_id %>
   <%= f.select :unit_id, Unit.pick_list, include_blank: true %>
 </td>
