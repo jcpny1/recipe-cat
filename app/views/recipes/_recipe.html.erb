@@ -70,6 +70,22 @@
 <script type='text/javascript' charset='utf-8'>
 $(function () {
   $('.js-addIngredient').on('click', function(e) {
+    addIngredient(e);
+  });
+
+  $('.js-deleteIngredient').on('click', function(e) {
+    deleteIngredient(e);
+  });
+
+  $('.js-addStep').on('click', function(e) {
+    addStep(e);
+  });
+
+  $('.js-deleteStep').on('click', function(e) {
+    deleteStep(e);
+  });
+
+  function addIngredient(e) {
     var ingredientTable = $('#ingredientTable tbody');
     var newRow   = ingredientTable.find('tr:first').clone();
     var newRowId = ingredientTable.find('tr').length;
@@ -106,6 +122,7 @@ $(function () {
     selectElems[1].setAttribute('id',   newId   + 'unit_id'  );
 
     newRow.find('a.js-deleteIngredient')[0].setAttribute('data-recipe-ingredient-id', '');
+    newRow.find('a.js-deleteIngredient')[0].addEventListener('click', deleteIngredient, false);
 
     selectElems.find('option').each(function(i, e) {
       e.removeAttribute('selected');
@@ -113,9 +130,9 @@ $(function () {
 
     ingredientTable.append(newRow);
     e.preventDefault();
-  });
+  }
 
-  $('.js-addStep').on('click', function(e) {
+  function addStep(e) {
     var stepTable = $('#stepTable tbody');
     var newRow    = stepTable.find('tr:first').clone();
     var newRowId  = stepTable.find('tr').length;
@@ -157,24 +174,30 @@ $(function () {
     textareaElems.text('');
 
     newRow.find('a.js-deleteStep')[0].setAttribute('data-recipe-step-id', '');
+    newRow.find('a.js-deleteStep')[0].addEventListener('click', deleteStep, false);
 
     stepTable.append(newRow);
     e.preventDefault();
-  });
+  }
 
   //  Delete a recipe ingredient from the recipe.
-  $('.js-deleteIngredient').on('click', function(e) {
+  function deleteIngredient(e) {
     if (confirm('Are you sure?') == true) {
       // Hide the row.
-      $(this).parent().parent().hide().hide();
-      // Mark the row for deletion by backend.
-      var recipe_ingredient_id = parseInt($(this).data('recipeIngredientId'));
-      if (!isNaN(recipe_ingredient_id)) {
-        var deleted_recipe_ingredient_id = recipe_ingredient_id < 0 ? recipe_ingredient_id : -recipe_ingredient_id;
-        $("tr#recipe-ingredient-id-" + recipe_ingredient_id + " + input:hidden").attr('value', deleted_recipe_ingredient_id);
-      }
+      $(this).parent().parent().hide();
+      $(this).parent().parent()[0].setAttribute('style', 'display:none');
     }
     e.preventDefault();
-  });
+  }
+
+  //  Delete a recipe ingredient from the recipe.
+  function deleteStep(e) {
+    if (confirm('Are you sure?') == true) {
+      // Hide the row.
+      $(this).parent().parent().hide();
+      $(this).parent().parent()[0].setAttribute('style', 'display:none');
+    }
+    e.preventDefault();
+  }
 });
 </script>
