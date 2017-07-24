@@ -22,8 +22,11 @@ class RecipeReviewsController < ApplicationController
       @recipe_id = params[:recipe_id]
       @recipe_reviews = policy_scope(RecipeReview).where(recipe_id: @recipe_id)
     end
-
     @recipe_reviews = RecipeReview.sort_by_recipe_and_time(@recipe_reviews)
+    respond_to do |format|
+      format.html { render :index }
+      format.json { render json: @recipe_reviews }
+    end
   end
 
   # prepare to create a new recipe review.

@@ -13,9 +13,14 @@
 <p>
   <%= render partial: 'recipes/review_stars', locals: {stars: @recipe.average_stars, url: recipe_recipe_reviews_path(@recipe)} %>
   <%= '  ' %>
-  <%= link_to 'Reviews', recipe_recipe_reviews_path(@recipe) %>
+  <% if @recipe.recipe_reviews.length > 0 %>
+    <a href='#' class='js-reviews' data-recipe-id='<%=@recipe.id%>' data-show-detail='1'>Reviews</a>
+  <% else %>
+    Reviews
+  <% end %>
   (<%= @recipe.recipe_reviews.length %>)
 </p>
+<p id='reviews'></p>
 <p>
   <% if @recipe.recipe_ingredients.length > 0 %>
     <a href='#' class='js-ingredients' data-recipe-id='<%=@recipe.id%>' data-show-detail='1'>Ingredients</a>
@@ -47,6 +52,16 @@
   {{/each}}
 </script>
 
+<script id="reviews-template" type="text/x-handlebars-template">
+  {{#each this}}
+  <div class='row'>
+    <div class='col-sm-1'>{{stars}} stars</div>
+    <div class='col-sm-2'>{{title}}</div>
+    <div class='col-sm-4'>{{comments}}</div>
+  </div>
+  {{/each}}
+</script>
+
 <script id="steps-template" type="text/x-handlebars-template">
   {{#each this}}
   <div class='row'>
@@ -60,6 +75,9 @@
 $(function () {
   $('.js-ingredients').on('click', function(e) {
     showIngredients(e);
+  });
+  $('.js-reviews').on('click', function(e) {
+    showReviews(e);
   });
   $('.js-steps').on('click', function(e) {
     showSteps(e);

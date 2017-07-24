@@ -115,9 +115,9 @@ function deleteStep(e) {
 // Display recipe's ingredient list.
 function showIngredients(e) {
   var show_detail = e.target.getAttribute('show-detail');
-  if (show_detail == 0) {   // hide ingredients detail.
+  if (show_detail == 0) {   // hide detail.
     $('#ingredients').html('');
-  } else {                  // show ingredients detail.
+  } else {                  // show detail.
     var recipe_id = e.target.getAttribute('data-recipe-id');
     $.get(`/recipes/${recipe_id}/recipe_ingredients.json`, function(data) {
       var ingredients = {}, units = {};
@@ -149,12 +149,40 @@ function showIngredients(e) {
   e.preventDefault();
 }
 
+// Display recipe's reviews list.
+function showReviews(e) {
+  var show_detail = e.target.getAttribute('show-detail');
+  if (show_detail == 0) {   // hide detail.
+    $('#reviews').html('');
+  } else {                  // show detail.
+    var recipe_id = e.target.getAttribute('data-recipe-id');
+    $.get(`/recipes/${recipe_id}/recipe_reviews.json`, function(data) {
+      // Create data array for display.
+      var recipe_reviews = [];
+      data.forEach(function(recipe_review) {
+        var stars    = recipe_review['stars'];
+        var title    = recipe_review['title'];
+        var comments = recipe_review['comments'];
+
+        comments = comments.length > 40 ? comments.substr(0,37) + '...' : comments;
+
+        recipe_reviews.push({stars: stars, title: title, comments: comments });
+      });
+      // Display data via Handlebars template.
+      var template = Handlebars.compile(document.getElementById("reviews-template").innerHTML);
+      $('#reviews').html(template(recipe_reviews));
+    });
+  }
+  e.target.setAttribute('show-detail', show_detail == 0 ? 1 : 0);  // flip the show_detail flag.
+  e.preventDefault();
+}
+
 // Display recipe's step list.
 function showSteps(e) {
   var show_detail = e.target.getAttribute('show-detail');
-  if (show_detail == 0) {   // hide steps detail.
+  if (show_detail == 0) {   // hide detail.
     $('#steps').html('');
-  } else {                  // show steps detail.
+  } else {                  // show detail.
     var recipe_id = e.target.getAttribute('data-recipe-id');
     $.get(`/recipes/${recipe_id}/recipe_steps.json`, function(data) {
       // Create data array for display.
