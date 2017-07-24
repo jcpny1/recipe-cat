@@ -41,7 +41,7 @@ function addIngredient(e) {
     e.removeAttribute('selected');
   });
 
-  ingredientTable.append(newRow);
+  ingredientTable.prepend(newRow);
   e.preventDefault();
 }
 
