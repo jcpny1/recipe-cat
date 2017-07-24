@@ -12,44 +12,12 @@ class Recipe < ApplicationRecord
   validates :name, presence:   true
   validates :name, uniqueness: true
 
-  # do not allow total_time or photo_path to be null.
+  accepts_nested_attributes_for :recipe_ingredients, :recipe_steps, reject_if: proc { |attributes| attributes['description'].blank? }, :allow_destroy => true
+
+  #do not allow total_time or photo_path to be null.
   after_initialize do |recipe|
     recipe.total_time ||= 0
     recipe.photo_path ||= 'recipes/placeholder.png'
-  end
-
-  # nested form attribute setter
-  def recipe_ingredients_attributes=(recipe_ingredients_attributes)
-    recipe_ingredients_attributes.values.each do |recipe_ingredients_attribute|
-      recipe_ingredient_id = recipe_ingredients_attribute[:id]
-      if recipe_ingredient_id
-        if recipe_ingredient_id.to_i > 0
-          RecipeIngredient.find(recipe_ingredient_id).update(recipe_ingredients_attribute)
-        else
-          RecipeIngredient.destroy(recipe_ingredient_id.to_i.abs)
-        end
-      else
-        recipe_ingredient = RecipeIngredient.create_recipe_ingredient(recipe_ingredients_attribute)
-        self.recipe_ingredients << recipe_ingredient if recipe_ingredient.present?
-      end
-    end
-  end
-
-  # nested form attribute setter
-  def recipe_steps_attributes=(recipe_steps_attributes)
-    recipe_steps_attributes.values.each do |recipe_steps_attribute|
-      recipe_step_id = recipe_steps_attribute[:id]
-      if recipe_step_id
-        if recipe_step_id.to_i > 0
-          RecipeStep.find(recipe_step_id).update(recipe_steps_attribute)
-        else
-          RecipeStep.destroy(recipe_step_id.to_i.abs)
-        end
-      else
-        recipe_step = RecipeStep.create_recipe_step(recipe_steps_attribute)
-        self.recipe_steps << recipe_step if recipe_step.present?
-      end
-    end
   end
 
   # returns the total of the star ratings divided by the number of reviews.

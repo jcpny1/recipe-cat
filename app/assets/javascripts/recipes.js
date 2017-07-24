@@ -42,7 +42,6 @@ function addIngredient(e) {
   });
 
   ingredientTable.append(newRow);
-console.log(ingredientTable.html());
   e.preventDefault();
 }
 
@@ -54,6 +53,7 @@ function addStep(e) {
   var newName = `recipe[recipe_steps_attributes][${newRowId}]`;
   var newStepNumber = 0;
 
+  // The new step's step number will be one more than the largest one currently.
   Array.from(stepTable.find('label + input')).forEach(function(e) {
     thisStepNumber = parseInt(e.value);
     if (thisStepNumber > newStepNumber) {
@@ -97,29 +97,19 @@ function addStep(e) {
 //  Delete a recipe ingredient from the recipe.
 function deleteIngredient(e) {
   if (confirm('Are you sure?') == true) {
-    // Hide the entire recipe step <tr>.
-    $(e.target).parent().parent().parent().hide();
-    // Mark the row for deletion by backend.
+    $(e.target).parent().parent().parent().hide();  // Hide the entire recipe step <tr>.
     var recipe_ingredient_id = $(e.target).parent().data('recipeIngredientId');
-    if (!isNaN(recipe_ingredient_id)) {
-      var deleted_recipe_ingredient_id = recipe_ingredient_id < 0 ? recipe_ingredient_id : -recipe_ingredient_id;
-      $("tr#recipe-ingredient-id-" + recipe_ingredient_id + " + input:hidden").attr('value', deleted_recipe_ingredient_id);
-    }
+    $("tr#recipe-ingredient-id-" + recipe_ingredient_id + " input:checkbox.js-destroyIngredient").prop('checked', true);
   }
   e.preventDefault();
 }
 
-//  Delete a recipe ingredient from the recipe.
+//  Delete a recipe step from the recipe.
 function deleteStep(e) {
   if (confirm('Are you sure?') == true) {
-    // Hide the entire recipe step <tr>.
-    $(e.target).parent().parent().parent().hide();
-    // Mark the row for deletion by backend.
+    $(e.target).parent().parent().parent().hide();  // Hide the entire recipe step <tr>.
     var recipe_step_id = $(e.target).parent().data('recipeStepId');
-    if (!isNaN(recipe_step_id)) {
-      var deleted_recipe_step_id = recipe_step_id < 0 ? recipe_step_id : -recipe_step_id;
-      $("tr#recipe-step-id-" + recipe_step_id + " + input:hidden").attr('value', deleted_recipe_step_id);
-    }
+    $("tr#recipe-step-id-" + recipe_step_id + " input:checkbox.js-destroyStep").prop('checked', true);
   }
   e.preventDefault();
 }

@@ -1,7 +1,9 @@
 # an instruction that is used in a particular recipe.
 class RecipeStep < ApplicationRecord
   belongs_to :recipe
-  validates :step_number, numericality: { greater_than: 0 }, uniqueness: { scope: :recipe, message: "must be unique for this recipe" }
+  # NOTE: Uniqueness is only checked against the database. There could be two new steps with the same number. That will pass this validation without error.
+  # To guarantee uniqueness, a unique index on recipe/step_number would be needed.
+  validates :step_number, numericality: { greater_than: 0 }, uniqueness: { scope: :recipe, message: "must be unique" }
   default_scope { order(:step_number) }
 
   # returns the user who created this recipe step.
