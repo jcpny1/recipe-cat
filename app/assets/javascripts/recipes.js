@@ -20,19 +20,16 @@ function addIngredient(e) {
   selectElems.eq(0).attr('name', newName + '[ingredient_id]');
   selectElems.eq(0).attr('id',   newId   + 'ingredient_id'  );
 
-  var inputElems = newRow.find('input');
-  inputElems.eq(0).attr('name', newName + '[new_ingredient]');
-  inputElems.eq(0).attr('id',   newId   + 'new_ingredient'  );
-
   var labelElems = newRow.find('label');
+  var inputElems = newRow.find('input');
   labelElems.eq(0).attr('for',   newId   + 'quantity'  );
-  inputElems.eq(1).attr('name',  newName + '[quantity]');
-  inputElems.eq(1).attr('id',    newId   + 'quantity'  );
-  inputElems.eq(1).attr('value', '' );
+  inputElems.eq(0).attr('name',  newName + '[quantity]');
+  inputElems.eq(0).attr('id',    newId   + 'quantity'  );
+  inputElems.eq(0).attr('value', '' );
 
   labelElems.eq(1).attr ('for',  newId   + 'unit_id'  );
   selectElems.eq(1).attr('name', newName + '[unit_id]');
-  selectElems.eq(1).attr('id',   newId   + 'unit_id'  );
+  selectElems.eq(1).attr('id', newId + 'unit_id' );
 
   newRow.find('a.js-deleteIngredient').eq(0).attr('data-recipe-ingredient-id', '');
   newRow.find('a.js-deleteIngredient').eq(0).click(deleteIngredient);

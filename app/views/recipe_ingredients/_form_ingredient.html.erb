@@ -1,10 +1,5 @@
-<td>
-  <%= f.select :ingredient_id, Ingredient.pick_list, {include_blank: true, prompt: 'Select an ingredient'} %>
-  <%= f.text_field :new_ingredient, placeholder: 'or create a new ingredient' %>
-</td>
-<td>
-  <%= f.label :quantity %>
-</td>
+<td><%= f.select :ingredient_id, Ingredient.pick_list, {include_blank: true, prompt: 'Select an ingredient'} %></td>
+<td><%= f.label :quantity %></td>
 <td>
   <%= f.number_field :quantity, step: :any, min: 0 %>
   <%= f.label :unit_id %>

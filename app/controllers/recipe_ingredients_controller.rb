@@ -65,6 +65,6 @@ private
 
   # filter params for allowed elements only.
   def recipe_ingredient_params
-    params.require(:recipe_ingredient).permit(:ingredient_id, :new_ingredient, :quantity, :unit_id)
+    params.require(:recipe_ingredient).permit(:ingredient_id, :quantity, :unit_id)
   end
 end
