@@ -2,17 +2,18 @@
 class Recipe < ApplicationRecord
   belongs_to :author, class_name: :User, foreign_key: :user_id
 
-  has_many :recipe_ingredients,    dependent: :destroy
+  has_many :recipe_ingredients,    dependent: :destroy, inverse_of: :recipe
   has_many :ingredients, through: :recipe_ingredients
 
   has_many :recipe_reviews,        dependent: :destroy
   has_many :user_recipe_favorites, dependent: :destroy
-  has_many :recipe_steps,          dependent: :destroy
+  has_many :recipe_steps,          dependent: :destroy, inverse_of: :recipe
 
   validates :name, presence:   true
   validates :name, uniqueness: true
 
-  accepts_nested_attributes_for :recipe_ingredients, :recipe_steps, reject_if: proc { |attributes| attributes['description'].blank? }, :allow_destroy => true
+  accepts_nested_attributes_for :recipe_ingredients, :allow_destroy => true
+  accepts_nested_attributes_for :recipe_steps, reject_if: proc { |attributes| attributes['description'].blank? }, :allow_destroy => true
 
   #do not allow total_time or photo_path to be null.
   after_initialize do |recipe|

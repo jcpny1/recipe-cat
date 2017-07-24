@@ -1,6 +1,6 @@
 # an ingredient that is used in a particular recipe.
 class RecipeIngredient < ApplicationRecord
-  belongs_to :recipe
+  belongs_to :recipe, inverse_of: :recipe_ingredients
   belongs_to :ingredient
   belongs_to :unit, optional: true
   validates :quantity, numericality: { greater_than: 0 }
