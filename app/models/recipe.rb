@@ -24,7 +24,7 @@ class Recipe < ApplicationRecord
   # returns the total of the star ratings divided by the number of reviews.
   def average_stars
     sum = recipe_reviews.sum { |urr| urr.stars }
-    number_of_reviews != 0 ? (sum.to_f / number_of_reviews).round : 0
+    number_of_reviews != 0 ? (sum.to_f / number_of_reviews).floor : 0
   end
 
   # Is this recipe a favorite of this user.
