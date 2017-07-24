@@ -14,28 +14,28 @@ function addIngredient(e) {
   //   selected="selected"
   //   value='4'
 
-  newRow[0].setAttribute('id', 'recipe-ingredient-id-');
+  newRow.attr('id', 'recipe-ingredient-id-');
 
   var selectElems = newRow.find('select');
-  selectElems[0].setAttribute('name', newName + '[ingredient_id]');
-  selectElems[0].setAttribute('id',   newId   + 'ingredient_id'  );
+  selectElems.eq(0).attr('name', newName + '[ingredient_id]');
+  selectElems.eq(0).attr('id',   newId   + 'ingredient_id'  );
 
   var inputElems = newRow.find('input');
-  inputElems[0].setAttribute('name', newName + '[new_ingredient]');
-  inputElems[0].setAttribute('id',   newId   + 'new_ingredient'  );
+  inputElems.eq(0).attr('name', newName + '[new_ingredient]');
+  inputElems.eq(0).attr('id',   newId   + 'new_ingredient'  );
 
   var labelElems = newRow.find('label');
-  labelElems[0].setAttribute('for',   newId   + 'quantity'  );
-  inputElems[1].setAttribute('name',  newName + '[quantity]');
-  inputElems[1].setAttribute('id',    newId   + 'quantity'  );
-  inputElems[1].setAttribute('value', '' );
+  labelElems.eq(0).attr('for',   newId   + 'quantity'  );
+  inputElems.eq(1).attr('name',  newName + '[quantity]');
+  inputElems.eq(1).attr('id',    newId   + 'quantity'  );
+  inputElems.eq(1).attr('value', '' );
 
-  labelElems[1].setAttribute ('for',  newId   + 'unit_id'  );
-  selectElems[1].setAttribute('name', newName + '[unit_id]');
-  selectElems[1].setAttribute('id',   newId   + 'unit_id'  );
+  labelElems.eq(1).attr ('for',  newId   + 'unit_id'  );
+  selectElems.eq(1).attr('name', newName + '[unit_id]');
+  selectElems.eq(1).attr('id',   newId   + 'unit_id'  );
 
-  newRow.find('a.js-deleteIngredient')[0].setAttribute('data-recipe-ingredient-id', '');
-  newRow.find('a.js-deleteIngredient')[0].addEventListener('click', deleteIngredient, false);
+  newRow.find('a.js-deleteIngredient').eq(0).attr('data-recipe-ingredient-id', '');
+  newRow.find('a.js-deleteIngredient').eq(0).click(deleteIngredient);
 
   selectElems.find('option').each(function(i, e) {
     e.removeAttribute('selected');
@@ -46,21 +46,13 @@ function addIngredient(e) {
 }
 
 function addStep(e) {
-  var stepTable = $('#stepTable tbody');
-  var newRow    = stepTable.find('tr:first').clone();
-  var newRowId  = stepTable.find('tr').length;
-  var newId   = `recipe_recipe_steps_attributes_${newRowId}_`;
-  var newName = `recipe[recipe_steps_attributes][${newRowId}]`;
-  var newStepNumber = 0;
-
-  // The new step's step number will be one more than the largest one currently.
-  Array.from(stepTable.find('label + input')).forEach(function(e) {
-    thisStepNumber = parseInt(e.value);
-    if (thisStepNumber > newStepNumber) {
-      newStepNumber = thisStepNumber;
-    }
-  });
-  ++newStepNumber;
+  var stepTable  = $('#stepTable tbody');
+  var newRow     = stepTable.find('tr:first').clone();
+  var newRowId   = stepTable.find('tr').length;
+  var newId      = `recipe_recipe_steps_attributes_${newRowId}_`;
+  var newName    = `recipe[recipe_steps_attributes][${newRowId}]`;
+  var clickedRow = $(e.target).parent().parent().parent();
+  var stepNumber = parseInt(clickedRow.find('input[name*="step_number"]').val());
 
   // These are the attributes that need to be edited when cloning a table row.
   // The index and name values need updating:
@@ -72,25 +64,34 @@ function addStep(e) {
   //   $('textarea#...').text()
   //   value='4'
 
-  newRow[0].removeAttribute('id');
+  newRow.removeAttr('id');
 
   var inputElems = newRow.find('input');
   var labelElems = newRow.find('label');
-  labelElems[0].setAttribute('for',   newId   + 'step_number'  );
-  inputElems[0].setAttribute('name',  newName + '[step_number]');
-  inputElems[0].setAttribute('id',    newId   + 'step_number'  );
-  inputElems[0].setAttribute('value', newStepNumber);
+  labelElems.eq(0).attr('for',   newId   + 'step_number'  );
+  inputElems.eq(0).attr('name',  newName + '[step_number]');
+  inputElems.eq(0).attr('id',    newId   + 'step_number'  );
+  inputElems.eq(0).attr('value', stepNumber);
 
   var textareaElems = newRow.find('textarea');
-  labelElems[1].setAttribute   ('for',  newId   + 'step_number'  );
-  textareaElems[0].setAttribute('name', newName + '[description]');
-  textareaElems[0].setAttribute('id',   newId   + 'description'  );
+  labelElems.eq(1).attr   ('for',  newId   + 'step_number'  );
+  textareaElems.eq(0).attr('name', newName + '[description]');
+  textareaElems.eq(0).attr('id',   newId   + 'description'  );
   textareaElems.text('');
 
-  newRow.find('a.js-deleteStep')[0].setAttribute('data-recipe-step-id', '');
-  newRow.find('a.js-deleteStep')[0].addEventListener('click', deleteStep, false);
+  newRow.find('a.js-deleteStep').eq(0).attr('data-recipe-step-id', '');
+  newRow.find('a.js-deleteStep').eq(0).click(deleteStep);
 
-  stepTable.append(newRow);
+  newRow.insertAfter(clickedRow);
+
+  clickedRow.nextAll('tr').each( function() {
+    var stepNumberTd = $(this).find('td:first');
+    var stepNumberElem = stepNumberTd.find('input');
+    var stepNumber = parseInt(stepNumberElem.val()) + 1;
+    stepNumberElem.val(stepNumber);
+    stepNumberTd.find('label').text('Step ' + stepNumber);
+  });
+
   e.preventDefault();
 }
 

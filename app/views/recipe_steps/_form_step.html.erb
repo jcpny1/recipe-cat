@@ -1,9 +1,8 @@
 <td>
-  <%= f.label :step_number %>
-  <%= f.number_field :step_number, step: 1, min: 0 %>
+  <%= label(:step_number, 'Step ' + f.object.step_number.to_s) %>
+  <%= f.number_field :step_number, step: 1, min: 0, hidden:true %>
 </td>
 <td>
-  <%= f.label :description %>
   <% rowLength = 45 %>
   <% lineCount = 1 %>
   <% lineCount = f.object.description.length / rowLength if f.object.description%>
