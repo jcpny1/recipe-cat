@@ -173,3 +173,14 @@ function showSteps(e) {
   e.target.setAttribute('show-detail', show_detail == 0 ? 1 : 0);  // flip the show_detail flag.
   e.preventDefault();
 }
+
+function toggleFavorite(elem) {
+  var recipe_id = elem.dataset.recipeId;
+  var user_id   = elem.dataset.userId;
+  $.ajax({
+    type: "PATCH",
+    url: `/users/${user_id}/user_recipe_favorites/${recipe_id}`,
+    data: {'favorite': elem.checked},
+    dataType: 'json'
+  });
+}

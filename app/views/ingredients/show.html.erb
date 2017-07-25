@@ -1,5 +1,22 @@
-<h1>Ingredients</h1>
-
-<h3><%= @ingredient.name %></h3>
-<%= image_tag(@ingredient.photo_path, size: "360x200", alt: "#{@ingredient.name} photo", title: 'ingredient photo' ) %>
-<p><%= @ingredient.description %></p>
+<div class="col-sm-12">
+  <div class='row'>
+    <div class="col-sm-4">
+      <h3>Ingredient</h3>
+    </div>
+  </div>
+  <div class='row'>
+    <div class="col-sm-4">
+      <h4><%= @ingredient.name %></h4>
+    </div>
+  </div>
+  <div class='row'>
+    <div class="col-sm-4">
+      <%= image_tag(@ingredient.photo_path, size: "360x200", alt: "#{@ingredient.name} photo", title: 'ingredient photo' ) %>
+    </div>
+  </div>
+  <div class='row'>
+    <div class="col-sm-4">
+      <%= @ingredient.description %>
+    </div>
+  </div>
+</div>

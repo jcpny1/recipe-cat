@@ -1,16 +1,3 @@
 <% if user_signed_in? %>
   <input type='checkbox' class='favorite' <%='checked' if recipe.favorite?(current_user.id)%> onchange="toggleFavorite(this)" data-user-id="<%=current_user.id%>" data-recipe-id="<%=recipe.id%>">Favorite</button>
 <% end %>
-
-<script type="text/javascript" charset="utf-8">
-function toggleFavorite(elem) {
-  var recipe_id = elem.dataset.recipeId;
-  var user_id   = elem.dataset.userId;
-  $.ajax({
-    type: "PATCH",
-    url: `/users/${user_id}/user_recipe_favorites/${recipe_id}`,
-    data: {'favorite': elem.checked},
-    dataType: 'json'
-  });
-}
-</script>
