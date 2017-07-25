@@ -157,16 +157,18 @@ function showReviews(e) {
     $('#reviews').html('');
   } else {                  // show detail.
     var recipe_id = e.target.getAttribute('data-recipe-id');
+    var recipe_reviews = [];
     $.get(`/recipes/${recipe_id}/recipe_reviews.json`, function(data) {
       // Create data array for display.
-      var recipe_reviews = [];
       data.forEach(function(recipe_review) {
         var num_stars = recipe_review['stars'];
         var stars     = REVIEW_STARS.slice(5 - num_stars);
         var title     = recipe_review['title'];
         var comments  = recipe_review['comments'];
-        comments = comments.length > 40 ? comments.substr(0,37) + '...' : comments;
-        recipe_reviews.push({stars: stars, title: title, comments: comments });
+            comments  = comments.length > 40 ? comments.substr(0,37) + '...' : comments;
+        var review_id = recipe_review['id'];
+        var url = `/recipes/${recipe_id}/recipe_reviews/${review_id}`;
+        recipe_reviews.push({stars: stars, title: title, comments: comments, url: url});
       });
       // Display data via Handlebars template.
       var template = Handlebars.compile(document.getElementById("reviews-template").innerHTML);

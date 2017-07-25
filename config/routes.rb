@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
   resources :recipes do
     resources :recipe_ingredients, except: [:show]
-    resources :recipe_reviews,     except: [:show]
+    resources :recipe_reviews
     resources :recipe_steps,       except: [:show]
     collection { post 'filter' }
     get 'renumber_steps', on: :member

@@ -1,45 +1,44 @@
 <div class="col-sm-12">
-<h1>
-  <%= @recipe.name %> <%= link_to image_tag('edit-icon.png', size:'16', title: 'Edit recipe'), edit_recipe_path(@recipe) if @recipe.author == current_user %>
-  <%= link_to image_tag('delete-icon.png', size:'16', title: 'Delete recipe'), recipe_path(@recipe), method: :delete, data: {confirm: 'Are you sure!'} if policy(@recipe).destroy? %>
-</h1>
-<p>Submitted by <%= link_to @recipe.author_name, user_recipes_path(@recipe.author) %></p>
-<p>
-  <%= image_tag(@recipe.photo_path, size: '360x200', alt: '#{@recipe.name} photo', title: 'recipe photo' ) %>
-  <%= render partial: 'recipes/favorite', locals: {recipe: @recipe} %>
-</p>
-<p style='width:40%' align='justify'><%= @recipe.description %></p>
-<p>Total time: <%= pluralize(number_with_precision(@recipe.total_time, precision: 0), 'minute') %></p>
-<p>
-  <%= render partial: 'recipes/review_stars', locals: {stars: @recipe.average_stars, url: recipe_recipe_reviews_path(@recipe)} %>
-  <%= '  ' %>
-  <% if @recipe.recipe_reviews.length > 0 %>
-    <a href='#' class='js-reviews' data-recipe-id='<%=@recipe.id%>' data-show-detail='1'>Reviews</a>
-  <% else %>
-    Reviews
-  <% end %>
-  (<%= @recipe.recipe_reviews.length %>)
-</p>
-<p id='reviews'></p>
-<p>
-  <% if @recipe.recipe_ingredients.length > 0 %>
-    <a href='#' class='js-ingredients' data-recipe-id='<%=@recipe.id%>' data-show-detail='1'>Ingredients</a>
-  <% else %>
-    Ingredients
-  <% end %>
-  (<%= @recipe.recipe_ingredients.length %>)
-</p>
-<p id='ingredients'></p>
-<p>
-  <% if @recipe.recipe_steps.length > 0 %>
-    <a href='#' class='js-steps' data-recipe-id='<%=@recipe.id%>' data-show-detail='1'>Steps</a>
-  <% else %>
-    Steps
-  <% end %>
-  (<%= @recipe.recipe_steps.length %>)
-</p>
-<p id='steps'></p>
-</p>
+  <h1>
+    <%= @recipe.name %> <%= link_to image_tag('edit-icon.png', size:'16', title: 'Edit recipe'), edit_recipe_path(@recipe) if @recipe.author == current_user %>
+    <%= link_to image_tag('delete-icon.png', size:'16', title: 'Delete recipe'), recipe_path(@recipe), method: :delete, data: {confirm: 'Are you sure!'} if policy(@recipe).destroy? %>
+  </h1>
+  <p>Submitted by <%= link_to @recipe.author_name, user_recipes_path(@recipe.author) %></p>
+  <p>
+    <%= image_tag(@recipe.photo_path, size: '360x200', alt: '#{@recipe.name} photo', title: 'recipe photo' ) %>
+    <%= render partial: 'recipes/favorite', locals: {recipe: @recipe} %>
+  </p>
+  <p style='width:40%' align='justify'><%= @recipe.description %></p>
+  <p>Total time: <%= pluralize(number_with_precision(@recipe.total_time, precision: 0), 'minute') %></p>
+  <p>
+    <% if @recipe.recipe_ingredients.length > 0 %>
+      <a href='#' class='js-ingredients' data-recipe-id='<%=@recipe.id%>' data-show-detail='1'>Ingredients</a>
+    <% else %>
+      Ingredients
+    <% end %>
+    (<%= @recipe.recipe_ingredients.length %>)
+  </p>
+  <p id='ingredients'></p>
+  <p>
+    <% if @recipe.recipe_steps.length > 0 %>
+      <a href='#' class='js-steps' data-recipe-id='<%=@recipe.id%>' data-show-detail='1'>Steps</a>
+    <% else %>
+      Steps
+    <% end %>
+    (<%= @recipe.recipe_steps.length %>)
+  </p>
+  <p id='steps'></p>
+  <p>
+    <%= render partial: 'recipes/review_stars', locals: {stars: @recipe.average_stars, url: recipe_recipe_reviews_path(@recipe)} %>
+    <%= '  ' %>
+    <% if @recipe.recipe_reviews.length > 0 %>
+      <a href='#' class='js-reviews' data-recipe-id='<%=@recipe.id%>' data-show-detail='1'>Reviews</a>
+    <% else %>
+      Reviews
+    <% end %>
+    (<%= @recipe.recipe_reviews.length %>)
+  </p>
+  <p id='reviews'></p>
 </div>
 
 <script id="ingredients-template" type="text/x-handlebars-template">
@@ -60,7 +59,7 @@
         <img src="/assets/review_star.png" height="12" width="12" title="recipe stars">
       {{/each}}
     </div>
-    <div class='col-sm-2'>{{title}}</div>
+    <div class='col-sm-2'><a href="{{url}}">{{title}}</div>
     <div class='col-sm-4'>{{comments}}</div>
   </div>
   {{/each}}

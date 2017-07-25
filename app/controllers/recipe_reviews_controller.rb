@@ -29,6 +29,16 @@ class RecipeReviewsController < ApplicationController
     end
   end
 
+  # display a specific recipe.
+  def show
+    @recipe_review = @recipe.recipe_reviews.find_by(id: params[:id])
+    authorize @recipe_review
+    respond_to do |format|
+      format.html { render :show }
+      format.json { render json: @recipe_reviews }
+    end
+  end
+
   # prepare to create a new recipe review.
   def new
     @recipe_review = @recipe.recipe_reviews.new

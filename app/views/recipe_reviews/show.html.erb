@@ -1,0 +1,30 @@
+<div class="col-sm-12">
+  <div class='row'>
+    <div class="col-sm-4">
+      <h3>
+        <%= @recipe_review.recipe_name %> Review
+      </h3>
+    </div>
+  </div>
+  <div class='row'>
+    <div class="col-sm-4">
+      <p><%= render partial: "recipes/review_stars", locals: {stars: @recipe_review.stars, url: nil} %></p>
+    </div>
+  </div>
+  <div class='row'>
+    <div class="col-sm-4">
+      <p class="review-title"><em><u><%= @recipe_review.title %></u></em></p>
+    </div>
+  </div>
+  <div class='row'>
+    <div class="col-sm-4">
+      <%= @recipe_review.comments %>
+    </div>
+  </div>
+  <p></p>
+  <div class='row'>
+    <div class="col-sm-4">
+      <p>by <%= @recipe_review.author_name %></p>
+    </div>
+  </div>
+</div>
