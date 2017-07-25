@@ -57,15 +57,14 @@
           </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
       </nav>
-
     </header>
 
     <div class="col-sm-12">
       <% if flash[:alert] %>
-        <div class="alert"><%= flash[:alert] %></dev>
+        <div class="alert" style="color:red;"><%= flash[:alert] %></div>
       <% end %>
 
-      <p class="notice"><%= notice %></p>
+      <p class="notice" style="color:blue;"><%= notice %></p>
       <!-- the following tag seemed to not clear out flash message soon enough. -->
       <!-- <p class="alert" ><%= alert  %></p> -->
     </div>

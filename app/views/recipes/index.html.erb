@@ -1,8 +1,8 @@
 <div class="col-sm-12">
-  <h3>Recipes
+  <h2>Recipes
     <%= 'by '            + @user_name if @user_recipes %>
     <%= 'updated after ' + @date      if @updated_after %>
     <%= link_to(image_tag('add-icon.png', size:'16', title: 'Add recipe'), new_recipe_path) if user_signed_in? %>
-  </h3>
+  </h2>
   <%= render partial: "recipes/recipes", locals: {recipes: @recipes} %>
 </div>

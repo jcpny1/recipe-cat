@@ -1,2 +1,8 @@
-<h2>Add Recipe Review to <%= @recipe_name %></h2>
-<%= render partial: "form", locals: {recipe_review: @recipe_review, url: recipe_recipe_reviews_path(@recipe_review.recipe) } %>
+<div class="col-sm-12">
+  <div class='row'>
+    <div class="col-sm-4">
+      <h3>Add Recipe Review to <%= @recipe_name %></h3>
+    </div>
+  </div>
+  <%= render partial: "form", locals: {recipe_review: @recipe_review, url: recipe_recipe_reviews_path(@recipe_review.recipe) } %>
+</div>
