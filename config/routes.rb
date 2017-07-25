@@ -9,6 +9,8 @@ Rails.application.routes.draw do
     resources :recipe_reviews
     resources :recipe_steps,       except: [:show]
     collection { post 'filter' }
+    get 'next',     on: :member
+    get 'previous', on: :member
   end
 
   resources :users do

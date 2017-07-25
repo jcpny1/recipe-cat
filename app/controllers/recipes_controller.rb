@@ -10,6 +10,17 @@ class RecipesController < ApplicationController
     redirect_to request.referer
   end
 
+  # Return the recipe corresonding to the next id in the session[:recipe_id_list].
+  def next
+    skip_authorization
+    current_recipe_id = params[:id]
+@recipe = Recipe.find(current_recipe_id)
+    respond_to do |format|
+      format.html { render @recipe }
+      format.json { render json: @recipe }
+    end
+  end
+
   # display recipes created or updated after the specified date.
   def updated_after
     update_selector {
@@ -28,6 +39,7 @@ class RecipesController < ApplicationController
       user = current_user
     end
     @recipes = Recipe.filter_array_by_ingredient(@recipes, session[:ingredient_filter]) if session[:ingredient_filter].present?  # filter by ingredient, if necessary.
+    session[:recipe_id_list] = @recipes.map{ |recipe| recipe.id }
     @user_name = user.email if user
   end
 

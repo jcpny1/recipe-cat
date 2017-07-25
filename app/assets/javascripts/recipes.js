@@ -112,6 +112,27 @@ function deleteStep(e) {
   e.preventDefault();
 }
 
+// Navigate to next recipe.
+function nextRecipe(e) {
+  var recipe_id = e.target.getAttribute('data-recipe-id');
+  // Create data array for display.
+  var recipe = {};
+  $.get(`/recipes/${recipe_id}/next.json`, function(data) {
+    var recipe_name = data['name'];
+    recipe['recipe_name'] = recipe_name;
+  });
+    // Display data via Handlebars template.
+    var template = Handlebars.compile(document.getElementById("recipe-template").innerHTML);
+    debugger;
+    $('.recipe-detail').html(template(recipe));
+  e.preventDefault();
+}
+
+// Navigate to previous recipe.
+function prevRecipe(e) {
+  e.preventDefault();
+}
+
 // Display recipe's ingredient list.
 function showIngredients(e) {
   var show_detail = e.target.getAttribute('show-detail');
@@ -137,7 +158,7 @@ function showIngredients(e) {
         var ingredient_name = ingredients[recipe_ingredient.relationships.ingredient.data['id']];
         var quantity        = recipe_ingredient.attributes['quantity'];
         var units_name      = recipe_ingredient.attributes['unit-id'] == null ? '' : units[recipe_ingredient.attributes['unit-id']];
-        recipe_ingredients.push({ingredient: ingredient_name, quantity: quantity, unit: units_name });
+        recipe_ingredients.push({ingredient: ingredient_name, quantity: quantity, unit: units_name});
       });
 
       // Display data via Handlebars template.
@@ -162,7 +183,7 @@ function showSteps(e) {
       data.data.forEach(function(recipe_step) {
         var step_number = recipe_step.attributes['step-number'];
         var description = recipe_step.attributes['description'];
-        recipe_steps.push({step_number: step_number, description: description });
+        recipe_steps.push({step_number: step_number, description: description});
       });
 
       // Display data via Handlebars template.
