@@ -30,7 +30,6 @@
   <p id='steps'></p>
   <p>
     <%= render partial: 'recipes/review_stars', locals: {stars: @recipe.average_stars, url: recipe_recipe_reviews_path(@recipe)} %>
-    <%= '  ' %>
     <% if @recipe.recipe_reviews.length > 0 %>
       <a href='#' class='js-reviews' data-recipe-id='<%=@recipe.id%>' data-show-detail='1'>Reviews</a>
     <% else %>

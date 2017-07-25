@@ -1,24 +1,24 @@
 <div class="col-sm-12">
-  <h1>Reviews
-    <%= 'by '            + @user_name if @user_reviews %>
-    <%= 'updated after ' + @date      if @updated_after %>
-    <%= link_to image_tag("add-icon.png", size:"16", title: "Add review"), new_recipe_recipe_review_path(@recipe_id) if user_signed_in? && @recipe_id %>
-  </h1>
-
+  <div class='row'>
+    <div class="col-sm-4">
+      <h1>Reviews
+        <%= 'by '            + @user_name if @user_reviews %>
+        <%= 'updated after ' + @date      if @updated_after %>
+        <%= link_to image_tag("add-icon.png", size:"16", title: "Add review"), new_recipe_recipe_review_path(@recipe_id) if user_signed_in? && @recipe_id %>
+      </h1>
+    </div>
+  </div>
   <% last_recipe_name = '' %>
   <% @recipe_reviews.each do |recipe_review| %>
-    <% if recipe_review.recipe_name != last_recipe_name %>
-      <h3><%= link_to recipe_review.recipe_name, recipe_review.recipe %></h3>
-      <% last_recipe_name = recipe_review.recipe_name %>
-    <% end %>
-
-    ========== <%= recipe_review.created_at %>
-    by <%= link_to recipe_review.author_name, user_recipe_reviews_path(recipe_review.user_id) %>
-    <%= link_to image_tag("edit-icon.png",   size:"16", title: "Edit review"  ), edit_recipe_recipe_review_path(recipe_review.recipe, recipe_review) if policy(recipe_review).update? %>
-    <%= link_to(image_tag("delete-icon.png", size:"16", title: "Delete review"), recipe_recipe_review_path(recipe_review.recipe_id, recipe_review.id), method: :delete, data: {confirm: "Are you sure!"}) if policy(recipe_review).destroy? %>
-    <p><%= render partial: "recipes/review_stars", locals: {stars: recipe_review.stars, url: nil} %></p>
-    <p class="review-title"><em><u><%= recipe_review.title %></u></em></p>
-    <%= recipe_review.comments %>
-    <br><br>
+    <div class='row'>
+      <div class="col-sm-4">
+        <% if recipe_review.recipe_name != last_recipe_name %>
+          <h3><%= link_to recipe_review.recipe_name, recipe_review.recipe %> Review</h3>
+          <% last_recipe_name = recipe_review.recipe_name %>
+        <% end %>
+      </div>
+    </div>
+    <%= render partial: 'recipe_reviews/review', locals: {review: recipe_review} %>
+    <div class='row'><div class="col-sm-4">==========</div></div>
   <% end %>
 </div>
