@@ -13,7 +13,7 @@
     <div class='row'>
       <div class="col-sm-4">
         <% if recipe_review.recipe_name != last_recipe_name %>
-          <h3><%= link_to recipe_review.recipe_name, recipe_review.recipe %> Review</h3>
+          <h3><%= link_to recipe_review.recipe_name, recipe_review.recipe %></h3>
           <% last_recipe_name = recipe_review.recipe_name %>
         <% end %>
       </div>

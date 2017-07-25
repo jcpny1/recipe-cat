@@ -29,15 +29,16 @@
   </p>
   <p id='steps'></p>
   <p>
-    <%= render partial: 'recipes/review_stars', locals: {stars: @recipe.average_stars, url: recipe_recipe_reviews_path(@recipe)} %>
     <% if @recipe.recipe_reviews.length > 0 %>
-      <a href='#' class='js-reviews' data-recipe-id='<%=@recipe.id%>' data-show-detail='1'>Reviews</a>
+      <%= link_to 'Reviews', recipe_recipe_reviews_path(@recipe) %>
     <% else %>
       Reviews
     <% end %>
     (<%= @recipe.recipe_reviews.length %>)
   </p>
-  <p id='reviews'></p>
+  <p id='reviews'>
+    <%= render partial: 'recipe_reviews/index', locals: {recipe_reviews: @recipe.recipe_reviews, recipe_id: @recipe.id} %>
+  </p>
 </div>
 
 <script id="ingredients-template" type="text/x-handlebars-template">
@@ -46,20 +47,6 @@
     <div class='col-sm-2'>{{ingredient}}</div>
     <div class='col-sm-1'>{{quantity}}</div>
     <div class='col-sm-1'>{{unit}}</div>
-  </div>
-  {{/each}}
-</script>
-
-<script id="reviews-template" type="text/x-handlebars-template">
-  {{#each this}}
-  <div class='row'>
-    <div class='col-sm-1'>
-      {{#each stars}}
-        <img src="/assets/review_star.png" height="12" width="12" title="recipe stars">
-      {{/each}}
-    </div>
-    <div class='col-sm-2'><a href="{{url}}">{{title}}</div>
-    <div class='col-sm-4'>{{comments}}</div>
   </div>
   {{/each}}
 </script>
@@ -77,9 +64,6 @@
 $(function () {
   $('.js-ingredients').on('click', function(e) {
     showIngredients(e);
-  });
-  $('.js-reviews').on('click', function(e) {
-    showReviews(e);
   });
   $('.js-steps').on('click', function(e) {
     showSteps(e);
