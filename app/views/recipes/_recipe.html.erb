@@ -50,8 +50,6 @@
       <div class='col-sm-12'>
         <h3>
           Steps:
-          <%= link_to(image_tag('resequence-icon.png', size:'16', title: 'Renumber steps'), '#', class:'js-renumberSteps') if policy(recipe).update? %>
-  <!-- link_to image_tag('resequence-icon.png', size:'16', title: 'Renumber steps'), renumber_steps_recipe_path(recipe) if policy(recipe).update? -->
         </h3>
         <table id='stepTable'>
           <tbody>

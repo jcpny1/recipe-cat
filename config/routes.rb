@@ -9,7 +9,6 @@ Rails.application.routes.draw do
     resources :recipe_reviews
     resources :recipe_steps,       except: [:show]
     collection { post 'filter' }
-    get 'renumber_steps', on: :member
   end
 
   resources :users do

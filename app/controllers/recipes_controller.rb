@@ -10,14 +10,6 @@ class RecipesController < ApplicationController
     redirect_to request.referer
   end
 
-  # renumber recipe steps from 1 to N to close any numbering gaps.
-  def renumber_steps
-    @recipe = Recipe.find_by(id: params[:id])
-    authorize @recipe
-    RecipeStep.renumber(@recipe.recipe_steps)
-    redirect_to request.referer
-  end
-
   # display recipes created or updated after the specified date.
   def updated_after
     update_selector {
