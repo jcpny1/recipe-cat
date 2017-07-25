@@ -6,7 +6,7 @@
       <%= link_to recipe.name, recipe %>
     </div>
     <div class="col-sm-2">
-      <%= image_tag(recipe.photo_path, size: "190x100", alt: "#{recipe.name} photo", title: 'recipe photo' ) %>
+      <%= link_to image_tag(recipe.photo_path, size: "190x100", alt: "#{recipe.name} photo", title: 'recipe photo' ), recipe %>
     </div>
     <div class="col-sm-1">
       <%= link_to pluralize(recipe.number_of_reviews, 'review'), recipe_recipe_reviews_path(recipe) %><br>
