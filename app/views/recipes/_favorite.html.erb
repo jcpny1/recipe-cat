@@ -1,3 +1,3 @@
 <% if user_signed_in? %>
-  <input type='checkbox' class='favorite' <%='checked' if recipe.favorite?(current_user.id)%> onchange="toggleFavorite(this)" data-user-id="<%=current_user.id%>" data-recipe-id="<%=recipe.id%>">Favorite</button>
+  <input type='checkbox' class='favorite' <%='checked' if recipe.favorite?(current_user.id)%> onchange="toggleFavorite(this)" data-user-id="<%=current_user.id%>" data-recipe-id="<%=recipe.id%>">Favorite
 <% end %>

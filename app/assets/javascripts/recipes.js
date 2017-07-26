@@ -112,24 +112,30 @@ function deleteStep(e) {
   e.preventDefault();
 }
 
+var recipeTemplate = nil;
+
 // Navigate to next recipe.
-function nextRecipe(e) {
-  var recipe_id = e.target.getAttribute('data-recipe-id');
+function navigateRecipe(e, direction) {
+  var recipe_id = $('.js-currRecipe').val();
   // Create data array for display.
   var recipe = {};
-  $.get(`/recipes/${recipe_id}/next.json`, function(data) {
+  $.get(`/recipes/${recipe_id}/navigate.json`, {direction: direction}, function(data) {
     var recipe_name = data['name'];
     recipe['recipe_name'] = recipe_name;
-  });
+    $('.js-currRecipe').val(data['id']);
+  })
+  .done(function() {
+    if (!recipeTemplate) {
+      recipeTemplate = Handlebars.compile(document.getElementById("recipe-template").innerHTML);
+    }
     // Display data via Handlebars template.
-    var template = Handlebars.compile(document.getElementById("recipe-template").innerHTML);
-    debugger;
-    $('.recipe-detail').html(template(recipe));
-  e.preventDefault();
-}
-
-// Navigate to previous recipe.
-function prevRecipe(e) {
+    $('.recipe-detail').html(recipeTemplate(recipe));
+  })
+  .fail(function() {
+    console.log('error');
+  })
+  .always(function() {
+  });
   e.preventDefault();
 }
 

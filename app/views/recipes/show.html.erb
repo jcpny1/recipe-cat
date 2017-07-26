@@ -3,6 +3,7 @@
     <div class="col-sm-1">
       <a href='#' class='js-prevRecipe' data-recipe-id='<%=@recipe.id%>'>&lt;Previous&gt;</a>
     </div>
+    <input type='hidden' class='js-currRecipe' value='<%=@recipe.id%>'>
     <div class="col-sm-1">
       <a href='#' class='js-nextRecipe' data-recipe-id='<%=@recipe.id%>'>&lt;Next&gt;</a>
     </div>
@@ -66,8 +67,6 @@
 <script id="recipe-template" type="text/x-handlebars-template">
   <div class='row'>
     <div class='col-sm-2'>{{recipe_name}}</div>
-    <div class='col-sm-1'>{{recipe_name}}</div>
-    <div class='col-sm-1'>{{recipe_name}}</div>
   </div>
 </script>
 
@@ -87,11 +86,11 @@ $(function () {
   });
 
   $('.js-nextRecipe').on('click', function(e) {
-    nextRecipe(e);
+    navigateRecipe(e, 'next');
   });
 
   $('.js-prevRecipe').on('click', function(e) {
-    prevRecipe(e);
+    navigateRecipe(e, 'prev');
   });
 
   $('.js-steps').on('click', function(e) {
