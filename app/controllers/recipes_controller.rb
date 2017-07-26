@@ -14,7 +14,7 @@ class RecipesController < ApplicationController
   def navigate
     skip_authorization
     current_recipe_id = params[:id].to_i
-    current_recipe_index = session[:recipe_id_list].find_index(current_recipe_id);
+    current_recipe_index = session[:recipe_id_list].find_index(current_recipe_id)
     if current_recipe_index
       direction = params[:direction]
       if (direction == 'next') && (current_recipe_index < session[:recipe_id_list].length - 1)
@@ -101,8 +101,10 @@ class RecipesController < ApplicationController
 
   # delete a recipe.
   def destroy
-    recipe = Recipe.find_by(id: params[:id])
+    recipe_id = params[:id]
+    recipe = Recipe.find_by(id: recipe_id)
     authorize recipe
+    session[:recipe_id_list].delete(recipe_id)
     recipe.destroy
     redirect_to user_recipes_path(current_user)
   end

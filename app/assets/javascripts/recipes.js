@@ -1,9 +1,9 @@
 function addIngredient(e) {
-  var ingredientTable = $('#ingredientTable tbody');
-  var newRow   = ingredientTable.find('tr:first').clone();
-  var newRowId = ingredientTable.find('tr').length;
-  var newId   = `recipe_recipe_ingredients_attributes_${newRowId}_`;
-  var newName = `recipe[recipe_ingredients_attributes][${newRowId}]`;
+  var ingredientTable = $('#ingredientTable tbody'),
+      newRow   = ingredientTable.find('tr:first').clone(),
+      newRowId = ingredientTable.find('tr').length,
+      newId   = `recipe_recipe_ingredients_attributes_${newRowId}_`,
+      newName = `recipe[recipe_ingredients_attributes][${newRowId}]`;
 
   // These are the attributes that need to be edited when cloning a table row.
   // The index values need updating to a new, unique, value -
@@ -20,8 +20,8 @@ function addIngredient(e) {
   selectElems.eq(0).attr('name', newName + '[ingredient_id]');
   selectElems.eq(0).attr('id',   newId   + 'ingredient_id'  );
 
-  var labelElems = newRow.find('label');
-  var inputElems = newRow.find('input');
+  var labelElems = newRow.find('label'),
+      inputElems = newRow.find('input');
   labelElems.eq(0).attr('for',   newId   + 'quantity'  );
   inputElems.eq(0).attr('name',  newName + '[quantity]');
   inputElems.eq(0).attr('id',    newId   + 'quantity'  );
@@ -43,13 +43,13 @@ function addIngredient(e) {
 }
 
 function addStep(e) {
-  var stepTable  = $('#stepTable tbody');
-  var newRow     = stepTable.find('tr:first').clone();
-  var newRowId   = stepTable.find('tr').length;
-  var newId      = `recipe_recipe_steps_attributes_${newRowId}_`;
-  var newName    = `recipe[recipe_steps_attributes][${newRowId}]`;
-  var clickedRow = $(e.target).parent().parent().parent();
-  var stepNumber = parseInt(clickedRow.find('input[name*="step_number"]').val());
+  var stepTable  = $('#stepTable tbody'),
+      newRow     = stepTable.find('tr:first').clone(),
+      newRowId   = stepTable.find('tr').length,
+      newId      = `recipe_recipe_steps_attributes_${newRowId}_`,
+      newName    = `recipe[recipe_steps_attributes][${newRowId}]`,
+      clickedRow = $(e.target).parent().parent().parent(),
+      stepNumber = parseInt(clickedRow.find('input[name*="step_number"]').val());
 
   // These are the attributes that need to be edited when cloning a table row.
   // The index and name values need updating:
@@ -63,8 +63,8 @@ function addStep(e) {
 
   newRow.removeAttr('id');
 
-  var inputElems = newRow.find('input');
-  var labelElems = newRow.find('label');
+  var inputElems = newRow.find('input'),
+      labelElems = newRow.find('label');
   labelElems.eq(0).attr('for',   newId   + 'step_number'  );
   inputElems.eq(0).attr('name',  newName + '[step_number]');
   inputElems.eq(0).attr('id',    newId   + 'step_number'  );
@@ -82,9 +82,9 @@ function addStep(e) {
   newRow.insertAfter(clickedRow);
 
   clickedRow.nextAll('tr').each( function() {
-    var stepNumberTd = $(this).find('td:first');
-    var stepNumberElem = stepNumberTd.find('input');
-    var stepNumber = parseInt(stepNumberElem.val()) + 1;
+    var stepNumberTd = $(this).find('td:first'),
+        stepNumberElem = stepNumberTd.find('input'),
+        stepNumber = parseInt(stepNumberElem.val()) + 1;
     stepNumberElem.val(stepNumber);
     stepNumberTd.find('label').text('Step ' + stepNumber);
   });
@@ -98,6 +98,16 @@ function deleteIngredient(e) {
     $(e.target).parent().parent().parent().hide();  // Hide the entire recipe step <tr>.
     var recipe_ingredient_id = $(e.target).parent().data('recipeIngredientId');
     $("tr#recipe-ingredient-id-" + recipe_ingredient_id + " input:checkbox.js-destroyIngredient").prop('checked', true);
+  }
+  e.preventDefault();
+}
+
+//  Delete an entire recipe.
+function deleteRecipe(e) {
+  if (confirm('Are you sure?') == true) {
+    // $(e.target).parent().parent().parent().hide();  // Hide the entire recipe <tr>.
+    // var recipe_step_id = $(e.target).parent().data('recipeStepId');
+    // $("tr#recipe-step-id-" + recipe_step_id + " input:checkbox.js-destroyStep").prop('checked', true);
   }
   e.preventDefault();
 }
@@ -118,18 +128,34 @@ var recipeTemplate = nil;
 function navigateRecipe(e, direction) {
   var recipe_id = $('.js-currRecipe').val();
   // Create data array for display.
+
+// data.data.attributes['user-id']
+// Object { user-id: 4, name: "Duck Fesenjan", photo-path: "recipes/duck fesenjan.jpg", description: "Chef John's take on the classic Per…", total-time: 210 }
+
+// data.data.relationships['author'].data
+// Object { id: 4, email: "joe_user@aol.com", created_at: "2017-07-24T16:43:30.416Z", updated_at: "2017-07-24T16:43:30.416Z", provider: null, uid: null, role: "user" }
   var recipe = {};
+
   $.get(`/recipes/${recipe_id}/navigate.json`, {direction: direction}, function(data) {
-    var recipe_name = data['name'];
-    recipe['recipe_name'] = recipe_name;
-    $('.js-currRecipe').val(data['id']);
+// var ingredient_name = ingredients[recipe_ingredient.relationships.ingredient.data['id']];
+// var quantity        = recipe_ingredient.attributes['quantity'];
+    recipe['author_id']   = data.data.relationships.author.data['id'];
+    recipe['author_name'] = data.data.relationships.author.data['email'];
+    recipe['recipe_id']   = data.data['id'];
+    recipe['photo_path']  = data.data.attributes['photo-path'];
+    recipe['name']        = data.data.attributes['name'];
+    recipe['description'] = data.data.attributes['description'];
+    recipe['total_time']  = data.data.attributes['total-time'] + ' minutes';
+
+    $('.js-currRecipe').val(data.data['id']);
   })
   .done(function() {
+    // Display data via Handlebars template.
     if (!recipeTemplate) {
       recipeTemplate = Handlebars.compile(document.getElementById("recipe-template").innerHTML);
     }
-    // Display data via Handlebars template.
     $('.recipe-detail').html(recipeTemplate(recipe));
+    $('.js-deleteRecipe').eq(0).click(deleteRecipe);
   })
   .fail(function() {
     console.log('error');
@@ -161,9 +187,9 @@ function showIngredients(e) {
       // Create data array for display.
       var recipe_ingredients = [];
       data.data.forEach(function(recipe_ingredient) {
-        var ingredient_name = ingredients[recipe_ingredient.relationships.ingredient.data['id']];
-        var quantity        = recipe_ingredient.attributes['quantity'];
-        var units_name      = recipe_ingredient.attributes['unit-id'] == null ? '' : units[recipe_ingredient.attributes['unit-id']];
+        var ingredient_name = ingredients[recipe_ingredient.relationships.ingredient.data['id']],
+            quantity        = recipe_ingredient.attributes['quantity'],
+            units_name      = recipe_ingredient.attributes['unit-id'] == null ? '' : units[recipe_ingredient.attributes['unit-id']];
         recipe_ingredients.push({ingredient: ingredient_name, quantity: quantity, unit: units_name});
       });
 
@@ -187,8 +213,8 @@ function showSteps(e) {
       // Create data array for display.
       var recipe_steps = [];
       data.data.forEach(function(recipe_step) {
-        var step_number = recipe_step.attributes['step-number'];
-        var description = recipe_step.attributes['description'];
+        var step_number = recipe_step.attributes['step-number'],
+            description = recipe_step.attributes['description'];
         recipe_steps.push({step_number: step_number, description: description});
       });
 
@@ -202,8 +228,8 @@ function showSteps(e) {
 }
 
 function toggleFavorite(elem) {
-  var recipe_id = elem.dataset.recipeId;
-  var user_id   = elem.dataset.userId;
+  var recipe_id = elem.dataset.recipeId,
+      user_id   = elem.dataset.userId;
   $.ajax({
     type: "PATCH",
     url: `/users/${user_id}/user_recipe_favorites/${recipe_id}`,

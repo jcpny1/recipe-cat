@@ -1,7 +1,7 @@
 # base Rails controller class
 class ApplicationController < ActionController::Base
   include Pundit
-  after_action :verify_authorized,    except: [:recent_edits_select, :recent_edits, :index], unless: :devise_controller?
+  after_action :verify_authorized,    except: [:index, :recent_edits, :recent_edits_select], unless: :devise_controller?
   after_action :verify_policy_scoped, only:   [:index]
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   rescue_from Pundit::NotDefinedError,    with: :route_not_defined

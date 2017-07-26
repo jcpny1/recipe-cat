@@ -65,8 +65,18 @@
 </script>
 
 <script id="recipe-template" type="text/x-handlebars-template">
-  <div class='row'>
-    <div class='col-sm-2'>{{recipe_name}}</div>
+  <div class="col-sm-12">
+    <input type='hidden' class='js-currRecipe' value='{{recipe_id}}'>
+    <h1>
+      {{name}}
+      {{{editRecipe recipe_id author_id}}}
+    </h1>
+    <p>Submitted by <a href='/users/{{user_id}}/recipes'>{{author_name}}</a></p>
+    <p>
+      <img src='/assets/{{photo_path}}' height='200' width='360' title="{{name}} photo">
+    </p>
+    <p style='width:40%' align='justify'>{{description}}</p>
+    <p>Total time: {{total_time}}</p>
   </div>
 </script>
 
@@ -81,6 +91,10 @@
 
 <script type='text/javascript' charset='utf-8'>
 $(function () {
+  $('.js-deleteRecipe').on('click', function(e) {
+    deleteRecipe(e);
+  });
+
   $('.js-ingredients').on('click', function(e) {
     showIngredients(e);
   });
@@ -95,6 +109,16 @@ $(function () {
 
   $('.js-steps').on('click', function(e) {
     showSteps(e);
+  });
+
+  Handlebars.registerHelper('editRecipe', function(recipe_id, author_id) {
+    var author_user_id = parseInt(Handlebars.escapeExpression(author_id));
+    var this_user_id = $('body').data('userid');
+    if (author_user_id == this_user_id) {
+      return new Handlebars.SafeString(
+        '<a href="/recipes/' + recipe_id + '/edit"><img src="/assets/edit-icon.png" height="16" width="16" title="Edit recipe"></a> ' +
+        '<a class="js-deleteRecipe" href="#"><img src="/assets/delete-icon.png" height="16" width="16" title="Delete recipe"></a>');
+    }
   });
 });
 </script>
