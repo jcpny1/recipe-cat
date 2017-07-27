@@ -140,9 +140,6 @@ function requestRecipe(direction) {
     recipe['name']           = data.data.attributes['name'];
     recipe['description']    = data.data.attributes['description'];
     recipe['total_time']     = data.data.attributes['total-time'] + ' minutes';
-    recipe['numIngredients'] = data.data.relationships['recipe-ingredients']['data'].length;
-    recipe['numSteps']       = data.data.relationships['recipe-steps']['data'].length;
-    recipe['numReviews']     = data.data.relationships['recipe-reviews']['data'].length;
     recipe['favorite']       = '';
 
     var this_user_id = $('body').data('userid');
