@@ -122,47 +122,64 @@ function deleteStep(e) {
   e.preventDefault();
 }
 
-var recipeTemplate = nil;
-
 // Navigate to next recipe.
 function navigateRecipe(e, direction) {
-  var recipe_id = $('.js-currRecipe').val();
-  // Create data array for display.
+  e.preventDefault();
+  var recipe = requestRecipe(direction);
+}
 
-// data.data.attributes['user-id']
-// Object { user-id: 4, name: "Duck Fesenjan", photo-path: "recipes/duck fesenjan.jpg", description: "Chef John's take on the classic Per…", total-time: 210 }
+var recipeTemplate = nil;
 
-// data.data.relationships['author'].data
-// Object { id: 4, email: "joe_user@aol.com", created_at: "2017-07-24T16:43:30.416Z", updated_at: "2017-07-24T16:43:30.416Z", provider: null, uid: null, role: "user" }
-  var recipe = {};
+// Get a recipe from the server.
+function requestRecipe(direction) {
+  $.get('/recipes/0.json', {direction: direction}, function(data) {
+console.log(data);
+    var recipe = {};
+    recipe['author_id']      = data.data.relationships.author.data['id'];
+    recipe['author_name']    = data.data.relationships.author.data['email'];
+    recipe['recipe_id']      = data.data['id'];
+    recipe['photo_path']     = data.data.attributes['photo-path'];
+    recipe['name']           = data.data.attributes['name'];
+    recipe['description']    = data.data.attributes['description'];
+    recipe['total_time']     = data.data.attributes['total-time'] + ' minutes';
+    recipe['numIngredients'] = data.data.relationships['recipe-ingredients']['data'].length;
+    recipe['numSteps']       = data.data.relationships['recipe-steps']['data'].length;
+    recipe['numReviews']     = data.data.relationships['recipe-reviews']['data'].length;
+    recipe['favorite']       = '';
 
-  $.get(`/recipes/${recipe_id}/navigate.json`, {direction: direction}, function(data) {
-// var ingredient_name = ingredients[recipe_ingredient.relationships.ingredient.data['id']];
-// var quantity        = recipe_ingredient.attributes['quantity'];
-    recipe['author_id']   = data.data.relationships.author.data['id'];
-    recipe['author_name'] = data.data.relationships.author.data['email'];
-    recipe['recipe_id']   = data.data['id'];
-    recipe['photo_path']  = data.data.attributes['photo-path'];
-    recipe['name']        = data.data.attributes['name'];
-    recipe['description'] = data.data.attributes['description'];
-    recipe['total_time']  = data.data.attributes['total-time'] + ' minutes';
-
-    $('.js-currRecipe').val(data.data['id']);
-  })
-  .done(function() {
+    var this_user_id = $('body').data('userid');
+    var user_recipe_favorites = data.data.relationships['user-recipe-favorites']['data'];
+    for (var i = 0; i < user_recipe_favorites.length; ++i) {
+      if (user_recipe_favorites[i]['user-id'] == this_user_id) {
+        recipe['favorite'] = 'checked';
+        break;
+      }
+    }
     // Display data via Handlebars template.
     if (!recipeTemplate) {
       recipeTemplate = Handlebars.compile(document.getElementById("recipe-template").innerHTML);
     }
     $('.recipe-detail').html(recipeTemplate(recipe));
-    $('.js-deleteRecipe').eq(0).click(deleteRecipe);
+
+    $('.js-deleteRecipe').eq(0).click(function() {
+      deleteRecipe();
+    });
   })
-  .fail(function() {
+  .fail(function(jqXHR, textStatus, error) {
     console.log('error');
-  })
-  .always(function() {
   });
-  e.preventDefault();
+  return recipe;
+}
+
+// Save a recipe_id for later use.
+function saveRecipeId(recipe_id) {
+  // $.post(`/recipes/save_id/${recipe_id}`, function(data) {
+  // })
+  // .fail(function() {
+  //   console.log('error');
+  // });
+  // return recipe;
+console.log("nothin");
 }
 
 // Display recipe's ingredient list.
@@ -200,6 +217,12 @@ function showIngredients(e) {
   }
   e.target.setAttribute('show-detail', show_detail == 0 ? 1 : 0);  // flip the show_detail flag.
   e.preventDefault();
+}
+
+// Display a recipe.
+function showRecipe(e) {
+  var recipe_id = e.target.parentElement.getAttribute('data-recipe-id');
+  var recipe    = requestRecipe(recipe_id, '');
 }
 
 // Display recipe's step list.

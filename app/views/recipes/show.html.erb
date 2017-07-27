@@ -1,57 +1,13 @@
 <div class="col-sm-12">
   <div class='row'>
     <div class="col-sm-1">
-      <a href='#' class='js-prevRecipe' data-recipe-id='<%=@recipe.id%>'>&lt;Previous&gt;</a>
+      <a href='/yyy' class='js-prevRecipe'>&lt;Previous&gt;</a>
     </div>
-    <input type='hidden' class='js-currRecipe' value='<%=@recipe.id%>'>
     <div class="col-sm-1">
-      <a href='#' class='js-nextRecipe' data-recipe-id='<%=@recipe.id%>'>&lt;Next&gt;</a>
+      <a href='/xxx' class='js-nextRecipe'>&lt;Next&gt;</a>
     </div>
   </div>
-  <div class='row recipe-detail'>
-    <div class="col-sm-12">
-      <h1>
-        <%= @recipe.name %> <%= link_to image_tag('edit-icon.png', size:'16', title: 'Edit recipe'), edit_recipe_path(@recipe) if @recipe.author == current_user %>
-        <%= link_to image_tag('delete-icon.png', size:'16', title: 'Delete recipe'), recipe_path(@recipe), method: :delete, data: {confirm: 'Are you sure!'} if policy(@recipe).destroy? %>
-      </h1>
-      <p>Submitted by <%= link_to @recipe.author_name, user_recipes_path(@recipe.author) %></p>
-      <p>
-        <%= image_tag(@recipe.photo_path, size: '360x200', alt: '#{@recipe.name} photo', title: 'recipe photo' ) %>
-        <%= render partial: 'recipes/favorite', locals: {recipe: @recipe} %>
-      </p>
-      <p style='width:40%' align='justify'><%= @recipe.description %></p>
-      <p>Total time: <%= pluralize(number_with_precision(@recipe.total_time, precision: 0), 'minute') %></p>
-      <p>
-        <% if @recipe.recipe_ingredients.length > 0 %>
-          <a href='#' class='js-ingredients' data-recipe-id='<%=@recipe.id%>' data-show-detail='1'>Ingredients</a>
-        <% else %>
-          Ingredients
-        <% end %>
-        (<%= @recipe.recipe_ingredients.length %>)
-      </p>
-      <p id='ingredients'></p>
-      <p>
-        <% if @recipe.recipe_steps.length > 0 %>
-          <a href='#' class='js-steps' data-recipe-id='<%=@recipe.id%>' data-show-detail='1'>Steps</a>
-        <% else %>
-          Steps
-        <% end %>
-        (<%= @recipe.recipe_steps.length %>)
-      </p>
-      <p id='steps'></p>
-      <p>
-        <% if @recipe.recipe_reviews.length > 0 %>
-          <%= link_to 'Reviews', recipe_recipe_reviews_path(@recipe) %>
-        <% else %>
-          Reviews
-        <% end %>
-        (<%= @recipe.recipe_reviews.length %>)
-      </p>
-      <p id='reviews'>
-        <%= render partial: 'recipe_reviews/index', locals: {recipe_reviews: @recipe.recipe_reviews, recipe_id: @recipe.id} %>
-      </p>
-    </div>
-  </div>
+  <div class='row recipe-detail'></div>
 </div>
 
 <script id="ingredients-template" type="text/x-handlebars-template">
@@ -66,17 +22,20 @@
 
 <script id="recipe-template" type="text/x-handlebars-template">
   <div class="col-sm-12">
-    <input type='hidden' class='js-currRecipe' value='{{recipe_id}}'>
-    <h1>
-      {{name}}
-      {{{editRecipe recipe_id author_id}}}
-    </h1>
+    <h1>{{name}} {{{editRecipe recipe_id author_id}}}</h1>
     <p>Submitted by <a href='/users/{{user_id}}/recipes'>{{author_name}}</a></p>
     <p>
       <img src='/assets/{{photo_path}}' height='200' width='360' title="{{name}} photo">
+      <input type='checkbox' class='favorite' {{favorite}}>Favorite
     </p>
     <p style='width:40%' align='justify'>{{description}}</p>
     <p>Total time: {{total_time}}</p>
+    <p>Ingredients ({{numIngredients}})</p>
+    <p id='ingredients'></p>
+    <p>Steps ({{numSteps}})</p>
+    <p id='steps'></p>
+    <p>Reviews ({{numReviews}})</p>
+    <p id='reviews'></p>
   </div>
 </script>
 
@@ -120,5 +79,7 @@ $(function () {
         '<a class="js-deleteRecipe" href="#"><img src="/assets/delete-icon.png" height="16" width="16" title="Delete recipe"></a>');
     }
   });
+
+  requestRecipe('current');
 });
 </script>

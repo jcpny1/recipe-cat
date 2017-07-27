@@ -1,7 +1,7 @@
 # Rails controller for Recipe model.
 class RecipesController < ApplicationController
-  skip_after_action :verify_authorized,    only: :updated_after
-  after_action      :verify_policy_scoped, only: :updated_after
+  skip_after_action :verify_authorized,    only: [:updated_after, :save_id]
+  after_action      :verify_policy_scoped, only: [:updated_after]
 
   # save the selected ingredient filter value(s) for later display use.
   def filter
@@ -10,24 +10,12 @@ class RecipesController < ApplicationController
     redirect_to request.referer
   end
 
-  # Return the recipe corresonding to the previous or next id in the session[:recipe_id_list].
-  def navigate
+  # save the given recipe_id for future use.
+  def save_id
     skip_authorization
-    current_recipe_id = params[:id].to_i
-    current_recipe_index = session[:recipe_id_list].find_index(current_recipe_id)
-    if current_recipe_index
-      direction = params[:direction]
-      if (direction == 'next') && (current_recipe_index < session[:recipe_id_list].length - 1)
-        current_recipe_id = session[:recipe_id_list][current_recipe_index + 1]
-      elsif (direction == 'prev') && (current_recipe_index > 0)
-        current_recipe_id = session[:recipe_id_list][current_recipe_index - 1]
-      end
-    end
-    @recipe = Recipe.find(current_recipe_id)
-    respond_to do |format|
-      format.html { render @recipe }
-      format.json { render json: @recipe }
-    end
+    session[:recipe_id] = params[:id]
+binding.pry
+    render :nothing => true
   end
 
   # display recipes created or updated after the specified date.
@@ -54,8 +42,30 @@ class RecipesController < ApplicationController
 
   # display a specific recipe.
   def show
-    @recipe = Recipe.find_by(id: params[:id])
+    recipe_id = params[:id]
+    if recipe_id == "0"
+      recipe_id = session[:recipe_id].to_i
+      recipe_id = session[:recipe_id_list][0] if recipe_id == 0
+      recipe_index = session[:recipe_id_list].find_index(recipe_id)
+      if recipe_index
+        direction = params[:direction]
+        if (direction == 'next') && (recipe_index < session[:recipe_id_list].length - 1)
+          recipe_id = session[:recipe_id_list][recipe_index + 1]
+        elsif (direction == 'prev') && (recipe_index > 0)
+          recipe_id = session[:recipe_id_list][recipe_index - 1]
+        end
+      end
+    end
+
+    session[:recipe_id] = recipe_id
+
+    @recipe = Recipe.find_by(id: recipe_id)
     authorize @recipe
+
+    respond_to do |format|
+      format.html { render :show }
+      format.json { render json: @recipe }
+    end
   end
 
   # prepare to create a new recipe.
