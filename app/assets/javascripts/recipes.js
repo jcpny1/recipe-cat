@@ -227,10 +227,26 @@ function showReviews(e) {
     $.get(`/recipes/${recipe_id}/recipe_reviews.json`, function(data) {
       // Create data array for display.
       var recipe_reviews = [];
-      data.data.forEach(function(recipe_review) {
-        // var step_number = recipe_step.attributes['step-number'],
-        //     description = recipe_step.attributes['description'];
-        // recipe_steps.push({step_number: step_number, description: description});
+      data.forEach(function(recipe_review) {
+
+        var comments  = recipe_review['comments'],
+            num_stars = parseInt(recipe_review['stars']),
+            recipe_id = recipe_review['recipe_id'],
+            review_id = recipe_review['id'],
+            title     = recipe_review['title'];
+
+        var stars = '';
+        for (var i = 0; i < num_stars; ++i) {
+          stars += '<img src="/assets/review_star.png" height="12" width="12" title="recipe stars">';
+        }
+
+        var titleHeader = `<a href="/recipes/${recipe_id}/recipe_reviews/${review_id}">${title}</a>`;
+
+        if (comments.length > 60) {
+          comments = comments.substring(0, 57) + '...';
+        }
+
+        recipe_reviews.push({stars: stars, titleHeader: titleHeader, comments: comments});
       });
       // Display data via Handlebars template.
       var template = Handlebars.compile(document.getElementById("reviews-template").innerHTML);

@@ -39,6 +39,16 @@
   </div>
 </script>
 
+<script id="reviews-template" type="text/x-handlebars-template">
+  {{#each this}}
+    <div class='row'>
+      <div class='col-sm-1'>{{{stars}}}</div>
+      <div class='col-sm-2'>{{{titleHeader}}}</div>
+      <div class='col-sm-4'>{{comments}}</div>
+    </div>
+  {{/each}}
+</script>
+
 <script id="steps-template" type="text/x-handlebars-template">
   {{#each this}}
   <div class='row'>
@@ -50,13 +60,8 @@
 
 <script type='text/javascript' charset='utf-8'>
 $(function () {
-  $('.js-nextRecipe').on('click', function(e) {
-    navigateRecipe(e, 'next');
-  });
-
-  $('.js-prevRecipe').on('click', function(e) {
-    navigateRecipe(e, 'prev');
-  });
+  $('.js-nextRecipe').on('click', function(e) { navigateRecipe(e, 'next'); });
+  $('.js-prevRecipe').on('click', function(e) { navigateRecipe(e, 'prev'); });
 
   Handlebars.registerHelper('editRecipe', function(recipe_id, author_id) {
     var author_user_id = parseInt(Handlebars.escapeExpression(author_id));
