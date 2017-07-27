@@ -153,15 +153,23 @@ function requestRecipe(direction) {
         break;
       }
     }
+
+    var ingredientsTitle = "Ingredients"
+
+    if (recipe['numIngredients'] != '0') {
+      ingredientsTitle = `<a class="js-ingredients" data-recipe-id=${recipe['recipe_id']} data-show-detail="1" href="#">${ingredientsTitle}</a>`;
+    }
+
+    recipe['ingredientsHeader'] = `${ingredientsTitle} (${recipe['numIngredients']})`;
+
     // Display data via Handlebars template.
     if (!recipeTemplate) {
       recipeTemplate = Handlebars.compile(document.getElementById("recipe-template").innerHTML);
     }
     $('.recipe-detail').html(recipeTemplate(recipe));
 
-    $('.js-deleteRecipe').eq(0).click(function() {
-      deleteRecipe();
-    });
+    $('.js-deleteRecipe').eq(0).click(function(e) { deleteRecipe(e); });
+    $('.js-ingredients').eq(0).click(function(e)  { showIngredients(e); });
   })
   .fail(function(jqXHR, textStatus, error) {
     console.log('error');
@@ -171,7 +179,7 @@ function requestRecipe(direction) {
 
 // Display recipe's ingredient list.
 function showIngredients(e) {
-  var show_detail = e.target.getAttribute('show-detail');
+  var show_detail = e.target.getAttribute('data-show-detail');
   if (show_detail == 0) {   // hide detail.
     $('#ingredients').html('');
   } else {                  // show detail.
@@ -202,7 +210,7 @@ function showIngredients(e) {
       $('#ingredients').html(template(recipe_ingredients));
     });
   }
-  e.target.setAttribute('show-detail', show_detail == 0 ? 1 : 0);  // flip the show_detail flag.
+  e.target.setAttribute('data-show-detail', show_detail == 0 ? 1 : 0);  // flip the show_detail flag.
   e.preventDefault();
 }
 
@@ -214,7 +222,7 @@ function showRecipe(e) {
 
 // Display recipe's step list.
 function showSteps(e) {
-  var show_detail = e.target.getAttribute('show-detail');
+  var show_detail = e.target.getAttribute('data-show-detail');
   if (show_detail == 0) {   // hide detail.
     $('#steps').html('');
   } else {                  // show detail.
@@ -233,7 +241,7 @@ function showSteps(e) {
       $('#steps').html(template(recipe_steps));
     });
   }
-  e.target.setAttribute('show-detail', show_detail == 0 ? 1 : 0);  // flip the show_detail flag.
+  e.target.setAttribute('data-show-detail', show_detail == 0 ? 1 : 0);  // flip the show_detail flag.
   e.preventDefault();
 }
 
