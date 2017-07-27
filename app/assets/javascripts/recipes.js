@@ -123,7 +123,7 @@ function deleteStep(e) {
 
 // Navigate to another recipe ('next', 'prev', 'current').
 function navigateRecipe(e, direction) {
-  var recipe = requestRecipe(direction);
+  requestRecipe(direction);
   e.preventDefault();
 }
 
@@ -154,13 +154,9 @@ function requestRecipe(direction) {
       }
     }
 
-    var ingredientsTitle = "Ingredients"
-
-    if (recipe['numIngredients'] != '0') {
-      ingredientsTitle = `<a class="js-ingredients" data-recipe-id=${recipe['recipe_id']} data-show-detail="1" href="#">${ingredientsTitle}</a>`;
-    }
-
-    recipe['ingredientsHeader'] = `${ingredientsTitle} (${recipe['numIngredients']})`;
+    recipe['ingredientsHeader'] = `<a class="js-ingredients" data-recipe-id=${recipe['recipe_id']} data-show-detail="1" href="#">Ingredients</a>`;
+    recipe['stepsHeader'] = `<a class="js-steps" data-recipe-id=${recipe['recipe_id']} data-show-detail="1" href="#">Steps</a>`;
+    recipe['reviewsHeader'] = `<a class="js-reviews" data-recipe-id=${recipe['recipe_id']} data-show-detail="1" href="#">Reviews</a>`;
 
     // Display data via Handlebars template.
     if (!recipeTemplate) {
@@ -170,11 +166,12 @@ function requestRecipe(direction) {
 
     $('.js-deleteRecipe').eq(0).click(function(e) { deleteRecipe(e); });
     $('.js-ingredients').eq(0).click(function(e)  { showIngredients(e); });
+    $('.js-steps').eq(0).click(function(e) { showSteps(e); });
+    $('.js-reviews').eq(0).click(function(e) { showReviews(e); });
   })
   .fail(function(jqXHR, textStatus, error) {
     console.log('error');
   });
-  return recipe;
 }
 
 // Display recipe's ingredient list.
@@ -208,6 +205,9 @@ function showIngredients(e) {
       // Display data via Handlebars template.
       var template = Handlebars.compile(document.getElementById("ingredients-template").innerHTML);
       $('#ingredients').html(template(recipe_ingredients));
+    })
+    .fail(function(jqXHR, textStatus, error) {
+      console.log('error');
     });
   }
   e.target.setAttribute('data-show-detail', show_detail == 0 ? 1 : 0);  // flip the show_detail flag.
@@ -218,6 +218,33 @@ function showIngredients(e) {
 function showRecipe(e) {
   var recipe_id = e.target.parentElement.getAttribute('data-recipe-id');
   var recipe    = requestRecipe(recipe_id, '');
+}
+
+// Display recipe's review list.
+function showReviews(e) {
+  var show_detail = e.target.getAttribute('data-show-detail');
+  if (show_detail == 0) {   // hide detail.
+    $('#steps').html('');
+  } else {                  // show detail.
+    var recipe_id = e.target.getAttribute('data-recipe-id');
+    $.get(`/recipes/${recipe_id}/recipe_reviews.json`, function(data) {
+      // Create data array for display.
+      var recipe_reviews = [];
+      data.data.forEach(function(recipe_review) {
+        // var step_number = recipe_step.attributes['step-number'],
+        //     description = recipe_step.attributes['description'];
+        // recipe_steps.push({step_number: step_number, description: description});
+      });
+      // Display data via Handlebars template.
+      var template = Handlebars.compile(document.getElementById("reviews-template").innerHTML);
+      $('#reviews').html(template(recipe_reviews));
+    })
+    .fail(function(jqXHR, textStatus, error) {
+      console.log('error');
+    });
+  }
+  e.target.setAttribute('data-show-detail', show_detail == 0 ? 1 : 0);  // flip the show_detail flag.
+  e.preventDefault();
 }
 
 // Display recipe's step list.
@@ -235,10 +262,12 @@ function showSteps(e) {
             description = recipe_step.attributes['description'];
         recipe_steps.push({step_number: step_number, description: description});
       });
-
       // Display data via Handlebars template.
       var template = Handlebars.compile(document.getElementById("steps-template").innerHTML);
       $('#steps').html(template(recipe_steps));
+    })
+    .fail(function(jqXHR, textStatus, error) {
+      console.log('error');
     });
   }
   e.target.setAttribute('data-show-detail', show_detail == 0 ? 1 : 0);  // flip the show_detail flag.
