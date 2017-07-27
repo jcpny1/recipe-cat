@@ -23,11 +23,8 @@
 <script id="recipe-template" type="text/x-handlebars-template">
   <div class="col-sm-12">
     <h1>{{name}} {{{editRecipe recipe_id author_id}}}</h1>
-    <p>Submitted by <a href='/users/{{user_id}}/recipes'>{{author_name}}</a></p>
-    <p>
-      <img src='/assets/{{photo_path}}' height='200' width='360' title="{{name}} photo">
-      <input type='checkbox' class='favorite' {{favorite}}>Favorite
-    </p>
+    <p>{{{submitter}}}</p>
+    <p>{{{image}}} {{{favorite}}}</p>
     <p style='width:40%' align='justify'>{{description}}</p>
     <p>Total time: {{total_time}}</p>
     <p>{{{ingredientsHeader}}}</p>

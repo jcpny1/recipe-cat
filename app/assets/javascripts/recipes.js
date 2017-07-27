@@ -132,25 +132,31 @@ var recipeTemplate = nil;
 // Get a recipe from the server.
 function requestRecipe(direction) {
   $.get('/recipes/0.json', {direction: direction}, function(data) {
+
+    var author_name = data.data.relationships.author.data['email'],
+        favorite    = '',
+        photo_path  = data.data.attributes['photo-path'];
+
+
     var recipe = {};
-    recipe['author_id']      = data.data.relationships.author.data['id'];
-    recipe['author_name']    = data.data.relationships.author.data['email'];
-    recipe['recipe_id']      = data.data['id'];
-    recipe['photo_path']     = data.data.attributes['photo-path'];
-    recipe['name']           = data.data.attributes['name'];
-    recipe['description']    = data.data.attributes['description'];
-    recipe['total_time']     = data.data.attributes['total-time'] + ' minutes';
-    recipe['favorite']       = '';
+    recipe['recipe_id']   = data.data['id'];
+    recipe['author_id']   = data.data.relationships.author.data['id'];
+    recipe['name']        = data.data.attributes['name'];
+    recipe['description'] = data.data.attributes['description'];
+    recipe['total_time']  = data.data.attributes['total-time'] + ' minutes';
 
     var this_user_id = $('body').data('userid');
     var user_recipe_favorites = data.data.relationships['user-recipe-favorites']['data'];
     for (var i = 0; i < user_recipe_favorites.length; ++i) {
       if (user_recipe_favorites[i]['user-id'] == this_user_id) {
-        recipe['favorite'] = 'checked';
+        favorite = 'checked';
         break;
       }
     }
 
+    recipe['image'] = `<img src='/assets/${photo_path}' height='200' width='360' title="${recipe['name']}} photo">`;
+    recipe['favorite'] = `<input type='checkbox' class='favorite' ${favorite}>Favorite`;
+    recipe['submitter'] = `Submitted by <a href='/users/${recipe['author_id']}/recipes'>${author_name}}</a>`;
     recipe['ingredientsHeader'] = `<a class="js-ingredients" data-recipe-id=${recipe['recipe_id']} data-show-detail="1" href="#">Ingredients</a>`;
     recipe['stepsHeader'] = `<a class="js-steps" data-recipe-id=${recipe['recipe_id']} data-show-detail="1" href="#">Steps</a>`;
     recipe['reviewsHeader'] = `<a class="js-reviews" data-recipe-id=${recipe['recipe_id']} data-show-detail="1" href="#">Reviews</a>`;
