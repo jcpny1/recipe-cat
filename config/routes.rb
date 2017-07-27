@@ -11,7 +11,6 @@ Rails.application.routes.draw do
     resources :recipe_steps,       except: [:show]
     collection { post 'filter' }
   end
-  post '/recipes/save_id/:id',                to: "recipes#save_id"
   get  '/recipes/updated_after/:date',        to: "recipes#updated_after"
   get  '/recipe_reviews/updated_after/:date', to: "recipe_reviews#updated_after"
 

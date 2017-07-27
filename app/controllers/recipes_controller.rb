@@ -10,14 +10,6 @@ class RecipesController < ApplicationController
     redirect_to request.referer
   end
 
-  # save the given recipe_id for future use.
-  def save_id
-    skip_authorization
-    session[:recipe_id] = params[:id]
-binding.pry
-    render :nothing => true
-  end
-
   # display recipes created or updated after the specified date.
   def updated_after
     update_selector {
@@ -56,12 +48,9 @@ binding.pry
         end
       end
     end
-
     session[:recipe_id] = recipe_id
-
     @recipe = Recipe.find_by(id: recipe_id)
     authorize @recipe
-
     respond_to do |format|
       format.html { render :show }
       format.json { render json: @recipe }

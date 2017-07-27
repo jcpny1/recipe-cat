@@ -6,12 +6,3 @@
   </h2>
   <%= render partial: "recipes/recipes", locals: {recipes: @recipes} %>
 </div>
-
-<script type='text/javascript' charset='utf-8'>
-$(function () {
-  $('.js-selectRecipe').on('click', function(e) {
-    var recipe_id = e.target.parentElement.getAttribute('data-recipe-id');
-    saveRecipeId(recipe_id);
-  });
-});
-</script>

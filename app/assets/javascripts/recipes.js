@@ -133,7 +133,6 @@ var recipeTemplate = nil;
 // Get a recipe from the server.
 function requestRecipe(direction) {
   $.get('/recipes/0.json', {direction: direction}, function(data) {
-console.log(data);
     var recipe = {};
     recipe['author_id']      = data.data.relationships.author.data['id'];
     recipe['author_name']    = data.data.relationships.author.data['email'];
@@ -169,17 +168,6 @@ console.log(data);
     console.log('error');
   });
   return recipe;
-}
-
-// Save a recipe_id for later use.
-function saveRecipeId(recipe_id) {
-  // $.post(`/recipes/save_id/${recipe_id}`, function(data) {
-  // })
-  // .fail(function() {
-  //   console.log('error');
-  // });
-  // return recipe;
-console.log("nothin");
 }
 
 // Display recipe's ingredient list.
