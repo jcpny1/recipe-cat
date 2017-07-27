@@ -88,7 +88,6 @@ function addStep(e) {
     stepNumberElem.val(stepNumber);
     stepNumberTd.find('label').text('Step ' + stepNumber);
   });
-
   e.preventDefault();
 }
 
@@ -122,10 +121,10 @@ function deleteStep(e) {
   e.preventDefault();
 }
 
-// Navigate to next recipe.
+// Navigate to another recipe ('next', 'prev', 'current').
 function navigateRecipe(e, direction) {
-  e.preventDefault();
   var recipe = requestRecipe(direction);
+  e.preventDefault();
 }
 
 var recipeTemplate = nil;
