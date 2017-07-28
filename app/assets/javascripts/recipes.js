@@ -104,9 +104,14 @@ function deleteIngredient(e) {
 //  Delete an entire recipe.
 function deleteRecipe(e) {
   if (confirm('Are you sure?') == true) {
-    // $(e.target).parent().parent().parent().hide();  // Hide the entire recipe <tr>.
-    // var recipe_step_id = $(e.target).parent().data('recipeStepId');
-    // $("tr#recipe-step-id-" + recipe_step_id + " input:checkbox.js-destroyStep").prop('checked', true);
+    var recipe_id = e.target.parentElement.getAttribute('data-recipe-id');
+    $.ajax({
+      type: "DELETE",
+      url: `/recipes/${recipe_id}`,
+    })
+    .fail(function(jqXHR, textStatus, error) {
+      console.log('ERROR: ' + error);
+    });
   }
   e.preventDefault();
 }
@@ -167,13 +172,20 @@ function requestRecipe(direction) {
     }
     $('.recipe-detail').html(recipeTemplate(recipe));
 
+    if (history.pushState) {
+      if (window.location.pathname != `/recipes/${recipe['recipe_id']}`) {
+        var newurl = window.location.protocol + "//" + window.location.host + `/recipes/${recipe['recipe_id']}`;
+        window.history.pushState({path:newurl}, '', newurl);
+      }
+    }
+
     $('.js-deleteRecipe').eq(0).click(function(e) { deleteRecipe(e); });
     $('.js-ingredients').eq(0).click(function(e)  { showIngredients(e); });
     $('.js-steps').eq(0).click(function(e) { showSteps(e); });
     $('.js-reviews').eq(0).click(function(e) { showReviews(e); });
   })
   .fail(function(jqXHR, textStatus, error) {
-    console.log('error');
+    console.log('ERROR: ' + error);
   });
 }
 
@@ -210,7 +222,7 @@ function showIngredients(e) {
       $('#ingredients').html(template(recipe_ingredients));
     })
     .fail(function(jqXHR, textStatus, error) {
-      console.log('error');
+      console.log('ERROR: ' + error);
     });
   }
   e.target.setAttribute('data-show-detail', show_detail == 0 ? 1 : 0);  // flip the show_detail flag.
@@ -259,7 +271,7 @@ function showReviews(e) {
       $('#reviews').html(template(recipe_reviews));
     })
     .fail(function(jqXHR, textStatus, error) {
-      console.log('error');
+      console.log('ERROR: ' + error);
     });
   }
   e.target.setAttribute('data-show-detail', show_detail == 0 ? 1 : 0);  // flip the show_detail flag.
@@ -286,7 +298,7 @@ function showSteps(e) {
       $('#steps').html(template(recipe_steps));
     })
     .fail(function(jqXHR, textStatus, error) {
-      console.log('error');
+      console.log('ERROR: ' + error);
     });
   }
   e.target.setAttribute('data-show-detail', show_detail == 0 ? 1 : 0);  // flip the show_detail flag.

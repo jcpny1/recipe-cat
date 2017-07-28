@@ -65,8 +65,8 @@ $(function () {
     var this_user_id = $('body').data('userid');
     if (author_user_id == this_user_id) {
       return new Handlebars.SafeString(
-        '<a href="/recipes/' + recipe_id + '/edit"><img src="/assets/edit-icon.png" height="16" width="16" title="Edit recipe"></a> ' +
-        '<a class="js-deleteRecipe" href="#"><img src="/assets/delete-icon.png" height="16" width="16" title="Delete recipe"></a>');
+        `<a href="/recipes/${recipe_id}/edit"><img src="/assets/edit-icon.png" height="16" width="16" title="Edit recipe"></a> ` +
+        `<a class="js-deleteRecipe" data-recipe-id="${recipe_id}" href="#"><img src="/assets/delete-icon.png" height="16" width="16" title="Delete recipe"></a>`);
     }
   });
 

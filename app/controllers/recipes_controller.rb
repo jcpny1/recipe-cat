@@ -100,12 +100,22 @@ class RecipesController < ApplicationController
 
   # delete a recipe.
   def destroy
-    recipe_id = params[:id]
+    recipe_id = params[:id].to_i
     recipe = Recipe.find_by(id: recipe_id)
     authorize recipe
+    recipe_index = session[:recipe_id_list].find_index(recipe_id)
     session[:recipe_id_list].delete(recipe_id)
     recipe.destroy
-    redirect_to user_recipes_path(current_user)
+
+    if session[:recipe_id_list].length > 0
+      new_recipe_id = session[:recipe_id_list][recipe_index]
+      session[:recipe_id] = new_recipe_id
+      redirect_to recipe_path(new_recipe_id)
+    else
+      new_recipe_id = 0
+      session[:recipe_id] = new_recipe_id
+      redirect_to user_recipes_path(current_user)
+    end
   end
 
 private
