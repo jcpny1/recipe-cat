@@ -1,6 +1,6 @@
 function addIngredient(e) {
   var ingredientTable = $('#ingredientTable tbody'),
-      newRow   = ingredientTable.find('tr:first').clone(true),
+      newRow   = ingredientTable.find('tr:visible').first().clone(true),
       newRowId = ingredientTable.find('tr').length,
       newId   = `recipe_recipe_ingredients_attributes_${newRowId}_`,
       newName = `recipe[recipe_ingredients_attributes][${newRowId}]`;
@@ -43,10 +43,9 @@ function addIngredient(e) {
 }
 
 function addStep(e) {
-
   var stepTable  = $('#stepTable tbody'),
       clickedRow = $(e.target).parent().parent().parent(),
-      newRow     = stepTable.find('tr:first').clone(true),
+      newRow     = clickedRow.clone(true),
       newRowId   = stepTable.find('tr').length,
       newId      = `recipe_recipe_steps_attributes_${newRowId}_`,
       newName    = `recipe[recipe_steps_attributes][${newRowId}]`,
@@ -98,9 +97,16 @@ function addStep(e) {
 //  Delete a recipe ingredient from the recipe.
 function deleteIngredient(e) {
   if (confirm('Are you sure?') == true) {
-    $(e.target).parent().parent().parent().hide();  // Hide the entire recipe step <tr>.
-    var recipeIngredientId = $(e.target).parent().data('recipeIngredientId');
-    $("tr#recipe-ingredient-id-" + recipeIngredientId + " input:checkbox.js-destroyIngredient").prop('checked', true);
+    var clickedRow = $(e.target).parent().parent().parent();
+
+    // Eliminate the deleted row.
+    if (clickedRow.attr('id')) {
+      var recipeIngredientId = $(e.target).parent().data('recipeIngredientId');
+      clickedRow.hide();  // Hide the row and
+      $("tr#recipe-ingredient-id-" + recipeIngredientId + " input:checkbox.js-destroyIngredient").prop('checked', true);  // mark for it destruction.
+    } else {
+      clickedRow.remove(); // A new row doesn't have an id. Just delete it.
+    }
   }
   e.preventDefault();
 }
@@ -140,12 +146,11 @@ function deleteStep(e) {
     // Eliminate the deleted row.
     if (clickedRow.attr('id')) {
       var recipeStepId = $(e.target).parent().data('recipeStepId');
-      clickedRow.hide();  // Hide the recipe step row and
-      $("tr#recipe-step-id-" + recipeStepId + " input:checkbox.js-destroyStep").prop('checked', true);  // mark for destruction.
+      clickedRow.hide();  // Hide the row and
+      $("tr#recipe-step-id-" + recipeStepId + " input:checkbox.js-destroyStep").prop('checked', true);  // mark it for destruction.
     } else {
       clickedRow.remove(); // A new row doesn't have an id. Just delete it.
     }
-
   }
   e.preventDefault();
 }
