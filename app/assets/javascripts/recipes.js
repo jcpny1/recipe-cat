@@ -1,6 +1,6 @@
 function addIngredient(e) {
   var ingredientTable = $('#ingredientTable tbody'),
-      newRow   = ingredientTable.find('tr:first').clone(),
+      newRow   = ingredientTable.find('tr:first').clone(true),
       newRowId = ingredientTable.find('tr').length,
       newId   = `recipe_recipe_ingredients_attributes_${newRowId}_`,
       newName = `recipe[recipe_ingredients_attributes][${newRowId}]`;
@@ -43,12 +43,13 @@ function addIngredient(e) {
 }
 
 function addStep(e) {
+
   var stepTable  = $('#stepTable tbody'),
-      newRow     = stepTable.find('tr:first').clone(),
+      clickedRow = $(e.target).parent().parent().parent(),
+      newRow     = stepTable.find('tr:first').clone(true),
       newRowId   = stepTable.find('tr').length,
       newId      = `recipe_recipe_steps_attributes_${newRowId}_`,
       newName    = `recipe[recipe_steps_attributes][${newRowId}]`,
-      clickedRow = $(e.target).parent().parent().parent(),
       stepNumber = parseInt(clickedRow.find('input[name*="step_number"]').val());
 
   // These are the attributes that need to be edited when cloning a table row.
@@ -81,12 +82,15 @@ function addStep(e) {
 
   newRow.insertAfter(clickedRow);
 
+  // Renumber only visible rows.
   clickedRow.nextAll('tr').each( function() {
-    var stepNumberTd = $(this).find('td:first'),
-        stepNumberElem = stepNumberTd.find('input'),
-        stepNumber = parseInt(stepNumberElem.val()) + 1;
-    stepNumberElem.val(stepNumber);
-    stepNumberTd.find('label').text('Step ' + stepNumber);
+    if ($(this).is(':visible')) {
+      var stepNumberTd   = $(this).find('td:first'),
+          stepNumberElem = stepNumberTd.find('input');
+      stepNumber += 1;
+      stepNumberElem.val(stepNumber);
+      stepNumberTd.find('label').text('Step ' + stepNumber);
+    }
   });
   e.preventDefault();
 }
@@ -95,8 +99,8 @@ function addStep(e) {
 function deleteIngredient(e) {
   if (confirm('Are you sure?') == true) {
     $(e.target).parent().parent().parent().hide();  // Hide the entire recipe step <tr>.
-    var recipe_ingredient_id = $(e.target).parent().data('recipeIngredientId');
-    $("tr#recipe-ingredient-id-" + recipe_ingredient_id + " input:checkbox.js-destroyIngredient").prop('checked', true);
+    var recipeIngredientId = $(e.target).parent().data('recipeIngredientId');
+    $("tr#recipe-ingredient-id-" + recipeIngredientId + " input:checkbox.js-destroyIngredient").prop('checked', true);
   }
   e.preventDefault();
 }
@@ -104,10 +108,10 @@ function deleteIngredient(e) {
 //  Delete an entire recipe.
 function deleteRecipe(e) {
   if (confirm('Are you sure?') == true) {
-    var recipe_id = e.target.parentElement.getAttribute('data-recipe-id');
+    var recipeId = e.target.parentElement.getAttribute('data-recipe-id');
     $.ajax({
       type: "DELETE",
-      url: `/recipes/${recipe_id}`,
+      url: `/recipes/${recipeId}`,
     })
     .fail(function(jqXHR, textStatus, error) {
       console.log('ERROR: ' + error);
@@ -119,9 +123,29 @@ function deleteRecipe(e) {
 //  Delete a recipe step from the recipe.
 function deleteStep(e) {
   if (confirm('Are you sure?') == true) {
-    $(e.target).parent().parent().parent().hide();  // Hide the entire recipe step <tr>.
-    var recipe_step_id = $(e.target).parent().data('recipeStepId');
-    $("tr#recipe-step-id-" + recipe_step_id + " input:checkbox.js-destroyStep").prop('checked', true);
+    var clickedRow = $(e.target).parent().parent().parent(),
+        stepNumber = parseInt(clickedRow.find('input[name*="step_number"]').val());
+
+    // Renumber the subsequent visible rows.
+    clickedRow.nextAll('tr').each( function() {
+      if ($(this).is(':visible')) {
+        var stepNumberTd   = $(this).find('td:first'),
+            stepNumberElem = stepNumberTd.find('input');
+        stepNumberElem.val(stepNumber);
+        stepNumberTd.find('label').text('Step ' + stepNumber);
+        stepNumber += 1;
+      }
+    });
+
+    // Eliminate the deleted row.
+    if (clickedRow.attr('id')) {
+      var recipeStepId = $(e.target).parent().data('recipeStepId');
+      clickedRow.hide();  // Hide the recipe step row and
+      $("tr#recipe-step-id-" + recipeStepId + " input:checkbox.js-destroyStep").prop('checked', true);  // mark for destruction.
+    } else {
+      clickedRow.remove(); // A new row doesn't have an id. Just delete it.
+    }
+
   }
   e.preventDefault();
 }
@@ -138,9 +162,9 @@ var recipeTemplate = nil;
 function requestRecipe(direction) {
   $.get('/recipes/0.json', {direction: direction}, function(data) {
 
-    var author_name = data.data.relationships.author.data['email'],
-        favorite    = '',
-        photo_path  = data.data.attributes['photo-path'];
+    var authorName = data.data.relationships.author.data['email'],
+        favorite   = '',
+        photoPath  = data.data.attributes['photo-path'];
 
 
     var recipe = {};
@@ -150,18 +174,18 @@ function requestRecipe(direction) {
     recipe['description'] = data.data.attributes['description'];
     recipe['total_time']  = data.data.attributes['total-time'] + ' minutes';
 
-    var this_user_id = $('body').data('userid');
-    var user_recipe_favorites = data.data.relationships['user-recipe-favorites']['data'];
-    for (var i = 0; i < user_recipe_favorites.length; ++i) {
-      if (user_recipe_favorites[i]['user-id'] == this_user_id) {
+    var thisUserId = $('body').data('userid');
+    var userRecipeFavorites = data.data.relationships['user-recipe-favorites']['data'];
+    for (var i = 0; i < userRecipeFavorites.length; ++i) {
+      if (userRecipeFavorites[i]['user-id'] == thisUserId) {
         favorite = 'checked';
         break;
       }
     }
 
-    recipe['image'] = `<img src='/assets/${photo_path}' height='200' width='360' title="${recipe['name']}} photo">`;
+    recipe['image'] = `<img src='/assets/${photoPath}' height='200' width='360' title="${recipe['name']}} photo">`;
     recipe['favorite'] = `<input type='checkbox' class='favorite' ${favorite}>Favorite`;
-    recipe['submitter'] = `Submitted by <a href='/users/${recipe['author_id']}/recipes'>${author_name}}</a>`;
+    recipe['submitter'] = `Submitted by <a href='/users/${recipe['author_id']}/recipes'>${authorName}}</a>`;
     recipe['ingredientsHeader'] = `<a class="js-ingredients" data-recipe-id=${recipe['recipe_id']} data-show-detail="1" href="#">Ingredients</a>`;
     recipe['stepsHeader'] = `<a class="js-steps" data-recipe-id=${recipe['recipe_id']} data-show-detail="1" href="#">Steps</a>`;
     recipe['reviewsHeader'] = `<a class="js-reviews" data-recipe-id=${recipe['recipe_id']} data-show-detail="1" href="#">Reviews</a>`;
@@ -191,12 +215,12 @@ function requestRecipe(direction) {
 
 // Display recipe's ingredient list.
 function showIngredients(e) {
-  var show_detail = e.target.getAttribute('data-show-detail');
-  if (show_detail == 0) {   // hide detail.
+  var showDetail = e.target.getAttribute('data-show-detail');
+  if (showDetail == 0) {   // hide detail.
     $('#ingredients').html('');
   } else {                  // show detail.
-    var recipe_id = e.target.getAttribute('data-recipe-id');
-    $.get(`/recipes/${recipe_id}/recipe_ingredients.json`, function(data) {
+    var recipeId = e.target.getAttribute('data-recipe-id');
+    $.get(`/recipes/${recipeId}/recipe_ingredients.json`, function(data) {
       // Gather up reference data.
       var ingredients = {}, units = {};
       if (data.included) {
@@ -210,125 +234,125 @@ function showIngredients(e) {
       }
 
       // Create data array for display.
-      var recipe_ingredients = [];
-      data.data.forEach(function(recipe_ingredient) {
-        var ingredient_name = ingredients[recipe_ingredient.relationships.ingredient.data['id']],
-            quantity        = recipe_ingredient.attributes['quantity'],
-            units_name      = recipe_ingredient.attributes['unit-id'] == null ? '' : units[recipe_ingredient.attributes['unit-id']];
-        recipe_ingredients.push({ingredient: ingredient_name, quantity: quantity, unit: units_name});
+      var recipeIngredients = [];
+      data.data.forEach(function(recipeIngredient) {
+        var ingredientName = ingredients[recipeIngredient.relationships.ingredient.data['id']],
+            quantity       = recipeIngredient.attributes['quantity'],
+            unitsName      = recipeIngredient.attributes['unit-id'] == null ? '' : units[recipeIngredient.attributes['unit-id']];
+        recipeIngredients.push({ingredient: ingredientName, quantity: quantity, unit: unitsName});
       });
 
       // Show a message if there are no ingredients.
-      if (recipe_ingredients.length == 0) {
-        recipe_ingredients.push({ingredient: 'No ingredients yet.', quantity: '', unit: ''});
+      if (recipeIngredients.length == 0) {
+        recipeIngredients.push({ingredient: 'No ingredients yet.', quantity: '', unit: ''});
       }
 
       // Display data via Handlebars template.
       var template = Handlebars.compile(document.getElementById("ingredients-template").innerHTML);
-      $('#ingredients').html(template(recipe_ingredients));
+      $('#ingredients').html(template(recipeIngredients));
     })
     .fail(function(jqXHR, textStatus, error) {
       console.log('ERROR: ' + error);
     });
   }
-  e.target.setAttribute('data-show-detail', show_detail == 0 ? 1 : 0);  // flip the show_detail flag.
+  e.target.setAttribute('data-show-detail', showDetail == 0 ? 1 : 0);  // flip the showDetail flag.
   e.preventDefault();
 }
 
 // Display a recipe.
 function showRecipe(e) {
-  var recipe_id = e.target.parentElement.getAttribute('data-recipe-id');
-  var recipe    = requestRecipe(recipe_id, '');
+  var recipeId = e.target.parentElement.getAttribute('data-recipe-id');
+  var recipe    = requestRecipe(recipeId, '');
 }
 
 // Display recipe's review list.
 function showReviews(e) {
-  var show_detail = e.target.getAttribute('data-show-detail');
-  if (show_detail == 0) {   // hide detail.
+  var showDetail = e.target.getAttribute('data-show-detail');
+  if (showDetail == 0) {   // hide detail.
     $('#reviews').html('');
   } else {                  // show detail.
-    var recipe_id = e.target.getAttribute('data-recipe-id');
-    $.get(`/recipes/${recipe_id}/recipe_reviews.json`, function(data) {
+    var recipeId = e.target.getAttribute('data-recipe-id');
+    $.get(`/recipes/${recipeId}/recipe_reviews.json`, function(data) {
       // Create data array for display.
-      var recipe_reviews = [];
-      data.data.forEach(function(recipe_review) {
+      var recipeReviews = [];
+      data.data.forEach(function(recipeReview) {
 
-        var comments  = recipe_review['comments'],
-            num_stars = parseInt(recipe_review['stars']),
-            recipe_id = recipe_review['recipe_id'],
-            review_id = recipe_review['id'],
-            title     = recipe_review['title'];
+        var comments = recipeReview['comments'],
+            numStars = parseInt(recipeReview['stars']),
+            recipeId = recipeReview['recipe_id'],
+            reviewId = recipeReview['id'],
+            title    = recipeReview['title'];
 
         var stars = '';
-        for (var i = 0; i < num_stars; ++i) {
+        for (var i = 0; i < numStars; ++i) {
           stars += '<img src="/assets/review_star.png" height="12" width="12" title="recipe stars">';
         }
 
-        var titleHeader = `<a href="/recipes/${recipe_id}/recipe_reviews/${review_id}">${title}</a>`;
+        var titleHeader = `<a href="/recipes/${recipeId}/recipe_reviews/${reviewId}">${title}</a>`;
 
         if (comments.length > 60) {
           comments = comments.substring(0, 57) + '...';
         }
 
-        recipe_reviews.push({stars: stars, titleHeader: titleHeader, comments: comments});
+        recipeReviews.push({stars: stars, titleHeader: titleHeader, comments: comments});
       });
 
       // Show a message if there are no reviews.
-      if (recipe_reviews.length == 0) {
-        recipe_reviews.push({stars: 'No reviews yet.', titleHeader: '', comments: ''});
+      if (recipeReviews.length == 0) {
+        recipeReviews.push({stars: 'No reviews yet.', titleHeader: '', comments: ''});
       }
 
       // Display data via Handlebars template.
       var template = Handlebars.compile(document.getElementById("reviews-template").innerHTML);
-      $('#reviews').html(template(recipe_reviews));
+      $('#reviews').html(template(recipeReviews));
     })
     .fail(function(jqXHR, textStatus, error) {
       console.log('ERROR: ' + error);
     });
   }
-  e.target.setAttribute('data-show-detail', show_detail == 0 ? 1 : 0);  // flip the show_detail flag.
+  e.target.setAttribute('data-show-detail', showDetail == 0 ? 1 : 0);  // flip the showDetail flag.
   e.preventDefault();
 }
 
 // Display recipe's step list.
 function showSteps(e) {
-  var show_detail = e.target.getAttribute('data-show-detail');
-  if (show_detail == 0) {   // hide detail.
+  var showDetail = e.target.getAttribute('data-show-detail');
+  if (showDetail == 0) {   // hide detail.
     $('#steps').html('');
   } else {                  // show detail.
-    var recipe_id = e.target.getAttribute('data-recipe-id');
-    $.get(`/recipes/${recipe_id}/recipe_steps.json`, function(data) {
+    var recipeId = e.target.getAttribute('data-recipe-id');
+    $.get(`/recipes/${recipeId}/recipe_steps.json`, function(data) {
       // Create data array for display.
-      var recipe_steps = [];
-      data.data.forEach(function(recipe_step) {
-        var step_number = recipe_step.attributes['step-number'],
-            description = recipe_step.attributes['description'];
-        recipe_steps.push({step_number: step_number, description: description});
+      var recipeSteps = [];
+      data.data.forEach(function(recipeStep) {
+        var stepNumber = recipeStep.attributes['step-number'],
+            description = recipeStep.attributes['description'];
+        recipeSteps.push({step_number: stepNumber, description: description});
       });
 
       // Show a message if there are no steps.
-      if (recipe_steps.length == 0) {
-        recipe_steps.push({step_number: 'No steps yet.', description: ''});
+      if (recipeSteps.length == 0) {
+        recipeSteps.push({step_number: 'No steps yet.', description: ''});
       }
 
       // Display data via Handlebars template.
       var template = Handlebars.compile(document.getElementById("steps-template").innerHTML);
-      $('#steps').html(template(recipe_steps));
+      $('#steps').html(template(recipeSteps));
     })
     .fail(function(jqXHR, textStatus, error) {
       console.log('ERROR: ' + error);
     });
   }
-  e.target.setAttribute('data-show-detail', show_detail == 0 ? 1 : 0);  // flip the show_detail flag.
+  e.target.setAttribute('data-show-detail', showDetail == 0 ? 1 : 0);  // flip the showDetail flag.
   e.preventDefault();
 }
 
 function toggleFavorite(elem) {
-  var recipe_id = elem.dataset.recipeId,
-      user_id   = elem.dataset.userId;
+  var recipeId = elem.dataset.recipeId,
+      userId   = elem.dataset.userId;
   $.ajax({
     type: "PATCH",
-    url: `/users/${user_id}/user_recipe_favorites/${recipe_id}`,
+    url: `/users/${userId}/user_recipe_favorites/${recipeId}`,
     data: {'favorite': elem.checked},
     dataType: 'json'
   });

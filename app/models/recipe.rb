@@ -13,7 +13,7 @@ class Recipe < ApplicationRecord
   validates :name, uniqueness: true
 
   accepts_nested_attributes_for :recipe_ingredients, :allow_destroy => true
-  accepts_nested_attributes_for :recipe_steps, reject_if: proc { |attributes| attributes['description'].blank? }, :allow_destroy => true
+  accepts_nested_attributes_for :recipe_steps, reject_if: proc { |attributes| attributes['step_number'].blank? }, :allow_destroy => true
 
   #do not allow total_time or photo_path to be null.
   after_initialize do |recipe|
