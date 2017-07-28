@@ -38,6 +38,7 @@ group :development, :test do
   gem 'rack_session_access'
   gem 'rspec-rails', '~> 3.5'
   gem 'pry-byebug'  # Adds step-by-step debugging and stack navigation capabilities to pry using byebug. To use, invoke pry normally.
+gem 'rails-controller-testing'
 end
 
 group :development do
