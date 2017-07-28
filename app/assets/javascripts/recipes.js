@@ -197,16 +197,17 @@ function showIngredients(e) {
   } else {                  // show detail.
     var recipe_id = e.target.getAttribute('data-recipe-id');
     $.get(`/recipes/${recipe_id}/recipe_ingredients.json`, function(data) {
-      var ingredients = {}, units = {};
-
       // Gather up reference data.
-      data.included.forEach(function(relation) {
-        if (relation.type == 'ingredients') {
-          ingredients[relation['id']] = relation.attributes['name'];
-        } else if (relation.type == 'units') {
-          units[relation['id']] = relation.attributes['name'];
-        }
-      });
+      var ingredients = {}, units = {};
+      if (data.included) {
+        data.included.forEach(function(relation) {
+          if (relation.type == 'ingredients') {
+            ingredients[relation['id']] = relation.attributes['name'];
+          } else if (relation.type == 'units') {
+            units[relation['id']] = relation.attributes['name'];
+          }
+        });
+      }
 
       // Create data array for display.
       var recipe_ingredients = [];
@@ -216,6 +217,11 @@ function showIngredients(e) {
             units_name      = recipe_ingredient.attributes['unit-id'] == null ? '' : units[recipe_ingredient.attributes['unit-id']];
         recipe_ingredients.push({ingredient: ingredient_name, quantity: quantity, unit: units_name});
       });
+
+      // Show a message if there are no ingredients.
+      if (recipe_ingredients.length == 0) {
+        recipe_ingredients.push({ingredient: 'No ingredients yet.', quantity: '', unit: ''});
+      }
 
       // Display data via Handlebars template.
       var template = Handlebars.compile(document.getElementById("ingredients-template").innerHTML);
@@ -239,13 +245,13 @@ function showRecipe(e) {
 function showReviews(e) {
   var show_detail = e.target.getAttribute('data-show-detail');
   if (show_detail == 0) {   // hide detail.
-    $('#steps').html('');
+    $('#reviews').html('');
   } else {                  // show detail.
     var recipe_id = e.target.getAttribute('data-recipe-id');
     $.get(`/recipes/${recipe_id}/recipe_reviews.json`, function(data) {
       // Create data array for display.
       var recipe_reviews = [];
-      data.forEach(function(recipe_review) {
+      data.data.forEach(function(recipe_review) {
 
         var comments  = recipe_review['comments'],
             num_stars = parseInt(recipe_review['stars']),
@@ -266,6 +272,12 @@ function showReviews(e) {
 
         recipe_reviews.push({stars: stars, titleHeader: titleHeader, comments: comments});
       });
+
+      // Show a message if there are no reviews.
+      if (recipe_reviews.length == 0) {
+        recipe_reviews.push({stars: 'No reviews yet.', titleHeader: '', comments: ''});
+      }
+
       // Display data via Handlebars template.
       var template = Handlebars.compile(document.getElementById("reviews-template").innerHTML);
       $('#reviews').html(template(recipe_reviews));
@@ -293,6 +305,12 @@ function showSteps(e) {
             description = recipe_step.attributes['description'];
         recipe_steps.push({step_number: step_number, description: description});
       });
+
+      // Show a message if there are no steps.
+      if (recipe_steps.length == 0) {
+        recipe_steps.push({step_number: 'No steps yet.', description: ''});
+      }
+
       // Display data via Handlebars template.
       var template = Handlebars.compile(document.getElementById("steps-template").innerHTML);
       $('#steps').html(template(recipe_steps));
