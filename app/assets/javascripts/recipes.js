@@ -103,7 +103,7 @@ function deleteIngredient(e) {
     if (clickedRow.attr('id')) {
       var recipeIngredientId = $(e.target).parent().data('recipeIngredientId');
       clickedRow.hide();  // Hide the row and
-      $("tr#recipe-ingredient-id-" + recipeIngredientId + " input:checkbox.js-destroyIngredient").prop('checked', true);  // mark for it destruction.
+      clickedRow.find('input:checkbox.js-destroyIngredient').prop('checked', true);  // mark it for destruction.
     } else {
       clickedRow.remove(); // A new row doesn't have an id. Just delete it.
     }
@@ -147,7 +147,7 @@ function deleteStep(e) {
     if (clickedRow.attr('id')) {
       var recipeStepId = $(e.target).parent().data('recipeStepId');
       clickedRow.hide();  // Hide the row and
-      $("tr#recipe-step-id-" + recipeStepId + " input:checkbox.js-destroyStep").prop('checked', true);  // mark it for destruction.
+      clickedRow.find('input:checkbox.js-destroyStep').prop('checked', true);  // mark it for destruction.
     } else {
       clickedRow.remove(); // A new row doesn't have an id. Just delete it.
     }

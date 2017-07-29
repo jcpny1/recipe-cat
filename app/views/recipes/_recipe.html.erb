@@ -37,7 +37,7 @@
       <%= f.fields_for :recipe_ingredients do |ff| %>
         <tr id='recipe-ingredient-id-<%=ff.object.id%>'>
           <%= render partial: 'recipe_ingredients/form_ingredient', locals: {f: ff} %>
-          <td><%= link_to(image_tag('delete-icon.png', size:'16', title: 'Delete ingredient'), '#', class:'js-deleteIngredient', data: {'recipe-ingredient-id':ff.object.id}) if policy(recipe).update? %></td>
+          <td><%= link_to(image_tag('delete-icon.png', size:'16', title: 'Delete ingredient'), '#', class:'js-deleteIngredient') if policy(recipe).update? %></td>
           <!-- <% if ff.object.persisted? %> -->
             <td hidden><%= ff.check_box :_destroy, class:'js-destroyIngredient' %></td>
           <!-- <% end %> -->
@@ -58,7 +58,7 @@
         <tr id='recipe-step-id-<%=ff.object.id%>'>
           <%= render partial: 'recipe_steps/form_step', locals: {f: ff} %>
           <td><%= link_to(image_tag('add-icon.png', size:'16', title: 'Add step'), '#', class:'js-addStep') if policy(recipe).update? %></td>
-          <td><%= link_to(image_tag('delete-icon.png', size:'16', title: 'Delete step'), '#', class:'js-deleteStep', data: {'recipe-step-id':ff.object.id}) if policy(recipe).update? %></td>
+          <td><%= link_to(image_tag('delete-icon.png', size:'16', title: 'Delete step'), '#', class:'js-deleteStep') if policy(recipe).update? %></td>
           <!-- <% if ff.object.persisted? %> -->
             <td hidden><%= ff.check_box :_destroy, class:'js-destroyStep' %></td>
           <!-- <% end %> -->
