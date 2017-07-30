@@ -31,7 +31,6 @@ function addIngredient(e) {
   selectElems.eq(1).attr('name', newName + '[unit_id]');
   selectElems.eq(1).attr('id', newId + 'unit_id' );
 
-  newRow.find('a.js-deleteIngredient').eq(0).attr('data-recipe-ingredient-id', '');
   newRow.find('a.js-deleteIngredient').eq(0).click(deleteIngredient);
 
   selectElems.find('option').each(function(i, e) {
@@ -87,17 +86,6 @@ function deleteStep(e) {
     var clickedRow = $(e.target).parent().parent().parent(),
         stepNumber = parseInt(clickedRow.find('input[name*="step_number"]').val());
 
-    // Renumber the subsequent visible rows.
-    clickedRow.nextAll('tr').each( function() {
-      if ($(this).is(':visible')) {
-        var stepNumberTd   = $(this).find('td:first'),
-            stepNumberElem = stepNumberTd.find('input');
-        stepNumberElem.val(stepNumber);
-        stepNumberTd.find('label').text('Step ' + stepNumber);
-        stepNumber += 1;
-      }
-    });
-
     // Eliminate the deleted row.
     if (clickedRow.attr('id')) {
       var recipeStepId = $(e.target).parent().data('recipeStepId');
@@ -106,6 +94,8 @@ function deleteStep(e) {
     } else {
       clickedRow.remove(); // A new row doesn't have an id. Just delete it.
     }
+
+    renumberSteps(clickedRow, 'delete');
   }
   e.preventDefault();
 }
