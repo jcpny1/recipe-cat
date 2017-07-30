@@ -42,55 +42,10 @@ function addIngredient(e) {
   e.preventDefault();
 }
 
-function addStep(e) {
-  var stepTable  = $('#stepTable tbody'),
-      clickedRow = $(e.target).parent().parent().parent(),
-      newRow     = clickedRow.clone(true),
-      newRowId   = stepTable.find('tr').length,
-      newId      = `recipe_recipe_steps_attributes_${newRowId}_`,
-      newName    = `recipe[recipe_steps_attributes][${newRowId}]`,
-      stepNumber = parseInt(clickedRow.find('input[name*="step_number"]').val());
-
-  // These are the attributes that need to be edited when cloning a table row.
-  // The index and name values need updating:
-  //   <tr id="recipe-step-id-11">
-  //   "recipe[recipe_steps_attributes][0][step_id]"
-  //   "recipe_recipe_steps_attributes_0_step_id"
-  // and existing values need to be cleared out:
-  //   data-recipe-step-id="16"
-  //   $('textarea#...').text()
-  //   value='4'
-
-  newRow.removeAttr('id');
-
-  var inputElems = newRow.find('input'),
-      labelElems = newRow.find('label');
-  labelElems.eq(0).attr('for',   newId   + 'step_number'  );
-  inputElems.eq(0).attr('name',  newName + '[step_number]');
-  inputElems.eq(0).attr('id',    newId   + 'step_number'  );
-  inputElems.eq(0).attr('value', stepNumber);
-
-  var textareaElems = newRow.find('textarea');
-  labelElems.eq(1).attr   ('for',  newId   + 'step_number'  );
-  textareaElems.eq(0).attr('name', newName + '[description]');
-  textareaElems.eq(0).attr('id',   newId   + 'description'  );
-  textareaElems.text('');
-
-  newRow.find('a.js-deleteStep').eq(0).attr('data-recipe-step-id', '');
-  newRow.find('a.js-deleteStep').eq(0).click(deleteStep);
-
-  newRow.insertAfter(clickedRow);
-
-  // Renumber only visible rows.
-  clickedRow.nextAll('tr').each( function() {
-    if ($(this).is(':visible')) {
-      var stepNumberTd   = $(this).find('td:first'),
-          stepNumberElem = stepNumberTd.find('input');
-      stepNumber += 1;
-      stepNumberElem.val(stepNumber);
-      stepNumberTd.find('label').text('Step ' + stepNumber);
-    }
-  });
+// Add a new recipe step after the clicked row.
+function addStep(e, clickedRow) {
+  newStep(clickedRow).insertAfter(clickedRow);
+  renumberSteps(clickedRow, 'add');
   e.preventDefault();
 }
 
@@ -161,16 +116,65 @@ function navigateRecipe(e, direction) {
   e.preventDefault();
 }
 
+// Creates and returns a new recipe step row.
+function newStep(clickedRow) {
+  var stepTable  = $('#stepTable tbody'),
+      newRow     = clickedRow.clone(true),
+      newRowId   = stepTable.find('tr').length,
+      newId      = `recipe_recipe_steps_attributes_${newRowId}_`,
+      newName    = `recipe[recipe_steps_attributes][${newRowId}]`;
+
+  // These are the attributes that need to be edited when cloning a table row.
+  // The index and name values need updating:
+  //   <tr id="recipe-step-id-11">
+  //   "recipe[recipe_steps_attributes][0][step_id]"
+  //   "recipe_recipe_steps_attributes_0_step_id"
+  // and existing values need to be cleared out:
+  //   data-recipe-step-id="16"
+  //   $('textarea#...').text()
+  //   value='4'
+
+  newRow.removeAttr('id');
+
+  var inputElems = newRow.find('input'),
+      labelElems = newRow.find('label');
+  labelElems.eq(0).attr('for',   newId   + 'step_number'  );
+  inputElems.eq(0).attr('name',  newName + '[step_number]');
+  inputElems.eq(0).attr('id',    newId   + 'step_number'  );
+
+  var textareaElems = newRow.find('textarea');
+  labelElems.eq(1).attr   ('for',  newId   + 'step_number'  );
+  textareaElems.eq(0).attr('name', newName + '[description]');
+  textareaElems.eq(0).attr('id',   newId   + 'description'  );
+  textareaElems.text('');
+
+  return newRow;
+}
+
+// Beginning at the row after the clicked row, renumber the steps to account for the added or removed step.
+function renumberSteps(clickedRow, action) {
+  var stepNumber = parseInt(clickedRow.find('input[name*="step_number"]').val());
+  clickedRow.nextAll('tr').each( function() {  // Tip: renumber only visible rows. Hidden rows are deleted rows.
+    if ($(this).is(':visible')) {
+      if (action == 'add') {
+        stepNumber += 1;
+        setStepNumber(this, stepNumber);
+      } else {  // 'delete' action
+        setStepNumber(this, stepNumber);
+        stepNumber += 1;
+      }
+    }
+  });
+}
+
 var recipeTemplate = nil;
 
 // Get a recipe from the server.
 function requestRecipe(direction) {
   $.get('/recipes/0.json', {direction: direction}, function(data) {
-
     var authorName = data.data.relationships.author.data['email'],
         favorite   = '',
         photoPath  = data.data.attributes['photo-path'];
-
 
     var recipe = {};
     recipe['recipe_id']   = data.data['id'];
@@ -218,6 +222,16 @@ function requestRecipe(direction) {
   });
 }
 
+// Apply stepNumber value and text to the given element.
+function setStepNumber(elem, stepNumber) {
+  var stepNumberTd   = $(elem).find('td:first'),
+      stepNumberElem = stepNumberTd.find('input');
+  stepNumberTd.find('label').text('Step ' + stepNumber);
+  stepNumberElem.val(stepNumber);
+}
+
+var ingredientsTemplate = nil;
+
 // Display recipe's ingredient list.
 function showIngredients(e) {
   var showDetail = e.target.getAttribute('data-show-detail');
@@ -253,8 +267,10 @@ function showIngredients(e) {
       }
 
       // Display data via Handlebars template.
-      var template = Handlebars.compile(document.getElementById("ingredients-template").innerHTML);
-      $('#ingredients').html(template(recipeIngredients));
+      if (!ingredientsTemplate) {
+        ingredientsTemplate = Handlebars.compile(document.getElementById("ingredients-template").innerHTML);
+      }
+      $('#ingredients').html(ingredientsTemplate(recipeIngredients));
     })
     .fail(function(jqXHR, textStatus, error) {
       console.log('ERROR: ' + error);
@@ -270,6 +286,8 @@ function showRecipe(e) {
   var recipe    = requestRecipe(recipeId, '');
 }
 
+var reviewsTemplate = nil;
+
 // Display recipe's review list.
 function showReviews(e) {
   var showDetail = e.target.getAttribute('data-show-detail');
@@ -281,14 +299,13 @@ function showReviews(e) {
       // Create data array for display.
       var recipeReviews = [];
       data.data.forEach(function(recipeReview) {
-
-        var comments = recipeReview['comments'],
-            numStars = parseInt(recipeReview['stars']),
-            recipeId = recipeReview['recipe_id'],
+        var comments = recipeReview.attributes['comments'],
+            numStars = parseInt(recipeReview.attributes['stars']),
+            recipeId = recipeReview.attributes['recipe_id'],
             reviewId = recipeReview['id'],
-            title    = recipeReview['title'];
+            title    = recipeReview.attributes['title'],
+            stars    = '';
 
-        var stars = '';
         for (var i = 0; i < numStars; ++i) {
           stars += '<img src="/assets/review_star.png" height="12" width="12" title="recipe stars">';
         }
@@ -308,8 +325,10 @@ function showReviews(e) {
       }
 
       // Display data via Handlebars template.
-      var template = Handlebars.compile(document.getElementById("reviews-template").innerHTML);
-      $('#reviews').html(template(recipeReviews));
+      if (!reviewsTemplate) {
+        reviewsTemplate = Handlebars.compile(document.getElementById("reviews-template").innerHTML);
+      }
+      $('#reviews').html(reviewsTemplate(recipeReviews));
     })
     .fail(function(jqXHR, textStatus, error) {
       console.log('ERROR: ' + error);
@@ -318,6 +337,8 @@ function showReviews(e) {
   e.target.setAttribute('data-show-detail', showDetail == 0 ? 1 : 0);  // flip the showDetail flag.
   e.preventDefault();
 }
+
+var stepsTemplate = nil;
 
 // Display recipe's step list.
 function showSteps(e) {
@@ -330,7 +351,7 @@ function showSteps(e) {
       // Create data array for display.
       var recipeSteps = [];
       data.data.forEach(function(recipeStep) {
-        var stepNumber = recipeStep.attributes['step-number'],
+        var stepNumber  = recipeStep.attributes['step-number'],
             description = recipeStep.attributes['description'];
         recipeSteps.push({step_number: stepNumber, description: description});
       });
@@ -341,8 +362,10 @@ function showSteps(e) {
       }
 
       // Display data via Handlebars template.
-      var template = Handlebars.compile(document.getElementById("steps-template").innerHTML);
-      $('#steps').html(template(recipeSteps));
+      if (!stepsTemplate) {
+        stepsTemplate = Handlebars.compile(document.getElementById("steps-template").innerHTML);
+      }
+      $('#steps').html(stepsTemplate(recipeSteps));
     })
     .fail(function(jqXHR, textStatus, error) {
       console.log('ERROR: ' + error);
