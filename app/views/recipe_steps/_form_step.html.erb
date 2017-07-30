@@ -1,5 +1,5 @@
 <td>
-  <%= label(:step_number, 'Step ' + f.object.step_number.to_s) %>
+  <%= f.label :step_number, f.object.step_number.to_s + ')' %>
   <%= f.number_field :step_number, step: 1, min: 0, hidden:true %>
 </td>
 <td>
