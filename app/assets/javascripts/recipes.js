@@ -1,3 +1,5 @@
+const NoReviewsYet = 'No reviews yet.';
+
 // Add a new recipe ingredient at the beginning of the list.
 function addIngredient(e) {
   ingredientTable().prepend(newIngredient());
@@ -9,6 +11,19 @@ function addStep(e, clickedRow) {
   newStep().insertAfter(clickedRow);
   renumberSteps(clickedRow, 'add');
   e.preventDefault();
+}
+
+// Assemble the star review image.
+function createStars(numStars) {
+  var stars = '';
+  if (numStars == 0) {
+    stars = NoReviewsYet;
+  } else {
+    for (let i = 0; i < numStars; ++i) {
+      stars += '<img src="/assets/review_star.png" height="12" width="12" title="recipe stars">';
+    }
+  }
+  return stars;
 }
 
 // Delete an entire recipe.
@@ -159,11 +174,12 @@ function requestRecipe(direction) {
         photoPath  = data.data.attributes['photo-path'];
 
     var recipe = {};
-    recipe.recipe_id   = data.data.id;
-    recipe.author_id   = data.data.relationships.author.data.id;
-    recipe.name        = data.data.attributes.name;
-    recipe.description = data.data.attributes.description;
-    recipe.total_time  = data.data.attributes['total-time'] + ' minutes';
+    recipe.recipe_id     = data.data.id;
+    recipe.author_id     = data.data.relationships.author.data.id;
+    recipe.name          = data.data.attributes.name;
+    recipe.description   = data.data.attributes.description;
+    recipe.total_time    = data.data.attributes['total-time'] + ' minutes';
+    recipe.stars         = createStars(parseInt(data.data.attributes['average-stars']));
 
     var thisUserId = $('body').data('userid');
     var userRecipeFavorites = data.data.relationships['user-recipe-favorites'].data;
@@ -275,16 +291,12 @@ function showReviews(e) {
       // Create data array for display.
       var recipeReviews = [];
       data.data.forEach(function(recipeReview) {
-        var comments = recipeReview.attributes.comments,
-            numStars = parseInt(recipeReview.attributes.stars),
-            recipeId = recipeReview.attributes.recipe_id,
+        var authorId   = recipeReview.attributes['user-id'],
+            comments = recipeReview.attributes.comments,
+            recipeId = recipeReview.attributes['recipe-id'],
             reviewId = recipeReview.id,
             title    = recipeReview.attributes.title,
-            stars    = '';
-
-        for (var i = 0; i < numStars; ++i) {
-          stars += '<img src="/assets/review_star.png" height="12" width="12" title="recipe stars">';
-        }
+            stars    = createStars(parseInt(recipeReview.attributes.stars));
 
         var titleHeader = `<a href="/recipes/${recipeId}/recipe_reviews/${reviewId}">${title}</a>`;
 
@@ -292,12 +304,12 @@ function showReviews(e) {
           comments = comments.substring(0, 57) + '...';
         }
 
-        recipeReviews.push({stars: stars, titleHeader: titleHeader, comments: comments});
+        recipeReviews.push({stars: stars, titleHeader: titleHeader, comments: comments, recipe_id: recipeId, review_id: reviewId, author_id: authorId});
       });
 
       // Show a message if there are no reviews.
       if (recipeReviews.length == 0) {
-        recipeReviews.push({stars: 'No reviews yet.', titleHeader: '', comments: ''});
+        recipeReviews.push({stars: NoReviewsYet, titleHeader: '', comments: ''});
       }
 
       // Display data via Handlebars template.

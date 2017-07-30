@@ -1,11 +1,13 @@
 <div class='row'>
-  <div class="col-sm-4">
-    <p><%= render partial: "recipes/review_stars", locals: {stars: review.stars, url: nil} %></p>
+  <div class="col-sm-2">
+    <em><u><%= review.title %></u></em>
   </div>
-</div>
-<div class='row'>
-  <div class="col-sm-4">
-    <p class="review-title"><em><u><%= review.title %></u></em></p>
+  <div class="col-sm-1">
+    <%= render partial: "recipes/review_stars", locals: {stars: review.stars, url: nil} %>
+  </div>
+  <div class="col-sm-1">
+    <%= link_to(image_tag('edit-icon.png',   size:'16', title: 'Edit review'),   '#', class:'js-editReview')   if policy(review).update? %>
+    <%= link_to(image_tag('delete-icon.png', size:'16', title: 'Delete review'), '#', class:'js-deleteReview') if policy(review).destroy? %>
   </div>
 </div>
 <div class='row'>
