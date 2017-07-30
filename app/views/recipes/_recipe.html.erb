@@ -1,4 +1,31 @@
 <%= form_for recipe do |f| %>
+  <table hidden id='cloneTable'>
+    <tbody>
+      <%= f.fields_for :recipe_ingredients do |ff| %>
+        <% if ff.options[:child_index] == 0 %>
+          <tr id='ingredientClone'>
+            <%= render partial: 'recipe_ingredients/form_ingredient', locals: {f: ff} %>
+            <td><%= link_to(image_tag('delete-icon.png', size:'16', title: 'Delete ingredient'), '#', class:'js-deleteIngredient') if policy(recipe).update? %></td>
+            <!-- <% if ff.object.persisted? %> -->
+              <td hidden><%= ff.check_box :_destroy, class:'js-destroyRecord' %></td>
+            <!-- <% end %> -->
+          </tr>
+        <% end %>
+      <% end %>
+      <%= f.fields_for :recipe_steps do |ff| %>
+        <% if ff.options[:child_index] == 0 %>
+          <tr id='stepClone'>
+            <%= render partial: 'recipe_steps/form_step', locals: {f: ff} %>
+            <td><%= link_to(image_tag('add-icon.png', size:'16',  title: 'Add step here'), '#', class:'js-insertStep') if policy(recipe).update? %></td>
+            <td><%= link_to(image_tag('delete-icon.png', size:'16', title: 'Delete step'), '#', class:'js-deleteStep') if policy(recipe).update? %></td>
+            <!-- <% if ff.object.persisted? %> -->
+              <td hidden><%= ff.check_box :_destroy, class:'js-destroyRecord' %></td>
+            <!-- <% end %> -->
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
   <div class="row">
     <div class="col-sm-1">
       <%= f.label :name %>

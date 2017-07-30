@@ -1,17 +1,17 @@
 // Add a new recipe ingredient at the beginning of the list.
 function addIngredient(e) {
-  ingredientTable.prepend(newIngredient);
+  ingredientTable().prepend(newIngredient());
   e.preventDefault();
 }
 
 // Add a new recipe step after the clicked row.
 function addStep(e, clickedRow) {
-  newStep(clickedRow).insertAfter(clickedRow);
+  newStep().insertAfter(clickedRow);
   renumberSteps(clickedRow, 'add');
   e.preventDefault();
 }
 
-//  Delete an entire recipe.
+// Delete an entire recipe.
 function deleteRecipe(e) {
   if (confirm('Are you sure?') == true) {
     var recipeId = e.target.parentElement.getAttribute('data-recipe-id');
@@ -26,10 +26,15 @@ function deleteRecipe(e) {
   e.preventDefault();
 }
 
-//  Delete a detail row from the recipe.
+// Delete a detail row from the recipe.
 function deleteRow(e, renumber) {
   if (confirm('Are you sure?') == true) {
     var clickedRow = $(e.target).parent().parent().parent();
+
+    // Renumber subsequent rows, if requested.
+    if (renumber == true) {
+      renumberSteps(clickedRow, 'delete');
+    }
 
     // Eliminate the deleted row.
     if (clickedRow.attr('id')) {
@@ -39,10 +44,12 @@ function deleteRow(e, renumber) {
       clickedRow.remove(); // A new row doesn't have an id. Just delete it.
     }
   }
-  if (renumber == true) {
-    renumberSteps(clickedRow, 'delete');
-  }
   e.preventDefault();
+}
+
+// Returns the <tbody> element of ingredientTable.
+function ingredientTable() {
+  return $('#ingredientTable tbody');
 }
 
 // Navigate to another recipe ('next', 'prev', 'current').
@@ -53,9 +60,8 @@ function navigateRecipe(e, direction) {
 
 // Creates and returns a new recipe ingredient row.
 function newIngredient() {
-  var ingredientTable = $('#ingredientTable tbody'),
-      newRow   = ingredientTable.find('tr:visible').first().clone(true),
-      newRowId = ingredientTable.find('tr').length,
+  var newRow   = $('#ingredientClone').clone(true),
+      newRowId = ingredientTable().find('tr').length,
       newId   = `recipe_recipe_ingredients_attributes_${newRowId}_`,
       newName = `recipe[recipe_ingredients_attributes][${newRowId}]`;
 
@@ -68,7 +74,7 @@ function newIngredient() {
   //   selected="selected"
   //   value='4'
 
-  newRow.attr('id', 'recipe-ingredient-id-');
+  newRow.removeAttr('id')
 
   var selectElems = newRow.find('select');
   selectElems.eq(0).attr('name', newName + '[ingredient_id]');
@@ -85,8 +91,6 @@ function newIngredient() {
   selectElems.eq(1).attr('name', newName + '[unit_id]');
   selectElems.eq(1).attr('id', newId + 'unit_id' );
 
-  newRow.find('a.js-deleteIngredient').eq(0).click(deleteIngredient);
-
   selectElems.find('option').each(function(i, elem) {
     elem.removeAttribute('selected');
   });
@@ -95,10 +99,9 @@ function newIngredient() {
 }
 
 // Creates and returns a new recipe step row.
-function newStep(clickedRow) {
-  var stepTable  = $('#stepTable tbody'),
-      newRow     = clickedRow.clone(true),
-      newRowId   = stepTable.find('tr').length,
+function newStep() {
+  var newRow   = $('#stepClone').clone(true),
+      newRowId   = stepTable().find('tr').length,
       newId      = `recipe_recipe_steps_attributes_${newRowId}_`,
       newName    = `recipe[recipe_steps_attributes][${newRowId}]`;
 
@@ -112,7 +115,7 @@ function newStep(clickedRow) {
   //   $('textarea#...').text()
   //   value='4'
 
-  newRow.removeAttr('id');
+  newRow.removeAttr('id')
 
   var inputElems = newRow.find('input'),
       labelElems = newRow.find('label');
@@ -351,6 +354,11 @@ function showSteps(e) {
   }
   e.target.setAttribute('data-show-detail', showDetail == 0 ? 1 : 0);  // flip the showDetail flag.
   e.preventDefault();
+}
+
+// Returns the <tbody> element of stepTable.
+function stepTable() {
+  return $('#stepTable tbody');
 }
 
 function toggleFavorite(elem) {
