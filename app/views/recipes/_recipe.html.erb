@@ -39,7 +39,7 @@
           <%= render partial: 'recipe_ingredients/form_ingredient', locals: {f: ff} %>
           <td><%= link_to(image_tag('delete-icon.png', size:'16', title: 'Delete ingredient'), '#', class:'js-deleteIngredient') if policy(recipe).update? %></td>
           <!-- <% if ff.object.persisted? %> -->
-            <td hidden><%= ff.check_box :_destroy, class:'js-destroyIngredient' %></td>
+            <td hidden><%= ff.check_box :_destroy, class:'js-destroyRecord' %></td>
           <!-- <% end %> -->
         </tr>
       <% end %>
@@ -61,7 +61,7 @@
           <td><%= link_to(image_tag('add-icon.png', size:'16',  title: 'Add step here'), '#', class:'js-insertStep') if policy(recipe).update? %></td>
           <td><%= link_to(image_tag('delete-icon.png', size:'16', title: 'Delete step'), '#', class:'js-deleteStep') if policy(recipe).update? %></td>
           <!-- <% if ff.object.persisted? %> -->
-            <td hidden><%= ff.check_box :_destroy, class:'js-destroyStep' %></td>
+            <td hidden><%= ff.check_box :_destroy, class:'js-destroyRecord' %></td>
           <!-- <% end %> -->
         </tr>
       <% end %>
@@ -77,22 +77,22 @@ $(function () {
     addIngredient(e);
   });
 
-  $('.js-deleteIngredient').on('click', function(e) {
-    deleteIngredient(e);
-  });
-
   $('.js-appendStep').on('click', function(e) {
     var clickedRow = $('#stepTable tbody tr:last');
     addStep(e, clickedRow);
   });
 
-  $('.js-insertStep').on('click', function(e) {
-    var clickedRow = $(e.target).parent().parent().parent();
-    addStep(e, clickedRow);
+  $('.js-deleteIngredient').on('click', function(e) {
+    deleteRow(e, false /* renumberSteps */);
   });
 
   $('.js-deleteStep').on('click', function(e) {
-    deleteStep(e);
+    deleteRow(e, true /* renumberSteps */);
+  });
+
+  $('.js-insertStep').on('click', function(e) {
+    var clickedRow = $(e.target).parent().parent().parent();
+    addStep(e, clickedRow);
   });
 });
 </script>

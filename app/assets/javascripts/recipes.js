@@ -1,4 +1,58 @@
+// Add a new recipe ingredient at the beginning of the list.
 function addIngredient(e) {
+  ingredientTable.prepend(newIngredient);
+  e.preventDefault();
+}
+
+// Add a new recipe step after the clicked row.
+function addStep(e, clickedRow) {
+  newStep(clickedRow).insertAfter(clickedRow);
+  renumberSteps(clickedRow, 'add');
+  e.preventDefault();
+}
+
+//  Delete an entire recipe.
+function deleteRecipe(e) {
+  if (confirm('Are you sure?') == true) {
+    var recipeId = e.target.parentElement.getAttribute('data-recipe-id');
+    $.ajax({
+      type: "DELETE",
+      url: `/recipes/${recipeId}`,
+    })
+    .fail(function(jqXHR, textStatus, error) {
+      console.log('ERROR: ' + error);
+    });
+  }
+  e.preventDefault();
+}
+
+//  Delete a detail row from the recipe.
+function deleteRow(e, renumber) {
+  if (confirm('Are you sure?') == true) {
+    var clickedRow = $(e.target).parent().parent().parent();
+
+    // Eliminate the deleted row.
+    if (clickedRow.attr('id')) {
+      clickedRow.hide();  // Hide the row and
+      clickedRow.find('input:checkbox.js-destroyRecord').prop('checked', true);  // mark it for destruction.
+    } else {
+      clickedRow.remove(); // A new row doesn't have an id. Just delete it.
+    }
+  }
+  if (renumber == true) {
+    renumberSteps(clickedRow, 'delete');
+  }
+  e.preventDefault();
+}
+
+// Navigate to another recipe ('next', 'prev', 'current').
+function navigateRecipe(e, direction) {
+  requestRecipe(direction);
+  e.preventDefault();
+}
+
+// Creates and returns a new recipe ingredient row.
+function newIngredient() {
   var ingredientTable = $('#ingredientTable tbody'),
       newRow   = ingredientTable.find('tr:visible').first().clone(true),
       newRowId = ingredientTable.find('tr').length,
@@ -33,77 +87,11 @@ function addIngredient(e) {
 
   newRow.find('a.js-deleteIngredient').eq(0).click(deleteIngredient);
 
-  selectElems.find('option').each(function(i, e) {
-    e.removeAttribute('selected');
+  selectElems.find('option').each(function(i, elem) {
+    elem.removeAttribute('selected');
   });
 
-  ingredientTable.prepend(newRow);
-  e.preventDefault();
-}
-
-// Add a new recipe step after the clicked row.
-function addStep(e, clickedRow) {
-  newStep(clickedRow).insertAfter(clickedRow);
-  renumberSteps(clickedRow, 'add');
-  e.preventDefault();
-}
-
-//  Delete a recipe ingredient from the recipe.
-function deleteIngredient(e) {
-  if (confirm('Are you sure?') == true) {
-    var clickedRow = $(e.target).parent().parent().parent();
-
-    // Eliminate the deleted row.
-    if (clickedRow.attr('id')) {
-      var recipeIngredientId = $(e.target).parent().data('recipeIngredientId');
-      clickedRow.hide();  // Hide the row and
-      clickedRow.find('input:checkbox.js-destroyIngredient').prop('checked', true);  // mark it for destruction.
-    } else {
-      clickedRow.remove(); // A new row doesn't have an id. Just delete it.
-    }
-  }
-  e.preventDefault();
-}
-
-//  Delete an entire recipe.
-function deleteRecipe(e) {
-  if (confirm('Are you sure?') == true) {
-    var recipeId = e.target.parentElement.getAttribute('data-recipe-id');
-    $.ajax({
-      type: "DELETE",
-      url: `/recipes/${recipeId}`,
-    })
-    .fail(function(jqXHR, textStatus, error) {
-      console.log('ERROR: ' + error);
-    });
-  }
-  e.preventDefault();
-}
-
-//  Delete a recipe step from the recipe.
-function deleteStep(e) {
-  if (confirm('Are you sure?') == true) {
-    var clickedRow = $(e.target).parent().parent().parent(),
-        stepNumber = parseInt(clickedRow.find('input[name*="step_number"]').val());
-
-    // Eliminate the deleted row.
-    if (clickedRow.attr('id')) {
-      var recipeStepId = $(e.target).parent().data('recipeStepId');
-      clickedRow.hide();  // Hide the row and
-      clickedRow.find('input:checkbox.js-destroyStep').prop('checked', true);  // mark it for destruction.
-    } else {
-      clickedRow.remove(); // A new row doesn't have an id. Just delete it.
-    }
-
-    renumberSteps(clickedRow, 'delete');
-  }
-  e.preventDefault();
-}
-
-// Navigate to another recipe ('next', 'prev', 'current').
-function navigateRecipe(e, direction) {
-  requestRecipe(direction);
-  e.preventDefault();
+  return newRow;
 }
 
 // Creates and returns a new recipe step row.
