@@ -41,7 +41,7 @@ function deleteRecipe(e) {
   e.preventDefault();
 }
 
-// Delete a detail row from the recipe.
+// Delete a detail row from the recipe show page.
 function deleteRow(e, renumber) {
   if (confirm('Are you sure?') == true) {
     var clickedRow = $(e.target).parent().parent().parent();
@@ -291,14 +291,21 @@ function showReviews(e) {
       // Create data array for display.
       var recipeReviews = [];
       data.data.forEach(function(recipeReview) {
-        var authorId   = recipeReview.attributes['user-id'],
+        var authorId = recipeReview.attributes['user-id'],
             comments = recipeReview.attributes.comments,
             recipeId = recipeReview.attributes['recipe-id'],
             reviewId = recipeReview.id,
+            stars    = createStars(parseInt(recipeReview.attributes.stars)),
+            thisUserId = $('body').data('userid'),
             title    = recipeReview.attributes.title,
-            stars    = createStars(parseInt(recipeReview.attributes.stars));
+            titleHeader = '';
 
-        var titleHeader = `<a href="/recipes/${recipeId}/recipe_reviews/${reviewId}">${title}</a>`;
+
+        if (authorId == thisUserId) {
+          titleHeader = `<a href="/recipes/${recipeId}/recipe_reviews/${reviewId}"><strong>${title}</strong></a>`;
+        } else {
+          titleHeader = `<a href="/recipes/${recipeId}/recipe_reviews/${reviewId}">${title}</a>`;
+        }
 
         if (comments.length > 60) {
           comments = comments.substring(0, 57) + '...';

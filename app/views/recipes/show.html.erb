@@ -41,7 +41,7 @@
   {{#each this}}
     <div class='row'>
       <div class='col-sm-1'>{{{stars}}}</div>
-      <div class='col-sm-2'>{{{titleHeader}}} {{{editReview recipe_id review_id author_id}}}</div>
+      <div class='col-sm-2'>{{{titleHeader}}}</div>
       <div class='col-sm-4'>{{comments}}</div>
     </div>
   {{/each}}
@@ -68,16 +68,6 @@ $(function () {
       return new Handlebars.SafeString(
         `<a href="/recipes/${recipe_id}/edit"><img src="/assets/edit-icon.png" height="16" width="16" title="Edit recipe"></a> ` +
         `<a class="js-deleteRecipe" data-recipe-id="${recipe_id}" href="#"><img src="/assets/delete-icon.png" height="16" width="16" title="Delete recipe"></a>`);
-    }
-  });
-
-  Handlebars.registerHelper('editReview', function(recipe_id, review_id, author_id) {
-    var author_user_id = parseInt(Handlebars.escapeExpression(author_id));
-    var this_user_id = $('body').data('userid');
-    if (author_user_id == this_user_id) {
-      return new Handlebars.SafeString(
-        `<a href="/recipes/${recipe_id}/recipe_reviews/${review_id}/edit"><img src="/assets/edit-icon.png" height="16" width="16" title="Edit review"></a> ` +
-        `<a class="js-deleteReview" data-recipe-id="${recipe_id}" data-review-id="${review_id}" href="#"><img src="/assets/delete-icon.png" height="16" width="16" title="Delete review"></a>`);
     }
   });
 

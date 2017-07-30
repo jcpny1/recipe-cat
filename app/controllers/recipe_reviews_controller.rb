@@ -81,7 +81,14 @@ class RecipeReviewsController < ApplicationController
     recipe_review = @recipe.recipe_reviews.find(params[:id])
     authorize recipe_review
     recipe_review.destroy
-    redirect_to request.referer
+
+    # If on My Reviews page, go back to that on review delete.
+    referrer = request.referrer.split('/');
+    if referrer[referrer.length - 1] == 'recipe_reviews'
+      redirect_to request.referrer
+    else  # otherwise, go to recipe show page.
+      redirect_to recipe_path(@recipe)
+    end
   end
 
 private
