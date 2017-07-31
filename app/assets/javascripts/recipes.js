@@ -1,5 +1,30 @@
 const NoReviewsYet = 'No reviews yet.';
 
+class Recipe {
+  constructor() {
+    this.ingredients = [];
+    this.ingredientsLoaded = false;
+    this._ingredientsTemplate = Handlebars.compile(document.getElementById("ingredients-template").innerHTML);
+  }
+
+  get ingredientsLoaded() {
+    return this._ingredientsLoaded;
+  }
+
+  set ingredientsLoaded(val) {
+    this._ingredientsLoaded = val;
+    if (val == true) {
+      this.ingredientsHTML = this._ingredientsTemplate(this.ingredients);
+    } else {
+      this.ingredientsHTML = '';
+    }
+  }
+
+  addIngredient(ingredientName, quantity, unitName) {
+    this.ingredients.push({ingredient: ingredientName, quantity: quantity, unit: unitName});
+  }
+}
+
 // Add a new recipe ingredient at the beginning of the list.
 function addIngredient(e) {
   ingredientTable().prepend(newIngredient());
@@ -65,6 +90,42 @@ function deleteRow(e, renumber) {
 // Returns the <tbody> element of ingredientTable.
 function ingredientTable() {
   return $('#ingredientTable tbody');
+}
+
+// Fetch recipe ingredients from the server.
+function loadIngredients(recipeId) {
+  $.get(`/recipes/${recipeId}/recipe_ingredients.json`, function(data) {
+    // Gather up reference data.
+    var ingredients = {}, units = {};
+    if (data.data.length == 0) {
+      recipeObj.addIngredient('No ingredients yet.', '', '');
+    } else {
+      data.included.forEach(function(relation) {
+        switch(relation.type) {
+          case 'ingredients':
+            ingredients[relation.id] = relation.attributes.name;
+            break;
+          case 'units':
+            units[relation.id] = relation.attributes.name;
+            break;
+          default:
+            console.log("Error: unknown relation type.");
+            break;
+        }
+      });
+      data.data.forEach(function(recipeIngredient) {
+        var ingredientName = ingredients[recipeIngredient.relationships.ingredient.data.id],
+            quantity       = recipeIngredient.attributes.quantity,
+            unitName       = recipeIngredient.attributes['unit-id'] == null ? '' : units[recipeIngredient.attributes['unit-id']];
+        recipeObj.addIngredient(ingredientName, quantity, unitName);
+      });
+    }
+    recipeObj.ingredientsLoaded = true;
+    $('#ingredients').html(recipeObj.ingredientsHTML);
+  })
+  .fail(function(jqXHR, textStatus, error) {
+    console.log('ERROR: ' + error);
+  });
 }
 
 // Navigate to another recipe ('next', 'prev', 'current').
@@ -165,15 +226,17 @@ function renumberSteps(clickedRow, action) {
 }
 
 var recipeTemplate = nil;
+var recipeObj = nil;
 
 // Get a recipe from the server.
 function requestRecipe(direction) {
+  var recipe = {};
   $.get('/recipes/0.json', {direction: direction}, function(data) {
     var authorName = data.data.relationships.author.data.email,
         favorite   = '',
         photoPath  = data.data.attributes['photo-path'];
 
-    var recipe = {};
+    recipeObj = new Recipe();
     recipe.recipe_id     = data.data.id;
     recipe.author_id     = data.data.relationships.author.data.id;
     recipe.name          = data.data.attributes.name;
@@ -228,51 +291,18 @@ function setStepNumber(elem, stepNumber) {
   stepNumberElem.val(stepNumber);
 }
 
-var ingredientsTemplate = nil;
-
 // Display recipe's ingredient list.
 function showIngredients(e) {
   var showDetail = e.target.getAttribute('data-show-detail');
   if (showDetail == 0) {   // hide detail.
     $('#ingredients').html('');
-  } else {                  // show detail.
-    var recipeId = e.target.getAttribute('data-recipe-id');
-    $.get(`/recipes/${recipeId}/recipe_ingredients.json`, function(data) {
-      // Gather up reference data.
-      var ingredients = {}, units = {};
-      if (data.included) {
-        data.included.forEach(function(relation) {
-          if (relation.type == 'ingredients') {
-            ingredients[relation.id] = relation.attributes.name;
-          } else if (relation.type == 'units') {
-            units[relation.id] = relation.attributes.name;
-          }
-        });
-      }
-
-      // Create data array for display.
-      var recipeIngredients = [];
-      data.data.forEach(function(recipeIngredient) {
-        var ingredientName = ingredients[recipeIngredient.relationships.ingredient.data.id],
-            quantity       = recipeIngredient.attributes.quantity,
-            unitsName      = recipeIngredient.attributes['unit-id'] == null ? '' : units[recipeIngredient.attributes['unit-id']];
-        recipeIngredients.push({ingredient: ingredientName, quantity: quantity, unit: unitsName});
-      });
-
-      // Show a message if there are no ingredients.
-      if (recipeIngredients.length == 0) {
-        recipeIngredients.push({ingredient: 'No ingredients yet.', quantity: '', unit: ''});
-      }
-
-      // Display data via Handlebars template.
-      if (!ingredientsTemplate) {
-        ingredientsTemplate = Handlebars.compile(document.getElementById("ingredients-template").innerHTML);
-      }
-      $('#ingredients').html(ingredientsTemplate(recipeIngredients));
-    })
-    .fail(function(jqXHR, textStatus, error) {
-      console.log('ERROR: ' + error);
-    });
+  } else {                 // show detail.
+    if (recipeObj.ingredientsLoaded) {
+      $('#ingredients').html(recipeObj.ingredientsHTML);
+    } else {
+      var recipeId = e.target.getAttribute('data-recipe-id');
+      loadIngredients(recipeId);
+    }
   }
   e.target.setAttribute('data-show-detail', showDetail == 0 ? 1 : 0);  // flip the showDetail flag.
   e.preventDefault();
