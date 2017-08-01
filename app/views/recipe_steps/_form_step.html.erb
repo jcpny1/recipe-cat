@@ -1,0 +1,11 @@
+<td>
+  <%= f.label :step_number, f.object.step_number.to_s + ')' %>
+  <%= f.number_field :step_number, step: 1, min: 0, hidden:true %>
+</td>
+<td>
+  <% rowLength = 45 %>
+  <% lineCount = 1 %>
+  <% lineCount = f.object.description.length / rowLength if f.object.description%>
+  <% textAreaSize = rowLength.to_s + 'x' + lineCount.to_s %>
+  <%= f.text_area :description, size:textAreaSize %>
+</td>
