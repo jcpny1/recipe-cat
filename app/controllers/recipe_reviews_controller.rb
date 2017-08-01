@@ -48,7 +48,7 @@ class RecipeReviewsController < ApplicationController
   # add a new recipe review to a recipe.
   def create
     @recipe_review = @recipe.recipe_reviews.new(recipe_review_params)
-    @recipe_review.user = current_user
+    @recipe_review.author = current_user
     authorize @recipe_review
     if @recipe_review.save
       redirect_to recipe_recipe_reviews_path(@recipe)

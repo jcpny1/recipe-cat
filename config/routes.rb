@@ -6,9 +6,9 @@ Rails.application.routes.draw do
   get '/ingredients/updated_after/:date', to: "ingredients#updated_after"
 
   resources :recipes do
-    resources :recipe_ingredients, except: [:show]
+    resources :recipe_ingredients, only: [:index]
+    resources :recipe_steps,       only: [:index]
     resources :recipe_reviews
-    resources :recipe_steps,       except: [:show]
     collection { post 'filter' }
   end
   get  '/recipes/updated_after/:date',        to: "recipes#updated_after"
