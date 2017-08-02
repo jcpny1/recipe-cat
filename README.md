@@ -18,6 +18,7 @@ This application was created to meet the requirements of the learn.co Rails port
 ```
 08-May-17  Initial release.
 14-Jul-17  Branch feature-js created to meet the requirements of the learn.co "Rails App with a jQuery Front End" portfolio project.
+01-Aug-17  feature-js complete.
 ```
 
 ## Installation and Usage
