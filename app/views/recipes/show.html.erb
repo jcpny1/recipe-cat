@@ -12,29 +12,31 @@
 
 <script id="ingredients-template" type="text/x-handlebars-template">
   {{#each this}}
-  <div class='row'>
-    <div class='col-sm-2'>{{ingredient}}</div>
-    <div class='col-sm-1'>{{quantity}}</div>
-    <div class='col-sm-1'>{{unit}}</div>
-  </div>
+    <div class='row'>
+      <div class='col-sm-2'>{{ingredient}}</div>
+      <div class='col-sm-1'>{{quantity}}</div>
+      <div class='col-sm-1'>{{unit}}</div>
+    </div>
   {{/each}}
 </script>
 
 <script id="recipe-template" type="text/x-handlebars-template">
-  <div class="col-sm-12">
-    <h1>{{name}} {{{editRecipe recipe_id author_id}}}</h1>
-    <p>{{{stars}}}</p>
-    <p>{{{submitter}}}</p>
-    <p>{{{image}}} {{{favorite}}}</p>
-    <p style='width:40%' align='justify'>{{description}}</p>
-    <p>Total time: {{total_time}}</p>
-    <p>{{{ingredientsHeader}}}</p>
-    <p id='ingredients'></p>
-    <p>{{{stepsHeader}}}</p>
-    <p id='steps'></p>
-    <p>{{{reviewsHeader}}}</p>
-    <p id='reviews'></p>
-  </div>
+  {{#each this}}
+    <div class="col-sm-12">
+      <h1>{{name}} {{{editRecipe recipe_id author_id}}}</h1>
+      <p>{{{stars}}}</p>
+      <p>{{{submitter}}}</p>
+      <p>{{{image}}} {{{favorite}}}</p>
+      <p style='width:40%' align='justify'>{{description}}</p>
+      <p>Total time: {{total_time}}</p>
+      <p>{{{ingredientsHeader}}}</p>
+      <p id='ingredients'></p>
+      <p>{{{stepsHeader}}}</p>
+      <p id='steps'></p>
+      <p>{{{reviewsHeader}}}</p>
+      <p id='reviews'></p>
+    </div>
+  {{/each}}
 </script>
 
 <script id="reviews-template" type="text/x-handlebars-template">
@@ -49,10 +51,10 @@
 
 <script id="steps-template" type="text/x-handlebars-template">
   {{#each this}}
-  <div class='row'>
-    <div class='col-sm-1'>{{step_number}}</div>
-    <div class='col-sm-4'>{{description}}</div>
-  </div>
+    <div class='row'>
+      <div class='col-sm-1'>{{step_number}}</div>
+      <div class='col-sm-4'>{{description}}</div>
+    </div>
   {{/each}}
 </script>
 
