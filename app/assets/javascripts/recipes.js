@@ -1,5 +1,4 @@
 const INGREDIENT_TABLE = '#ingredientTable tbody';
-const STEP_TABLE       = '#stepTable tbody';
 
 class RecipeDetailData {
   constructor(templateId) {
@@ -100,7 +99,7 @@ function addIngredient(e) {
 
 // Add a new recipe step after the clicked row.
 function addStep(e, clickedRow) {
-  $(STEP_TABLE).insertAfter(clickedRow);
+  newStep().insertAfter(clickedRow);
   renumberSteps(clickedRow, 'add');
   e.preventDefault();
 }
@@ -360,7 +359,7 @@ function newIngredient() {
 // Creates and returns a new recipe step row.
 function newStep() {
   var newRow   = $('#stepClone').clone(true),
-      newRowId = $(STEP_TABLE).find('tr').length + 1,  // plus 1 is to account for hidden clone row.
+      newRowId = $('#stepTable tbody').find('tr').length + 1,  // plus 1 is to account for hidden clone row.
       newId    = `recipe_recipe_steps_attributes_${newRowId}_`,
       newName  = `recipe[recipe_steps_attributes][${newRowId}]`;
 
@@ -381,7 +380,7 @@ function newStep() {
   labelElem = labelElems.eq(1);
   labelElem.attr('for', newId + 'step_number'  );
 
-  var textAreaElem = textAreaElems.eq(0);
+  var textareaElem = textareaElems.eq(0);
   textareaElem.attr('name', newName + '[description]');
   textareaElem.attr('id',   newId   + 'description'  );
   textareaElems.text('');
