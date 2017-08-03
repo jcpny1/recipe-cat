@@ -89,7 +89,7 @@ class Recipe {
   }
 }
 
-var recipe = nil;
+var recipe = null;
 
 // Add a new recipe ingredient at the beginning of the list.
 function addIngredient(e) {

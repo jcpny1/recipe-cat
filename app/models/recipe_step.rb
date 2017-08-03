@@ -10,7 +10,7 @@ class RecipeStep < ApplicationRecord
   end
 
   # adds Step to Recipe.
-  # returns a new recipe_step record (or nil).
+  # returns a new recipe_step record (or undefined).
   def self.create_recipe_step(recipe_steps_params)
     if recipe_steps_params[:step_number].present?
       recipe_step = RecipeStep.new(recipe_steps_params)
