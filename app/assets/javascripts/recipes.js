@@ -465,7 +465,7 @@ function showSteps(e) {
     $('#steps').html('');
   } else {                  // show detail.
     if (recipe.stepsLoaded) {
-      $('#step').html(recipe.stepsHTML);
+      $('#steps').html(recipe.stepsHTML);
     } else {
       var recipeId = e.target.getAttribute('data-recipe-id');
       loadSteps(recipeId);
