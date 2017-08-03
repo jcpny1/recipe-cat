@@ -1,27 +1,76 @@
-const NoReviewsYet = 'No reviews yet.';
-
 class Recipe {
   constructor() {
     this.ingredients = [];
-    this.ingredientsLoaded = false;
+    this._ingredientsHTML = '';
     this._ingredientsTemplate = Handlebars.compile(document.getElementById("ingredients-template").innerHTML);
-  }
 
-  get ingredientsLoaded() {
-    return this._ingredientsLoaded;
-  }
+    this.reviews = [];
+    this._reviewsHTML = '';
+    this._reviewsTemplate = Handlebars.compile(document.getElementById("reviews-template").innerHTML);
 
-  set ingredientsLoaded(val) {
-    this._ingredientsLoaded = val;
-    if (val == true) {
-      this.ingredientsHTML = this._ingredientsTemplate(this.ingredients);
-    } else {
-      this.ingredientsHTML = '';
-    }
+    this.steps = [];
+    this._stepsHTML = '';
+    this._stepsTemplate = Handlebars.compile(document.getElementById("steps-template").innerHTML);
   }
 
   addIngredient(ingredientName, quantity, unitName) {
     this.ingredients.push({ingredient: ingredientName, quantity: quantity, unit: unitName});
+  }
+
+  get ingredientsHTML() {
+    return this._ingredientsHTML;
+  }
+
+  get ingredientsLoaded() {
+    return this._ingredientsHTML.length > 0;
+  }
+
+  set ingredientsLoaded(val) {
+    if (val == true) {
+      this._ingredientsHTML = this._ingredientsTemplate(this.ingredients);
+    } else {
+      this._ingredientsHTML = '';
+    }
+  }
+
+  addReview(stars, titleHeader, comments, recipeId, reviewId, authorId) {
+    this.reviews.push({stars: stars, titleHeader: titleHeader, comments: comments, recipe_id: recipeId, review_id: reviewId, author_id: authorId});
+  }
+
+  get reviewsHTML() {
+    return this._reviewsHTML;
+  }
+
+  get reviewsLoaded() {
+    return this._reviewsHTML.length > 0;
+  }
+
+  set reviewsLoaded(val) {
+    if (val == true) {
+      this._reviewsHTML = this._reviewsTemplate(this.reviews);
+    } else {
+      this._reviewsHTML = '';
+    }
+  }
+
+  addStep(stepNumber, description) {
+    this.steps.push({step_number: stepNumber, description: description});
+  }
+
+  get stepsHTML() {
+    return this._stepsHTML;
+  }
+
+  get stepsLoaded() {
+    return this._stepsHTML.length > 0;
+  }
+
+  set stepsLoaded(val) {
+    if (val == true) {
+      this._stepsHTML = this._stepsTemplate(this.steps);
+    } else {
+      this._stepsHTML = '';
+    }
   }
 }
 
@@ -42,7 +91,7 @@ function addStep(e, clickedRow) {
 function createStars(numStars) {
   var stars = '';
   if (numStars == 0) {
-    stars = NoReviewsYet;
+    stars = 'No reviews yet.';
   } else {
     for (let i = 0; i < numStars; ++i) {
       stars += '<img src="/assets/review_star.png" height="12" width="12" title="recipe stars">';
@@ -122,6 +171,61 @@ function loadIngredients(recipeId) {
     }
     recipeObj.ingredientsLoaded = true;
     $('#ingredients').html(recipeObj.ingredientsHTML);
+  })
+  .fail(function(jqXHR, textStatus, error) {
+    console.log('ERROR: ' + error);
+  });
+}
+
+// Fetch recipe reviews from the server.
+function loadReviews(recipeId) {
+  $.get(`/recipes/${recipeId}/recipe_reviews.json`, function(data) {
+    if (data.data.length == 0) {
+      recipeObj.addReview('No reviews yet.', '', '');
+    } else {
+      data.data.forEach(function(recipeReview) {
+        var authorId = recipeReview.attributes['user-id'],
+            comments = recipeReview.attributes.comments,
+            recipeId = recipeReview.attributes['recipe-id'],
+            reviewId = recipeReview.id,
+            stars    = createStars(parseInt(recipeReview.attributes.stars)),
+            thisUserId = $('body').data('userid'),
+            title    = recipeReview.attributes.title,
+            titleHeader = '';
+
+        if (authorId == thisUserId) {
+          titleHeader = `<a href="/recipes/${recipeId}/recipe_reviews/${reviewId}"><strong>${title}</strong></a>`;
+        } else {
+          titleHeader = `<a href="/recipes/${recipeId}/recipe_reviews/${reviewId}">${title}</a>`;
+        }
+        if (comments.length > 60) {
+          comments = comments.substring(0, 57) + '...';
+        }
+        recipeObj.addReview(stars, titleHeader, comments, recipeId, reviewId, authorId);
+      });
+    }
+    recipeObj.reviewsLoaded = true;
+    $('#reviews').html(recipeObj.reviewsHTML);
+  })
+  .fail(function(jqXHR, textStatus, error) {
+    console.log('ERROR: ' + error);
+  });
+}
+
+// Fetch recipe steps from the server.
+function loadSteps(recipeId) {
+  $.get(`/recipes/${recipeId}/recipe_steps.json`, function(data) {
+    if (data.data.length == 0) {
+      recipeObj.addStep('No steps yet.', '', '');
+    } else {
+      data.data.forEach(function(recipeStep) {
+        var stepNumber  = recipeStep.attributes['step-number'],
+            description = recipeStep.attributes.description;
+        recipeObj.addStep(stepNumber, description);
+      });
+    }
+    recipeObj.stepsLoaded = true;
+    $('#steps').html(recipeObj.stepsHTML);
   })
   .fail(function(jqXHR, textStatus, error) {
     console.log('ERROR: ' + error);
@@ -231,6 +335,7 @@ var recipeObj = nil;
 // Get a recipe from the server.
 function requestRecipe(direction) {
   var recipe = {};
+
   $.get('/recipes/0.json', {direction: direction}, function(data) {
     var authorName = data.data.relationships.author.data.email,
         favorite   = '',
@@ -308,62 +413,22 @@ function showIngredients(e) {
   e.preventDefault();
 }
 
-var reviewsTemplate = nil;
-
 // Display recipe's review list.
 function showReviews(e) {
   var showDetail = e.target.getAttribute('data-show-detail');
   if (showDetail == 0) {   // hide detail.
     $('#reviews').html('');
-  } else {                  // show detail.
-    var recipeId = e.target.getAttribute('data-recipe-id');
-    $.get(`/recipes/${recipeId}/recipe_reviews.json`, function(data) {
-      // Create data array for display.
-      var recipeReviews = [];
-      data.data.forEach(function(recipeReview) {
-        var authorId = recipeReview.attributes['user-id'],
-            comments = recipeReview.attributes.comments,
-            recipeId = recipeReview.attributes['recipe-id'],
-            reviewId = recipeReview.id,
-            stars    = createStars(parseInt(recipeReview.attributes.stars)),
-            thisUserId = $('body').data('userid'),
-            title    = recipeReview.attributes.title,
-            titleHeader = '';
-
-
-        if (authorId == thisUserId) {
-          titleHeader = `<a href="/recipes/${recipeId}/recipe_reviews/${reviewId}"><strong>${title}</strong></a>`;
-        } else {
-          titleHeader = `<a href="/recipes/${recipeId}/recipe_reviews/${reviewId}">${title}</a>`;
-        }
-
-        if (comments.length > 60) {
-          comments = comments.substring(0, 57) + '...';
-        }
-
-        recipeReviews.push({stars: stars, titleHeader: titleHeader, comments: comments, recipe_id: recipeId, review_id: reviewId, author_id: authorId});
-      });
-
-      // Show a message if there are no reviews.
-      if (recipeReviews.length == 0) {
-        recipeReviews.push({stars: NoReviewsYet, titleHeader: '', comments: ''});
-      }
-
-      // Display data via Handlebars template.
-      if (!reviewsTemplate) {
-        reviewsTemplate = Handlebars.compile(document.getElementById("reviews-template").innerHTML);
-      }
-      $('#reviews').html(reviewsTemplate(recipeReviews));
-    })
-    .fail(function(jqXHR, textStatus, error) {
-      console.log('ERROR: ' + error);
-    });
+  } else {                 // show detail.
+    if (recipeObj.reviewsLoaded) {
+      $('#reviews').html(recipeObj.reviewsHTML);
+    } else {
+      var recipeId = e.target.getAttribute('data-recipe-id');
+      loadReviews(recipeId);
+    }
   }
   e.target.setAttribute('data-show-detail', showDetail == 0 ? 1 : 0);  // flip the showDetail flag.
   e.preventDefault();
 }
-
-var stepsTemplate = nil;
 
 // Display recipe's step list.
 function showSteps(e) {
@@ -371,30 +436,12 @@ function showSteps(e) {
   if (showDetail == 0) {   // hide detail.
     $('#steps').html('');
   } else {                  // show detail.
-    var recipeId = e.target.getAttribute('data-recipe-id');
-    $.get(`/recipes/${recipeId}/recipe_steps.json`, function(data) {
-      // Create data array for display.
-      var recipeSteps = [];
-      data.data.forEach(function(recipeStep) {
-        var stepNumber  = recipeStep.attributes['step-number'],
-            description = recipeStep.attributes.description;
-        recipeSteps.push({step_number: stepNumber, description: description});
-      });
-
-      // Show a message if there are no steps.
-      if (recipeSteps.length == 0) {
-        recipeSteps.push({step_number: 'No steps yet.', description: ''});
-      }
-
-      // Display data via Handlebars template.
-      if (!stepsTemplate) {
-        stepsTemplate = Handlebars.compile(document.getElementById("steps-template").innerHTML);
-      }
-      $('#steps').html(stepsTemplate(recipeSteps));
-    })
-    .fail(function(jqXHR, textStatus, error) {
-      console.log('ERROR: ' + error);
-    });
+    if (recipeObj.stepsLoaded) {
+      $('#step').html(recipeObj.stepsHTML);
+    } else {
+      var recipeId = e.target.getAttribute('data-recipe-id');
+      loadSteps(recipeId);
+    }
   }
   e.target.setAttribute('data-show-detail', showDetail == 0 ? 1 : 0);  // flip the showDetail flag.
   e.preventDefault();
