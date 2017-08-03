@@ -1,19 +1,22 @@
+const INGREDIENT_TABLE = '#ingredientTable tbody';
+const STEP_TABLE       = '#stepTable tbody';
+
 class RecipeDetailData {
   constructor(templateId) {
     this.data = [];
-    this._HTML = '';
+    this.HTML = '';
     this._template = Handlebars.compile(document.getElementById(templateId).innerHTML);
   }
 
   get loaded() {
-    return this._HTML.length > 0;
+    return this.HTML.length > 0;
   }
 
   set loaded(val) {
     if (val == true) {
-      this._HTML = this._template(this.data);
+      this.HTML = this._template(this.data);
     } else {
-      this._HTML = '';
+      this.HTML = '';
     }
   }
 }
@@ -31,7 +34,7 @@ class Recipe {
   }
 
   get ingredientsHTML() {
-    return this.ingredients._HTML;
+    return this.ingredients.HTML;
   }
 
   get ingredientsLoaded() {
@@ -47,7 +50,7 @@ class Recipe {
   }
 
   get HTML() {
-    return this.recipe._HTML;
+    return this.recipe.HTML;
   }
 
   set loaded(val) {
@@ -59,7 +62,7 @@ class Recipe {
   }
 
   get reviewsHTML() {
-    return this.reviews._HTML;
+    return this.reviews.HTML;
   }
 
   get reviewsLoaded() {
@@ -75,7 +78,7 @@ class Recipe {
   }
 
   get stepsHTML() {
-    return this.steps._HTML;
+    return this.steps.HTML;
   }
 
   get stepsLoaded() {
@@ -91,13 +94,13 @@ var recipe = nil;
 
 // Add a new recipe ingredient at the beginning of the list.
 function addIngredient(e) {
-  ingredientTable().prepend(newIngredient());
+  $(INGREDIENT_TABLE).prepend(newIngredient());
   e.preventDefault();
 }
 
 // Add a new recipe step after the clicked row.
 function addStep(e, clickedRow) {
-  newStep().insertAfter(clickedRow);
+  $(STEP_TABLE).insertAfter(clickedRow);
   renumberSteps(clickedRow, 'add');
   e.preventDefault();
 }
@@ -151,32 +154,14 @@ function deleteRow(e, renumber) {
   e.preventDefault();
 }
 
-// Returns the <tbody> element of ingredientTable.
-function ingredientTable() {
-  return $('#ingredientTable tbody');
-}
-
 // Fetch recipe ingredients from the server.
 function loadIngredients(recipeId) {
   $.get(`/recipes/${recipeId}/recipe_ingredients.json`, function(data) {
-    // Gather up reference data.
-    var ingredients = {}, units = {};
     if (data.data.length == 0) {
       recipe.addIngredient('No ingredients yet.', '', '');
     } else {
-      data.included.forEach(function(relation) {
-        switch(relation.type) {
-          case 'ingredients':
-            ingredients[relation.id] = relation.attributes.name;
-            break;
-          case 'units':
-            units[relation.id] = relation.attributes.name;
-            break;
-          default:
-            console.log("Error: unknown relation type.");
-            break;
-        }
-      });
+      var ingredients = {}, units = {};
+      loadReferenceData(data, ingredients, units);
       data.data.forEach(function(recipeIngredient) {
         var ingredientName = ingredients[recipeIngredient.relationships.ingredient.data.id],
             quantity       = recipeIngredient.attributes.quantity,
@@ -192,6 +177,78 @@ function loadIngredients(recipeId) {
   });
 }
 
+// Get a recipe from the server.
+function loadRecipe(direction) {
+  var recipeData = {};
+  $.get('/recipes/0.json', {direction: direction}, function(data) {
+    var authorName = data.data.relationships.author.data.email,
+        favorite   = '',
+        photoPath  = data.data.attributes['photo-path'];
+
+    recipe = new Recipe();
+    recipeData.recipe_id   = data.data.id;
+    recipeData.author_id   = data.data.relationships.author.data.id;
+    recipeData.name        = data.data.attributes.name;
+    recipeData.description = data.data.attributes.description;
+    recipeData.total_time  = data.data.attributes['total-time'] + ' minutes';
+    recipeData.stars       = createStars(parseInt(data.data.attributes['average-stars']));
+
+    var thisUserId = $('body').data('userid');
+
+    var userRecipeFavorites = data.data.relationships['user-recipe-favorites'].data;
+    for (var i = 0; i < userRecipeFavorites.length; ++i) {
+      if (userRecipeFavorites[i]['user-id'] == thisUserId) {
+        favorite = 'checked';
+        break;
+      }
+    }
+
+    recipeData.image             = `<img src='/assets/${photoPath}' height='200' width='360' title="${recipeData.name}} photo">`;
+    recipeData.favorite          = `<input type='checkbox' class='favorite' ${favorite}>Favorite`;
+    recipeData.submitter         = `Submitted by <a href='/users/${recipeData.author_id}/recipes'>${authorName}}</a>`;
+    recipeData.ingredientsHeader = `<a class="js-ingredients" data-recipe-id=${recipeData.recipe_id} data-show-detail="1" href="#">Ingredients</a>`;
+    recipeData.stepsHeader       = `<a class="js-steps" data-recipe-id=${recipeData.recipe_id} data-show-detail="1" href="#">Steps</a>`;
+    recipeData.reviewsHeader     = `<a class="js-reviews" data-recipe-id=${recipeData.recipe_id} data-show-detail="1" href="#">Reviews</a>`;
+
+    recipe.setRecipe(recipeData);
+    recipe.loaded = true;
+    $('.recipe-detail').html(recipe.HTML);
+
+    // Update the URL.
+    if (history.pushState) {
+      if (window.location.pathname != `/recipes/${recipeData.recipe_id}`) {
+        var newurl = window.location.protocol + "//" + window.location.host + `/recipes/${recipeData.recipe_id}`;
+        window.history.pushState({path:newurl}, '', newurl);
+      }
+    }
+
+    $('.js-deleteRecipe').eq(0).click(function(e) { deleteRecipe(e); });
+    $('.js-ingredients').eq(0).click(function(e)  { showIngredients(e); });
+    $('.js-steps').eq(0).click(function(e) { showSteps(e); });
+    $('.js-reviews').eq(0).click(function(e) { showReviews(e); });
+  })
+  .fail(function(jqXHR, textStatus, error) {
+    console.log('ERROR: ' + error);
+  });
+}
+
+// Extract reference tables from serializer data.
+function loadReferenceData(data, ingredients, units) {
+  data.included.forEach(function(relation) {
+    switch(relation.type) {
+      case 'ingredients':
+        ingredients[relation.id] = relation.attributes.name;
+        break;
+      case 'units':
+        units[relation.id] = relation.attributes.name;
+        break;
+      default:
+        console.log("Error: unknown relation type.");
+        break;
+    }
+  });
+}
+
 // Fetch recipe reviews from the server.
 function loadReviews(recipeId) {
   $.get(`/recipes/${recipeId}/recipe_reviews.json`, function(data) {
@@ -199,13 +256,13 @@ function loadReviews(recipeId) {
       recipe.addReview('No reviews yet.', '', '');
     } else {
       data.data.forEach(function(recipeReview) {
-        var authorId = recipeReview.attributes['user-id'],
-            comments = recipeReview.attributes.comments,
-            recipeId = recipeReview.attributes['recipe-id'],
-            reviewId = recipeReview.id,
-            stars    = createStars(parseInt(recipeReview.attributes.stars)),
-            thisUserId = $('body').data('userid'),
-            title    = recipeReview.attributes.title,
+        var authorId    = recipeReview.attributes['user-id'],
+            comments    = recipeReview.attributes.comments,
+            recipeId    = recipeReview.attributes['recipe-id'],
+            reviewId    = recipeReview.id,
+            stars       = createStars(parseInt(recipeReview.attributes.stars)),
+            thisUserId  = $('body').data('userid'),
+            title       = recipeReview.attributes.title,
             titleHeader = '';
 
         if (authorId == thisUserId) {
@@ -213,9 +270,11 @@ function loadReviews(recipeId) {
         } else {
           titleHeader = `<a href="/recipes/${recipeId}/recipe_reviews/${reviewId}">${title}</a>`;
         }
+
         if (comments.length > 60) {
           comments = comments.substring(0, 57) + '...';
         }
+
         recipe.addReview(stars, titleHeader, comments, recipeId, reviewId, authorId);
       });
     }
@@ -249,16 +308,16 @@ function loadSteps(recipeId) {
 
 // Navigate to another recipe ('next', 'prev', 'current').
 function navigateRecipe(e, direction) {
-  requestRecipe(direction);
+  loadRecipe(direction);
   e.preventDefault();
 }
 
 // Creates and returns a new recipe ingredient row.
 function newIngredient() {
   var newRow   = $('#ingredientClone').clone(true),
-      newRowId = nextRowId(ingredientTable()),
-      newId   = `recipe_recipe_ingredients_attributes_${newRowId}_`,
-      newName = `recipe[recipe_ingredients_attributes][${newRowId}]`;
+      newRowId = nextRowId($(INGREDIENT_TABLE)),
+      newId    = `recipe_recipe_ingredients_attributes_${newRowId}_`,
+      newName  = `recipe[recipe_ingredients_attributes][${newRowId}]`;
 
   // Modify the clone row's attributes to represent a new record.
   newRow.removeAttr('id');
@@ -267,21 +326,29 @@ function newIngredient() {
       labelElems  = newRow.find('label'),
       selectElems = newRow.find('select');
 
-  selectElems.eq(0).attr('name', `${newName}[ingredient_id]`);
-  selectElems.eq(0).attr('id',   `${newId}ingredient_id`    );
+  var selectElem = selectElems.eq(0);
+  selectElem.attr('name', `${newName}[ingredient_id]`);
+  selectElem.attr('id',   `${newId}ingredient_id`    );
 
-  labelElems.eq(0).attr('for',   `${newId}quantity`    );
-  inputElems.eq(0).attr('name',  `${newName}[quantity]`);
-  inputElems.eq(0).attr('id',    `${newId}quantity`    );
-  inputElems.eq(0).attr('value', '' );
+  var labelElem = labelElems.eq(0);
+  labelElem.attr('for', `${newId}quantity`);
 
-  labelElems.eq(1).attr ('for',  `${newId}unit_id`    );
-  selectElems.eq(1).attr('name', `${newName}[unit_id]`);
-  selectElems.eq(1).attr('id',   `${newId}unit_id`    );
+  var inputElem = inputElems.eq(0);
+  inputElem.attr('name',  `${newName}[quantity]`);
+  inputElem.attr('id',    `${newId}quantity`    );
+  inputElem.attr('value', '' );
 
-  inputElems.eq(1).attr('name',  `${newName}[_destroy]`);
-  inputElems.eq(2).attr('name',  `${newName}[_destroy]`);
-  inputElems.eq(2).attr('id',    `${newId}_destroy`    );
+  selectElem = selectElems.eq(1);
+  labelElems.eq(1).attr ('for', `${newId}unit_id`);
+  selectElem.attr('name', `${newName}[unit_id]`);
+  selectElem.attr('id',   `${newId}unit_id`    );
+
+  inputElem = inputElems.eq(1);
+  inputElem.attr('name', `${newName}[_destroy]`);
+
+  inputElem = inputElems.eq(2);
+  inputElem.attr('name', `${newName}[_destroy]`);
+  inputElem.attr('id',   `${newId}_destroy`    );
 
   selectElems.find('option').each(function() {
     $(this)[0].removeAttribute('selected');
@@ -293,24 +360,30 @@ function newIngredient() {
 // Creates and returns a new recipe step row.
 function newStep() {
   var newRow   = $('#stepClone').clone(true),
-      newRowId   = stepTable().find('tr').length + 1,  // plus 1 is to account for hidden clone row.
-      newId      = `recipe_recipe_steps_attributes_${newRowId}_`,
-      newName    = `recipe[recipe_steps_attributes][${newRowId}]`;
+      newRowId = $(STEP_TABLE).find('tr').length + 1,  // plus 1 is to account for hidden clone row.
+      newId    = `recipe_recipe_steps_attributes_${newRowId}_`,
+      newName  = `recipe[recipe_steps_attributes][${newRowId}]`;
 
   // Modify the clone row's attributes to represent a new record.
   newRow.removeAttr('id');
 
-  var inputElems = newRow.find('input'),
-      labelElems = newRow.find('label'),
+  var inputElems    = newRow.find('input'),
+      labelElems    = newRow.find('label'),
       textareaElems = newRow.find('textarea');
 
-  labelElems.eq(0).attr('for',   newId   + 'step_number'  );
-  inputElems.eq(0).attr('name',  newName + '[step_number]');
-  inputElems.eq(0).attr('id',    newId   + 'step_number'  );
+  var labelElem = labelElems.eq(0);
+  labelElem.attr('for', newId + 'step_number');
 
-  labelElems.eq(1).attr   ('for',  newId   + 'step_number'  );
-  textareaElems.eq(0).attr('name', newName + '[description]');
-  textareaElems.eq(0).attr('id',   newId   + 'description'  );
+  var inputElem = inputElems.eq(0);
+  inputElem.attr('name', newName + '[step_number]');
+  inputElem.attr('id',   newId   + 'step_number'  );
+
+  labelElem = labelElems.eq(1);
+  labelElem.attr('for', newId + 'step_number'  );
+
+  var textAreaElem = textAreaElems.eq(0);
+  textareaElem.attr('name', newName + '[description]');
+  textareaElem.attr('id',   newId   + 'description'  );
   textareaElems.text('');
 
   return newRow;
@@ -341,59 +414,6 @@ function renumberSteps(clickedRow, action) {
         stepNumber += 1;
       }
     }
-  });
-}
-
-// Get a recipe from the server.
-function requestRecipe(direction) {
-  var recipeData = {};
-  $.get('/recipes/0.json', {direction: direction}, function(data) {
-    var authorName = data.data.relationships.author.data.email,
-        favorite   = '',
-        photoPath  = data.data.attributes['photo-path'];
-
-    recipe = new Recipe();
-    recipeData.recipe_id     = data.data.id;
-    recipeData.author_id     = data.data.relationships.author.data.id;
-    recipeData.name          = data.data.attributes.name;
-    recipeData.description   = data.data.attributes.description;
-    recipeData.total_time    = data.data.attributes['total-time'] + ' minutes';
-    recipeData.stars         = createStars(parseInt(data.data.attributes['average-stars']));
-
-    var thisUserId = $('body').data('userid');
-    var userRecipeFavorites = data.data.relationships['user-recipe-favorites'].data;
-    for (var i = 0; i < userRecipeFavorites.length; ++i) {
-      if (userRecipeFavorites[i]['user-id'] == thisUserId) {
-        favorite = 'checked';
-        break;
-      }
-    }
-
-    recipeData.image             = `<img src='/assets/${photoPath}' height='200' width='360' title="${recipeData.name}} photo">`;
-    recipeData.favorite          = `<input type='checkbox' class='favorite' ${favorite}>Favorite`;
-    recipeData.submitter         = `Submitted by <a href='/users/${recipeData.author_id}/recipes'>${authorName}}</a>`;
-    recipeData.ingredientsHeader = `<a class="js-ingredients" data-recipe-id=${recipeData.recipe_id} data-show-detail="1" href="#">Ingredients</a>`;
-    recipeData.stepsHeader       = `<a class="js-steps" data-recipe-id=${recipeData.recipe_id} data-show-detail="1" href="#">Steps</a>`;
-    recipeData.reviewsHeader     = `<a class="js-reviews" data-recipe-id=${recipeData.recipe_id} data-show-detail="1" href="#">Reviews</a>`;
-
-    recipe.setRecipe(recipeData);
-    recipe.loaded = true;
-    $('.recipe-detail').html(recipe.HTML);
-
-    if (history.pushState) {
-      if (window.location.pathname != `/recipes/${recipeData.recipe_id}`) {
-        var newurl = window.location.protocol + "//" + window.location.host + `/recipes/${recipeData.recipe_id}`;
-        window.history.pushState({path:newurl}, '', newurl);
-      }
-    }
-
-    $('.js-deleteRecipe').eq(0).click(function(e) { deleteRecipe(e); });
-    $('.js-ingredients').eq(0).click(function(e)  { showIngredients(e); });
-    $('.js-steps').eq(0).click(function(e) { showSteps(e); });
-    $('.js-reviews').eq(0).click(function(e) { showReviews(e); });
-  })
-  .fail(function(jqXHR, textStatus, error) {
-    console.log('ERROR: ' + error);
   });
 }
 
@@ -454,11 +474,6 @@ function showSteps(e) {
   }
   e.target.setAttribute('data-show-detail', showDetail == 0 ? 1 : 0);  // flip the showDetail flag.
   e.preventDefault();
-}
-
-// Returns the <tbody> element of stepTable.
-function stepTable() {
-  return $('#stepTable tbody');
 }
 
 function toggleFavorite(elem) {
