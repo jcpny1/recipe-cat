@@ -31,12 +31,17 @@ h1, .h1, h2, .h2, h3, .h3 {
   margin-bottom: 10px;
 }
 
+.ingredientPane {
+  height: 150px;
+  overflow-y: scroll;
+}
+
 .tab-pane {
   height: 200px;
   overflow-y: scroll;
 }
 
-.ingredientPane {
-  height: 150px;
-  overflow-y: scroll;
+table.vspace-5 {
+  border-spacing:0 5px;
+  border-collapse:separate;
 }

@@ -2,18 +2,24 @@
 
 <% recipes.each do |recipe| %>
   <div class="row">
-    <div class="col-md-1">
-      <%= link_to recipe.name, recipe %>
-    </div>
-    <div class="col-md-2">
-      <a href="/recipes/<%=recipe.id%>" data-recipe-id="<%=recipe.id%>"><img src="/assets/<%=recipe.photo_path%>" height="100" width="190" title="<%=recipe.name%> photo"></a>
-    </div>
-    <div class="col-md-1">
-      <%= link_to pluralize(recipe.number_of_reviews, 'review'), recipe_recipe_reviews_path(recipe) %><br>
-      <%= render partial: "recipes/review_stars", locals: {stars: recipe.average_stars, url: recipe_recipe_reviews_path(recipe)} %>
-    </div>
-    <div class="col-md-8">
-      <%= render partial: "recipes/favorite", locals: {recipe: recipe} %>
+    <div class="col-md-12">
+      <table class="vspace-5">
+        <tr>
+          <td width="25%">
+            <%= link_to recipe.name, recipe %>
+          </td>
+          <td width="25%" align="center">
+            <a href="/recipes/<%=recipe.id%>" data-recipe-id="<%=recipe.id%>"><img src="/assets/<%=recipe.photo_path%>" height="100" width="190" title="<%=recipe.name%> photo"></a>
+          </td>
+          <td width="25%" align="center">
+            <%= link_to pluralize(recipe.number_of_reviews, 'review'), recipe_recipe_reviews_path(recipe) %><br>
+            <%= render partial: "recipes/review_stars", locals: {stars: recipe.average_stars, url: recipe_recipe_reviews_path(recipe)} %>
+          </td>
+          <td width="25%">
+            <%= render partial: "recipes/favorite", locals: {recipe: recipe} %>
+          </td>
+        </tr>
+      </table>
     </div>
   </div>
 <% end %>
