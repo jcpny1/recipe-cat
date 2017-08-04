@@ -1,14 +1,14 @@
-<div class="col-sm-12">
-  <div class='row'>
-    <div class="col-sm-1">
-      <a class='js-prevRecipe' href="#">&lt;Previous&gt;</a>
-    </div>
-    <div class="col-sm-1">
-      <a class='js-nextRecipe' href="#">&lt;Next&gt;</a>
-    </div>
+<div class='row'>
+  <div class="col-md-3">
+    <a class='js-prevRecipe' href="#">&lt;Previous&gt;</a>
   </div>
-  <div class='row recipe-detail'></div>
+  <div class="col-md-3">
+    <a class='js-nextRecipe' href="#">&lt;Next&gt;</a>
+  </div>
+  <div class="col-md-6"></div>
 </div>
+
+<div class='row recipe-detail'></div>
 
 <script id="ingredients-template" type="text/x-handlebars-template">
   <table class='table'>
@@ -24,7 +24,7 @@
 
 <script id="recipe-template" type="text/x-handlebars-template">
   {{#each this}}
-    <div class="col-sm-12">
+    <div class="col-md-12">
       <h1>{{name}} {{{editRecipe recipe_id author_id}}}</h1>
       <p>{{{stars}}}</p>
       <p>{{{submitter}}}</p>

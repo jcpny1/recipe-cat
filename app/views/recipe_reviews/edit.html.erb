@@ -1,2 +1,11 @@
-<h2>Edit Recipe Review for <%= @recipe_name %></h2>
-<%= render partial: "form", locals: {recipe_review: @recipe_review, url: recipe_recipe_review_path(@recipe_review.recipe, @recipe_review) } %>
+<div class='row'>
+  <div class="col-md-12">
+    <h2>Edit Recipe Review for <%= @recipe_name %></h2>
+  </div>
+</div>
+
+<div class='row'>
+  <div class="col-md-12">
+    <%= render partial: "form", locals: {recipe_review: @recipe_review, url: recipe_recipe_review_path(@recipe_review.recipe, @recipe_review) } %>
+  </div>
+</div>

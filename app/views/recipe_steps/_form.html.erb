@@ -3,9 +3,10 @@
   <%= f.number_field :step_number, step: 1, min: 0, hidden:true %>
 </td>
 <td>
-  <% rowLength = 45 %>
+  <% rowLength = 75 %>
   <% lineCount = 1 %>
   <% lineCount = f.object.description.length / rowLength if f.object.description%>
+  <% lineCount = 1 if lineCount == 0 %>
   <% textAreaSize = rowLength.to_s + 'x' + lineCount.to_s %>
   <%= f.text_area :description, size:textAreaSize %>
 </td>

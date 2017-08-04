@@ -1,23 +1,25 @@
 <div class='row'>
-  <div class="col-sm-2">
+  <div class="col-md-3">
     <em><u><%= review.title %></u></em>
   </div>
-  <div class="col-sm-1">
-    <%= render partial: "recipes/review_stars", locals: {stars: review.stars, url: nil} %>
+  <div class="col-md-2">
+    <%= render partial: "recipes/review_stars", locals: {stars: review.stars, url: '#'} %>
   </div>
-  <div class="col-sm-1">
-    <%= link_to image_tag("edit-icon.png",   size:"16", title: "Edit review"), edit_recipe_recipe_review_path(review.recipe.id, review.id) if policy(review).update? %>
+  <div class="col-md-7">
+    <%= link_to image_tag("edit-icon.png",   size:"16", title: "Edit review"),   edit_recipe_recipe_review_path(review.recipe.id, review.id) if policy(review).update? %>
     <%= link_to(image_tag("delete-icon.png", size:"16", title: "Delete review"), recipe_recipe_review_path(review.recipe.id, review.id), method: :delete, data: {confirm: "Are you sure!"}) if policy(review).destroy? %>
   </div>
 </div>
+
 <div class='row'>
-  <div class="col-sm-4">
+  <div class="col-md-4">
     <%= review.comments %>
   </div>
 </div>
-<p></p>
+
+<br>
 <div class='row'>
-  <div class="col-sm-4">
+  <div class="col-md-4">
     <p>by <%= review.author_name %> / <%= review.created_at %></p>
   </div>
 </div>

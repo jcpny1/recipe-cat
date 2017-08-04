@@ -1,10 +1,9 @@
-<div class="col-sm-12">
-  <div class='row'>
-    <div class="col-sm-4">
-      <h2>
-        <%= @recipe_review.recipe_name %> Review
-      </h2>
-    </div>
+<div class='row'>
+  <div class="col-md-12">
+    <h2>
+      <%= @recipe_review.recipe_name %> Review
+    </h2>
   </div>
-  <%= render partial: 'recipe_reviews/review', locals: {review: @recipe_review} %>
 </div>
+
+<%= render partial: 'recipe_reviews/review', locals: {review: @recipe_review} %>

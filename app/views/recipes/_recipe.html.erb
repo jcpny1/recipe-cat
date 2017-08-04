@@ -4,7 +4,7 @@
       <%= f.fields_for :recipe_ingredients do |ff| %>
         <% if ff.options[:child_index] == 0 %>
           <tr id='ingredientClone'>
-            <%= render partial: 'recipe_ingredients/form_ingredient', locals: {f: ff} %>
+            <%= render partial: 'recipe_ingredients/form', locals: {f: ff} %>
             <td><%= link_to(image_tag('delete-icon.png', size:'16', title: 'Delete ingredient'), '#', class:'js-deleteIngredient') if policy(ff.object).destroy? %></td>
             <!-- <% if ff.object.persisted? %> -->
               <td hidden><%= ff.check_box :_destroy, class:'js-destroyRecord' %></td>
@@ -15,9 +15,9 @@
       <%= f.fields_for :recipe_steps do |ff| %>
         <% if ff.options[:child_index] == 0 %>
           <tr id='stepClone'>
-            <%= render partial: 'recipe_steps/form_step', locals: {f: ff} %>
-            <td><%= link_to(image_tag('add-icon.png',    size:'16', title: 'Add step here'), '#', class:'js-insertStep') if policy(ff.object).create? %></td>
-            <td><%= link_to(image_tag('delete-icon.png', size:'16', title: 'Delete step'),   '#', class:'js-deleteStep') if policy(ff.object).destroy? %></td>
+            <%= render partial: 'recipe_steps/form', locals: {f: ff} %>
+            <td><%= link_to(image_tag('add-icon.png',    size:'16', title: 'Insert step'), '#', class:'js-insertStep') if policy(ff.object).create? %></td>
+            <td><%= link_to(image_tag('delete-icon.png', size:'16', title: 'Delete step'), '#', class:'js-deleteStep') if policy(ff.object).destroy? %></td>
             <!-- <% if ff.object.persisted? %> -->
               <td hidden><%= ff.check_box :_destroy, class:'js-destroyRecord' %></td>
             <!-- <% end %> -->
@@ -26,76 +26,103 @@
       <% end %>
     </tbody>
   </table>
+
   <div class="row">
-    <div class="col-sm-1">
+    <div class="col-md-1">
       <%= f.label :name %>
     </div>
-    <div class="col-sm-4">
+    <div class="col-md-11">
       <%= f.text_field :name %>
     </div>
   </div>
+
   <div class="row">
-    <div class="col-sm-1">
+    <div class="col-md-1">
       <%= f.label :description %>
     </div>
-    <div class="col-sm-4">
-      <%= f.text_area :description %>
+    <div class="col-md-11">
+      <%= f.text_area :description, size:'65x2' %>
     </div>
   </div>
+
   <div class="row">
-    <div class="col-sm-1">
+    <div class="col-md-1">
       <%= f.label :total_time %>
     </div>
-    <div class="col-sm-4">
+    <div class="col-md-11">
       <%= f.number_field :total_time %> minutes
     </div>
   </div>
 
   <div class='row'>
-    <div class='col-sm-12'>
+    <div class='col-md-12'>
       <h3>
         Ingredients:
         <%= link_to(image_tag('add-icon.png', size:'16', title: 'Add ingredient'), '#', class:'js-addIngredient') if policy(recipe).update? %>
       </h3>
     </div>
   </div>
-  <table id='ingredientTable'>
-    <tbody>
-      <%= f.fields_for :recipe_ingredients do |ff| %>
-        <tr id='recipe-ingredient-id-<%=ff.object.id%>'>
-          <%= render partial: 'recipe_ingredients/form_ingredient', locals: {f: ff} %>
-          <td><%= link_to(image_tag('delete-icon.png', size:'16', title: 'Delete ingredient'), '#', class:'js-deleteIngredient') if policy(ff.object).destroy? %></td>
-          <!-- <% if ff.object.persisted? %> -->
-            <td hidden><%= ff.check_box :_destroy, class:'js-destroyRecord' %></td>
-          <!-- <% end %> -->
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+
   <div class='row'>
-    <div class='col-sm-12'>
+    <div class='panel panel-default col-md-8'>
+      <div class='panel-body'>
+        <div class='tab-pane ingredientPane'>
+          <table id='ingredientTable'>
+            <tbody>
+              <%= f.fields_for :recipe_ingredients do |ff| %>
+                <tr id='recipe-ingredient-id-<%=ff.object.id%>'>
+                  <%= render partial: 'recipe_ingredients/form', locals: {f: ff} %>
+                  <td><%= link_to(image_tag('delete-icon.png', size:'16', title: 'Delete ingredient'), '#', class:'js-deleteIngredient') if policy(ff.object).destroy? %></td>
+                  <!-- <% if ff.object.persisted? %> -->
+                    <td hidden><%= ff.check_box :_destroy, class:'js-destroyRecord' %></td>
+                  <!-- <% end %> -->
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class='row'>
+    <div class='col-md-12'>
       <h3>
         Steps:
-        <td><%= link_to(image_tag('add-icon.png', size:'16', title: 'Add step'), '#', class:'js-appendStep') if policy(recipe).update? %></td>
+        <%= link_to(image_tag('add-icon.png', size:'16', title: 'Add step'), '#', class:'js-appendStep') if policy(recipe).update? %>
       </h3>
     </div>
   </div>
-  <table id='stepTable'>
-    <tbody>
-      <%= f.fields_for :recipe_steps do |ff| %>
-        <tr id='recipe-step-id-<%=ff.object.id%>'>
-          <%= render partial: 'recipe_steps/form_step', locals: {f: ff} %>
-          <td><%= link_to(image_tag('add-icon.png', size:'16',  title: 'Add step here'), '#', class:'js-insertStep') if policy(ff.object).create? %></td>
-          <td><%= link_to(image_tag('delete-icon.png', size:'16', title: 'Delete step'), '#', class:'js-deleteStep') if policy(ff.object).destroy? %></td>
-          <!-- <% if ff.object.persisted? %> -->
-            <td hidden><%= ff.check_box :_destroy, class:'js-destroyRecord' %></td>
-          <!-- <% end %> -->
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-  <br>
-  <p><%= f.submit %></p>
+
+  <div class='row'>
+    <div class='panel panel-default col-md-8'>
+      <div class='panel-body'>
+        <div class='tab-pane stepPane'>
+          <table id='stepTable'>
+            <tbody>
+              <%= f.fields_for :recipe_steps do |ff| %>
+                <tr id='recipe-step-id-<%=ff.object.id%>'>
+                  <%= render partial: 'recipe_steps/form', locals: {f: ff} %>
+                  <td><%= link_to(image_tag('add-icon.png',    size:'16', title: 'Insert step'), '#', class:'js-insertStep') if policy(ff.object).create? %></td>
+                  <td><%= link_to(image_tag('delete-icon.png', size:'16', title: 'Delete step'), '#', class:'js-deleteStep') if policy(ff.object).destroy? %></td>
+                  <!-- <% if ff.object.persisted? %> -->
+                    <td hidden><%= ff.check_box :_destroy, class:'js-destroyRecord' %></td>
+                  <!-- <% end %> -->
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class='row'>
+    <div class='col-md-12'>
+      <p><%= f.submit %></p>
+    </div>
+  </div>
+
 <% end %>
 
 <script type='application/javascript' charset='utf-8'>

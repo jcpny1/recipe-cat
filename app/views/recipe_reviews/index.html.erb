@@ -1,24 +1,29 @@
-<div class="col-sm-12">
+<div class='row'>
+  <div class="col-md-12">
+    <h2>Reviews
+      <%= 'by '            + @user_name if @user_reviews %>
+      <%= 'updated after ' + @date      if @updated_after %>
+      <%= link_to image_tag("add-icon.png", size:"16", title: "Add review"), new_recipe_recipe_review_path(@recipe_id) if user_signed_in? && @recipe_id %>
+    </h2>
+  </div>
+</div>
+
+<% last_recipe_name = '' %>
+<% @recipe_reviews.each do |recipe_review| %>
   <div class='row'>
-    <div class="col-sm-4">
-      <h2>Reviews
-        <%= 'by '            + @user_name if @user_reviews %>
-        <%= 'updated after ' + @date      if @updated_after %>
-        <%= link_to image_tag("add-icon.png", size:"16", title: "Add review"), new_recipe_recipe_review_path(@recipe_id) if user_signed_in? && @recipe_id %>
-      </h2>
+    <div class="col-md-12">
+      <% if recipe_review.recipe_name != last_recipe_name %>
+        <h3><%= link_to recipe_review.recipe_name, recipe_review.recipe %></h3>
+        <% last_recipe_name = recipe_review.recipe_name %>
+      <% end %>
     </div>
   </div>
-  <% last_recipe_name = '' %>
-  <% @recipe_reviews.each do |recipe_review| %>
-    <div class='row'>
-      <div class="col-sm-4">
-        <% if recipe_review.recipe_name != last_recipe_name %>
-          <h3><%= link_to recipe_review.recipe_name, recipe_review.recipe %></h3>
-          <% last_recipe_name = recipe_review.recipe_name %>
-        <% end %>
-      </div>
+
+  <%= render partial: 'recipe_reviews/review', locals: {review: recipe_review} %>
+
+  <div class='row'>
+    <div class="col-md-12">
+    <p>==========</p>
     </div>
-    <%= render partial: 'recipe_reviews/review', locals: {review: recipe_review} %>
-    <div class='row'><div class="col-sm-4">==========</div></div>
-  <% end %>
-</div>
+  </div>
+<% end %>

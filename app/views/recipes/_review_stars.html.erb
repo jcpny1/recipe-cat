@@ -1,5 +1,9 @@
 <% if stars > 0 %>
   <% stars.times do |i| %>
-    <%= link_to image_tag('review_star.png', size: "12", alt: "#{pluralize(stars, 'star')}", title: 'recipe stars' ), url %>
+    <% if url == '#' %>
+      <%= image_tag('review_star.png', size: "12", alt: "#{pluralize(stars, 'star')}", title: 'recipe stars' ) %>
+    <% else %>
+      <%= link_to image_tag('review_star.png', size: "12", alt: "#{pluralize(stars, 'star')}", title: 'recipe stars' ), url %>
+    <% end %>
   <% end %>
 <% end %>

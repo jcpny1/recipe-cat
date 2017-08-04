@@ -1,16 +1,15 @@
-<div class="col-sm-12">
+<div class='row'>
+  <div class="col-md-12">
+    <h2>Ingredients
+      <%= 'updated after ' + @date if @updated_after %>
+    </h2>
+  </div>
+</div>
+
+<% @ingredients.each do |ingredient| %>
   <div class='row'>
-    <div class="col-sm-5">
-      <h2>Ingredients
-        <%= 'updated after ' + @date if @updated_after %>
-      </h2>
+    <div class="col-md-12">
+      <p><%= link_to ingredient.name, ingredient %></p>
     </div>
   </div>
-  <% @ingredients.each do |ingredient| %>
-    <div class='row'>
-      <div class="col-sm-4">
-        <p><%= link_to ingredient.name, ingredient %></p>
-      </div>
-    </div>
-  <% end %>
-</div>
+<% end %>

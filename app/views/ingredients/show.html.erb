@@ -1,22 +1,23 @@
-<div class="col-sm-12">
-  <div class='row'>
-    <div class="col-sm-4">
-      <h2>Ingredient</h2>
-    </div>
+<div class='row'>
+  <div class="col-md-4">
+    <h2>Ingredient</h2>
   </div>
-  <div class='row'>
-    <div class="col-sm-4">
-      <h4><%= @ingredient.name %></h4>
-    </div>
+</div>
+
+<div class='row'>
+  <div class="col-md-4">
+    <h4><%= @ingredient.name %></h4>
   </div>
-  <div class='row'>
-    <div class="col-sm-4">
-      <%= image_tag(@ingredient.photo_path, size: "360x200", alt: "#{@ingredient.name} photo", title: 'ingredient photo' ) %>
-    </div>
+</div>
+
+<div class='row'>
+  <div class="col-md-4">
+    <%= image_tag(@ingredient.photo_path, size: "360x200", alt: "#{@ingredient.name} photo", title: 'ingredient photo' ) %>
   </div>
-  <div class='row'>
-    <div class="col-sm-4">
-      <%= @ingredient.description %>
-    </div>
+</div>
+
+<div class='row'>
+  <div class="col-md-4">
+    <%= @ingredient.description %>
   </div>
 </div>
