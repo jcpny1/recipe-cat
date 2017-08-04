@@ -11,13 +11,15 @@
 </div>
 
 <script id="ingredients-template" type="text/x-handlebars-template">
-  {{#each this}}
-    <div class='row'>
-      <div class='col-sm-2'>{{ingredient}}</div>
-      <div class='col-sm-1'>{{quantity}}</div>
-      <div class='col-sm-1'>{{unit}}</div>
-    </div>
-  {{/each}}
+  <table class='table'>
+    {{#each this}}
+      <tr>
+        <td>{{ingredient}}</td>
+        <td>{{quantity}}</td>
+        <td>{{unit}}</td>
+      </tr>
+    {{/each}}
+  </table>
 </script>
 
 <script id="recipe-template" type="text/x-handlebars-template">
@@ -40,22 +42,26 @@
 </script>
 
 <script id="reviews-template" type="text/x-handlebars-template">
-  {{#each this}}
-    <div class='row'>
-      <div class='col-sm-1'>{{{stars}}}</div>
-      <div class='col-sm-2'>{{{titleHeader}}}</div>
-      <div class='col-sm-4'>{{comments}}</div>
-    </div>
-  {{/each}}
+  <table class='table'>
+    {{#each this}}
+      <tr>
+        <td>{{{stars}}}</td>
+        <td>{{{titleHeader}}}</td>
+        <td>{{comments}}</td>
+      </tr>
+    {{/each}}
+  </table>
 </script>
 
 <script id="steps-template" type="text/x-handlebars-template">
-  {{#each this}}
-    <div class='row'>
-      <div class='col-sm-1'>{{step_number}}</div>
-      <div class='col-sm-4'>{{description}}</div>
-    </div>
-  {{/each}}
+  <table class='table'>
+    {{#each this}}
+      <tr>
+        <td>{{step_number}}</td>
+        <td>{{description}}</td>
+      </tr>
+    {{/each}}
+  </table>
 </script>
 
 <script type='application/javascript' charset='utf-8'>
