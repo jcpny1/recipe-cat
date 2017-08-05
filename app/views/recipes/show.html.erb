@@ -2,10 +2,9 @@
   <div class="col-md-3">
     <a class='js-prevRecipe' href="#">&lt;Previous&gt;</a>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-1">
     <a class='js-nextRecipe' href="#">&lt;Next&gt;</a>
   </div>
-  <div class="col-md-6"></div>
 </div>
 
 <div class='row recipe-detail'></div>
@@ -23,22 +22,24 @@
 </script>
 
 <script id="recipe-template" type="text/x-handlebars-template">
-  {{#each this}}
-    <div class="col-md-12">
-      <h1>{{name}} {{{editRecipe recipe_id author_id}}}</h1>
-      <p>{{{stars}}}</p>
-      <p>{{{submitter}}}</p>
-      <p>{{{image}}} {{{favorite}}}</p>
-      <p style='width:40%' align='justify'>{{description}}</p>
-      <p>Total time: {{total_time}}</p>
-      <p>{{{ingredientsHeader}}}</p>
-      <p id='ingredients'></p>
-      <p>{{{stepsHeader}}}</p>
-      <p id='steps'></p>
-      <p>{{{reviewsHeader}}}</p>
-      <p id='reviews'></p>
-    </div>
-  {{/each}}
+  <div class='row'>
+    {{#each this}}
+      <div class="col-md-12">
+        <h1>{{name}} {{{editRecipe recipe_id author_id}}}</h1>
+        <p>{{{stars}}}</p>
+        <p>{{{submitter}}}</p>
+        <p>{{{image}}} {{{favorite}}}</p>
+        <p style='width:40%' align='justify'>{{description}}</p>
+        <p>Total time: {{total_time}}</p>
+        <p>{{{ingredientsHeader}}}</p>
+        <p id='ingredients'></p>
+        <p>{{{stepsHeader}}}</p>
+        <p id='steps'></p>
+        <p>{{{reviewsHeader}}}</p>
+        <p id='reviews'></p>
+      </div>
+    {{/each}}
+  </div>
 </script>
 
 <script id="reviews-template" type="text/x-handlebars-template">
