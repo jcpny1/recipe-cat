@@ -159,10 +159,10 @@ function loadIngredients(recipeId) {
     if (data.data.length == 0) {
       recipe.addIngredient('No ingredients yet.', '', '');
     } else {
-      var ingredients = {}, units = {};
+      let ingredients = {}, units = {};
       loadReferenceData(data, ingredients, units);
       data.data.forEach(function(recipeIngredient) {
-        var ingredientName = ingredients[recipeIngredient.relationships.ingredient.data.id],
+        let ingredientName = ingredients[recipeIngredient.relationships.ingredient.data.id],
             quantity       = recipeIngredient.attributes.quantity,
             unitName       = recipeIngredient.attributes['unit-id'] == null ? '' : units[recipeIngredient.attributes['unit-id']];
         recipe.addIngredient(ingredientName, quantity, unitName);
@@ -180,8 +180,7 @@ function loadIngredients(recipeId) {
 function loadRecipe(direction) {
   var recipeData = {};
   $.get('/recipes/0.json', {direction: direction}, function(data) {
-    var authorName = data.data.relationships.author.data.email,
-        favorite   = '',
+    let authorName = data.data.relationships.author.data.email,
         photoPath  = data.data.attributes['photo-path'];
 
     recipe = new Recipe();
@@ -192,11 +191,12 @@ function loadRecipe(direction) {
     recipeData.total_time  = data.data.attributes['total-time'] + ' minutes';
     recipeData.stars       = createStars(parseInt(data.data.attributes['average-stars']));
 
-    var thisUserId = $('body').data('userid');
+    let thisUserId = $('body').data('userid');
 
     if (thisUserId !== '') {
-      var userRecipeFavorites = data.data.relationships['user-recipe-favorites'].data;
-      for (var i = 0; i < userRecipeFavorites.length; ++i) {
+      let favorite = '',
+          userRecipeFavorites = data.data.relationships['user-recipe-favorites'].data;
+      for (let i = 0; i < userRecipeFavorites.length; ++i) {
         if (userRecipeFavorites[i]['user-id'] == thisUserId) {
           favorite = 'checked';
           break;
@@ -218,7 +218,7 @@ function loadRecipe(direction) {
     // Update the URL.
     if (history.pushState) {
       if (window.location.pathname != `/recipes/${recipeData.recipe_id}`) {
-        var newurl = window.location.protocol + "//" + window.location.host + `/recipes/${recipeData.recipe_id}`;
+        let newurl = window.location.protocol + "//" + window.location.host + `/recipes/${recipeData.recipe_id}`;
         window.history.pushState({path:newurl}, '', newurl);
       }
     }
@@ -257,7 +257,7 @@ function loadReviews(recipeId) {
       recipe.addReview('No reviews yet.', '', '');
     } else {
       data.data.forEach(function(recipeReview) {
-        var authorId    = recipeReview.attributes['user-id'],
+        let authorId    = recipeReview.attributes['user-id'],
             comments    = recipeReview.attributes.comments,
             recipeId    = recipeReview.attributes['recipe-id'],
             reviewId    = recipeReview.id,
@@ -294,7 +294,7 @@ function loadSteps(recipeId) {
       recipe.addStep('No steps yet.', '', '');
     } else {
       data.data.forEach(function(recipeStep) {
-        var stepNumber  = recipeStep.attributes['step-number'],
+        let stepNumber  = recipeStep.attributes['step-number'],
             description = recipeStep.attributes.description;
         recipe.addStep(stepNumber, description);
       });
@@ -394,7 +394,7 @@ function newStep() {
 function nextRowId(tableElem) {
   var largestId = 0;
   tableElem.find('tr').find('input:first').each(function() {
-    var thisId = parseInt($(this).prop('id').match(/\d+/)[0]);
+    let thisId = parseInt($(this).prop('id').match(/\d+/)[0]);
     if (thisId > largestId) {
       largestId = thisId;
     }
@@ -435,7 +435,7 @@ function showIngredients(e) {
     if (recipe.ingredientsLoaded) {
       $('#ingredients').html(recipe.ingredientsHTML);
     } else {
-      var recipeId = e.target.getAttribute('data-recipe-id');
+      let recipeId = e.target.getAttribute('data-recipe-id');
       loadIngredients(recipeId);
     }
   }
@@ -452,7 +452,7 @@ function showReviews(e) {
     if (recipe.reviewsLoaded) {
       $('#reviews').html(recipe.reviewsHTML);
     } else {
-      var recipeId = e.target.getAttribute('data-recipe-id');
+      let recipeId = e.target.getAttribute('data-recipe-id');
       loadReviews(recipeId);
     }
   }
@@ -469,7 +469,7 @@ function showSteps(e) {
     if (recipe.stepsLoaded) {
       $('#steps').html(recipe.stepsHTML);
     } else {
-      var recipeId = e.target.getAttribute('data-recipe-id');
+      let recipeId = e.target.getAttribute('data-recipe-id');
       loadSteps(recipeId);
     }
   }
