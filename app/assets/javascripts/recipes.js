@@ -202,7 +202,7 @@ function loadRecipe(direction) {
           break;
         }
       }
-      recipeData.favorite        = `<input type='checkbox' class='favorite' ${favorite}>Favorite`;
+      recipeData.favorite        = `<input type='checkbox' class='favorite' ${favorite} onchange="toggleFavorite(this)" data-user-id=${thisUserId} data-recipe-id=${recipeData.recipe_id}>Favorite`;
     }
 
     recipeData.image             = `<img src='/assets/${photoPath}' height='200' width='360' title="${recipeData.name}} photo">`;
