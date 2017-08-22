@@ -1,17 +1,13 @@
-<table>
   <%= form_for recipe_review, url: url do |f| %>
-    <tr>
-      <td><%= f.label :stars %></td>
-      <td><%= f.label :title %></td>
-      <td><%= f.label :comments %></td>
-    </tr>
-    <tr>
-      <td><%= f.number_field :stars, min: 1, max: 5 %></td>
-      <td><%= f.text_field :title %></td>
-      <td><%= f.text_area :comments, size:'60x3' %></td>
-    </tr>
-    <tr>
-      <td><%= f.submit %></td>
-    </tr>
+    <div class='row'>
+      <div class="col-md-2"><%= f.label :stars %></div>
+      <div class="col-md-2"><%= f.label :title %></div>
+      <div class="col-md-3"><%= f.label :comments %></div>
+    </div>
+    <div class='row'>
+      <div class="col-md-2"><%= f.number_field :stars, min: 1, max: 5 %></div>
+      <div class="col-md-2"><%= f.text_field :title %></div>
+      <div class="col-md-3"><%= f.text_area :comments, size:'60x3' %></div>
+    </div>
+    <div class='row'><%= f.submit %></div>
   <% end %>
-</table>

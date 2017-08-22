@@ -76,7 +76,7 @@ class RecipeReviewsController < ApplicationController
     @recipe_review = @recipe.recipe_reviews.find(params[:id])
     authorize @recipe_review
     if @recipe_review.update(recipe_review_params)
-      redirect_to recipe_recipe_reviews_path(@recipe)
+      redirect_to recipe_path(@recipe)
     else
       flash.now[:alert] = @recipe_review.errors.full_messages
       render 'edit'
