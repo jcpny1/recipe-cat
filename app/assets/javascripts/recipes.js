@@ -57,7 +57,7 @@ class Recipe {
   }
 
   addReview(stars, titleHeader, comments, recipeId, reviewId, authorId, authorName, createdAt) {
-    this.reviews.data.push({stars: stars, titleHeader: titleHeader, comments: comments, recipe_id: recipeId, review_id: reviewId,
+    this.reviews.data.unshift({stars: stars, titleHeader: titleHeader, comments: comments, recipe_id: recipeId, review_id: reviewId,
       author_id: authorId, author_name: authorName, created_at: createdAt});
   }
 
@@ -158,6 +158,25 @@ function deleteRow(e, renumber) {
 function displayReviews() {
   $('#reviews').html(recipe.reviewsHTML);
   $('.js-new-review').on('click', function(e) { newReview(e) });
+}
+
+// Format and add recipe review to list of reviews.
+function formatReview(recipeReview) {
+  let authorId    = recipeReview.attributes['user-id'],
+      authorName  = recipeReview.relationships.author.data.email,
+      comments    = recipeReview.attributes.comments,
+      createdAt   = recipeReview.attributes['created-at'],
+      recipeId    = recipeReview.attributes['recipe-id'],
+      reviewId    = recipeReview.id,
+      stars       = createStars(parseInt(recipeReview.attributes.stars)),
+      thisUserId  = $('body').data('userid'),
+      titleHeader = `<strong>${recipeReview.attributes.title}</strong>`;
+
+  if (authorId == thisUserId) {
+    titleHeader += ` <a href="/recipes/${recipeId}/recipe_reviews/${reviewId}/edit"><img title="Edit review" src="/assets/edit-icon.png" alt="Edit icon" width="16" height="16"></a>` +
+                   ` <a data-confirm="Are you sure!" rel="nofollow" data-method="delete" href="/recipes/${recipeId}/recipe_reviews/${reviewId}"><img title="Delete review" src="/assets/delete-icon.png" alt="Delete icon" width="16" height="16"></a>`;
+  }
+  recipe.addReview(stars, titleHeader, comments, recipeId, reviewId, authorId, authorName, createdAt);
 }
 
 // Fetch recipe ingredients from the server.
@@ -264,22 +283,7 @@ function loadReviews(recipeId) {
       recipe.addReview('No reviews yet.', '', '');
     } else {
       data.data.forEach(function(recipeReview) {
-        let authorId    = recipeReview.attributes['user-id'],
-            authorName  = recipeReview.relationships.author.data.email,
-            comments    = recipeReview.attributes.comments,
-            createdAt   = recipeReview.attributes['created-at'],
-            recipeId    = recipeReview.attributes['recipe-id'],
-            reviewId    = recipeReview.id,
-            stars       = createStars(parseInt(recipeReview.attributes.stars)),
-            thisUserId  = $('body').data('userid'),
-            titleHeader = `<strong>${recipeReview.attributes.title}</strong>`;
-
-        if (authorId == thisUserId) {
-          titleHeader += ` <a href="/recipes/${recipeId}/recipe_reviews/${reviewId}/edit"><img title="Edit review" src="/assets/edit-icon.png" alt="Edit icon" width="16" height="16"></a>` +
-                         ` <a data-confirm="Are you sure!" rel="nofollow" data-method="delete" href="/recipes/${recipeId}/recipe_reviews/${reviewId}"><img title="Delete review" src="/assets/delete-icon.png" alt="Delete icon" width="16" height="16"></a>`;
-        }
-
-        recipe.addReview(stars, titleHeader, comments, recipeId, reviewId, authorId, authorName, createdAt);
+        formatReview(recipeReview);
       });
     }
     recipe.reviewsLoaded = true;
@@ -369,11 +373,14 @@ function newReview(e) {
       recipeId = $('.js-reviews').attr('data-recipe-id');
 
   if ((comments.length > 0) && (stars.length > 0) && (title.length > 0)) {
-    $.post(`/recipes/${recipeId}/recipe_reviews`, {recipe_review: {'comments': comments, 'stars': stars, 'title': title}}, null, 'json')
+    $.post(`/recipes/${recipeId}/recipe_reviews`, {recipe_review: {'comments': comments, 'stars': stars, 'title': title}}, function(data) {
+      let newRecipeReview = data.data;
+      formatReview(newRecipeReview);
+      recipe.reviewsLoaded = true;  // force recompile of template to HTML;
+      displayReviews();
+    }, 'json')
     .done(function() {
-      // clear input fields.
-      $('#new-review-form')[0].reset();
-      // add new record to top of list.
+      $('#new-review-form')[0].reset();  // clear input fields.
     })
     .fail(function(jqXHR, textStatus, error) {
       console.log('ERROR: ' + error);

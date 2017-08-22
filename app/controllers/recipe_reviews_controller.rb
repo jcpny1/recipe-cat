@@ -53,7 +53,7 @@ class RecipeReviewsController < ApplicationController
     if @recipe_review.save
       respond_to do |format|
         format.html { redirect_to recipe_recipe_reviews_path(@recipe) }
-        format.json { }
+        format.json { render json: @recipe_review }
       end
     else
       flash.now[:alert] = @recipe_review.errors.full_messages
