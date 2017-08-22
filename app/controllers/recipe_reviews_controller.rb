@@ -56,8 +56,12 @@ class RecipeReviewsController < ApplicationController
         format.json { render json: @recipe_review }
       end
     else
-      flash.now[:alert] = @recipe_review.errors.full_messages
-      render :new
+      respond_to do |format|
+        format.html { flash.now[:alert] = @recipe_review.errors.full_messages
+                      render :new
+                    }
+        format.json { render :json => { :errors => @recipe_review.errors.full_messages }, :status => 422 }
+      end
     end
   end
 

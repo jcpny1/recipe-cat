@@ -372,20 +372,23 @@ function newReview(e) {
       title    = $('#new-review-title').val(),
       recipeId = $('.js-reviews').attr('data-recipe-id');
 
-  if ((comments.length > 0) && (stars.length > 0) && (title.length > 0)) {
-    $.post(`/recipes/${recipeId}/recipe_reviews`, {recipe_review: {'comments': comments, 'stars': stars, 'title': title}}, function(data) {
-      let newRecipeReview = data.data;
-      formatReview(newRecipeReview);
-      recipe.reviewsLoaded = true;  // force recompile of template to HTML;
-      displayReviews();
-    }, 'json')
-    .done(function() {
-      $('#new-review-form')[0].reset();  // clear input fields.
-    })
-    .fail(function(jqXHR, textStatus, error) {
-      console.log('ERROR: ' + error);
-    });
-  }
+  $.post(`/recipes/${recipeId}/recipe_reviews`, {recipe_review: {'comments': comments, 'stars': stars, 'title': title}}, function(data) {
+    let newRecipeReview = data.data;
+    formatReview(newRecipeReview);
+    recipe.reviewsLoaded = true;  // force recompile of template to HTML;
+    displayReviews();
+  }, 'json')
+  .done(function() {
+    $('#new-review-form')[0].reset();  // clear input fields.
+  })
+  .fail(function(jqXHR, textStatus, error) {
+    var errors = $.parseJSON(jqXHR.responseText).errors
+    if (errors === undefined) {
+      alert('ERROR: ' + error);
+    } else {
+      alert('ERROR: ' + errors);
+    }
+  });
 }
 
 // Creates and returns a new recipe step row.
