@@ -43,15 +43,37 @@
 </script>
 
 <script id="reviews-template" type="text/x-handlebars-template">
+
   <table class='table'>
+    <tr>
+      <form action='/action_page.php'>
+        <tr>
+          <td>
+            <label for='stars'>Stars</label><br>
+            <input type='number' style='width: 7em' min='1', max='5' id='stars'>
+          </td>
+          <td>
+            <label for='title'>Title</label><br>
+            <input type='text' size='40' id='title'>
+          </td>
+          <td>
+            <label for='comments'>Comments</label><br>
+            <textarea id='comments' cols='60' rows='1' placeholder='Add a review...'/>
+          </td>
+          <td style='vertical-align:bottom'>
+            <input type='submit' value='Submit'>
+          </td>
+        </tr>
+      </form>
+    </tr>
     {{#each this}}
-      <tr>
-        <td width='10%'>{{{stars}}}</td>
-        <td width='25%'>{{{titleHeader}}}</td>
-        <td width='40%'>{{comments}}</td>
-        <td width='10%'>{{author_name}}</td>
-        <td width='15%'>{{created_at}}</td>
-      </tr>
+    <tr>
+      <td>{{{stars}}}</td>
+      <td>{{{titleHeader}}}</td>
+      <td>{{comments}}</td>
+      <td>{{author_name}}</td>
+      <td>{{created_at}}</td>
+    </tr>
     {{/each}}
   </table>
 </script>

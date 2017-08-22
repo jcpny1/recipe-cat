@@ -271,9 +271,6 @@ function loadReviews(recipeId) {
         if (authorId == thisUserId) {
           titleHeader += ` <a href="/recipes/${recipeId}/recipe_reviews/${reviewId}/edit"><img title="Edit review" src="/assets/edit-icon.png" alt="Edit icon" width="16" height="16"></a>` +
                          ` <a data-confirm="Are you sure!" rel="nofollow" data-method="delete" href="/recipes/${recipeId}/recipe_reviews/${reviewId}"><img title="Delete review" src="/assets/delete-icon.png" alt="Delete icon" width="16" height="16"></a>`;
-
-          // <%= link_to image_tag("edit-icon.png",   size:"16", title: "Edit review"),   edit_recipe_recipe_review_path(review.recipe.id, review.id) if policy(review).update? %>
-          // <%= link_to(image_tag("delete-icon.png", size:"16", title: "Delete review"), recipe_recipe_review_path(review.recipe.id, review.id), method: :delete, data: {confirm: "Are you sure!"}) if policy(review).destroy? %>
         }
 
         recipe.addReview(stars, titleHeader, comments, recipeId, reviewId, authorId, authorName, createdAt);
