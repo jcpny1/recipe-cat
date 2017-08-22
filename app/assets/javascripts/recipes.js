@@ -154,6 +154,12 @@ function deleteRow(e, renumber) {
   e.preventDefault();
 }
 
+// Set the review html with the list of recipe reviews.
+function displayReviews() {
+  $('#reviews').html(recipe.reviewsHTML);
+  $('.js-new-review').on('click', function(e) { newReview(e) });
+}
+
 // Fetch recipe ingredients from the server.
 function loadIngredients(recipeId) {
   $.get(`/recipes/${recipeId}/recipe_ingredients.json`, function(data) {
@@ -277,7 +283,7 @@ function loadReviews(recipeId) {
       });
     }
     recipe.reviewsLoaded = true;
-    $('#reviews').html(recipe.reviewsHTML);
+    displayReviews();
   })
   .fail(function(jqXHR, textStatus, error) {
     console.log('ERROR: ' + error);
@@ -353,6 +359,11 @@ function newIngredient() {
   });
 
   return newRow;
+}
+
+// Add a new reivew to the recipe's reviews.
+function newReview(e) {
+  console.log("BUMP");
 }
 
 // Creates and returns a new recipe step row.
@@ -447,7 +458,7 @@ function showReviews(e) {
     $('#reviews').html('');
   } else {                 // show detail.
     if (recipe.reviewsLoaded) {
-      $('#reviews').html(recipe.reviewsHTML);
+      displayReviews();
     } else {
       let recipeId = e.target.getAttribute('data-recipe-id');
       loadReviews(recipeId);

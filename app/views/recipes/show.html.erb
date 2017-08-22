@@ -46,7 +46,7 @@
 
   <table class='table'>
     <tr>
-      <form action='/action_page.php'>
+      <form>
         <tr>
           <td>
             <label for='stars'>Stars</label><br>
@@ -61,7 +61,7 @@
             <textarea id='comments' cols='60' rows='1' placeholder='Add a review...'/>
           </td>
           <td style='vertical-align:bottom'>
-            <input type='submit' value='Submit'>
+            <input class='js-new-review' type='submit' value='Submit'>
           </td>
         </tr>
       </form>
@@ -91,8 +91,8 @@
 
 <script type='application/javascript' charset='utf-8'>
 $(function () {
-  $('.js-nextRecipe').on('click', function(e) { navigateRecipe(e, 'next'); });
-  $('.js-prevRecipe').on('click', function(e) { navigateRecipe(e, 'prev'); });
+  $('.js-nextRecipe').on('click', function(e) { navigateRecipe(e, 'next') });
+  $('.js-prevRecipe').on('click', function(e) { navigateRecipe(e, 'prev') });
 
   Handlebars.registerHelper('editRecipe', function(recipe_id, author_id) {
     var author_user_id = parseInt(Handlebars.escapeExpression(author_id));
