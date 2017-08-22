@@ -1,26 +1,15 @@
 <table>
   <%= form_for recipe_review, url: url do |f| %>
     <tr>
-      <td><%= f.label :title %></td>
-    </tr>
-    <tr>
-      <td><%= f.text_field :title %></td>
-    </tr>
-
-    <tr>
       <td><%= f.label :stars %></td>
-    </tr>
-    <tr>
-      <td><%= f.number_field :stars, min: 1, max: 5 %></td>
-    </tr>
-
-    <tr>
+      <td><%= f.label :title %></td>
       <td><%= f.label :comments %></td>
     </tr>
     <tr>
+      <td><%= f.number_field :stars, min: 1, max: 5 %></td>
+      <td><%= f.text_field :title %></td>
       <td><%= f.text_area :comments, size:'60x3' %></td>
     </tr>
-
     <tr>
       <td><%= f.submit %></td>
     </tr>

@@ -3,7 +3,7 @@
     <em><u><%= review.title %></u></em>
   </div>
   <div class="col-md-2">
-    <%= render partial: "recipes/review_stars", locals: {stars: review.stars, url: '#'} %>
+    <%= render partial: "recipes/review_stars", locals: {stars: review.stars} %>
   </div>
   <div class="col-md-7">
     <%= link_to image_tag("edit-icon.png",   size:"16", title: "Edit review"),   edit_recipe_recipe_review_path(review.recipe.id, review.id) if policy(review).update? %>

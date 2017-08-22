@@ -46,9 +46,11 @@
   <table class='table'>
     {{#each this}}
       <tr>
-        <td>{{{stars}}}</td>
-        <td>{{{titleHeader}}}</td>
-        <td>{{comments}}</td>
+        <td width='10%'>{{{stars}}}</td>
+        <td width='25%'>{{{titleHeader}}}</td>
+        <td width='40%'>{{comments}}</td>
+        <td width='10%'>{{author_name}}</td>
+        <td width='15%'>{{created_at}}</td>
       </tr>
     {{/each}}
   </table>

@@ -56,8 +56,9 @@ class Recipe {
     this.recipe.loaded= val;
   }
 
-  addReview(stars, titleHeader, comments, recipeId, reviewId, authorId) {
-    this.reviews.data.push({stars: stars, titleHeader: titleHeader, comments: comments, recipe_id: recipeId, review_id: reviewId, author_id: authorId});
+  addReview(stars, titleHeader, comments, recipeId, reviewId, authorId, authorName, createdAt) {
+    this.reviews.data.push({stars: stars, titleHeader: titleHeader, comments: comments, recipe_id: recipeId, review_id: reviewId,
+      author_id: authorId, author_name: authorName, created_at: createdAt});
   }
 
   get reviewsHTML() {
@@ -258,25 +259,24 @@ function loadReviews(recipeId) {
     } else {
       data.data.forEach(function(recipeReview) {
         let authorId    = recipeReview.attributes['user-id'],
+            authorName  = recipeReview.relationships.author.data.email,
             comments    = recipeReview.attributes.comments,
+            createdAt   = recipeReview.attributes['created-at'],
             recipeId    = recipeReview.attributes['recipe-id'],
             reviewId    = recipeReview.id,
             stars       = createStars(parseInt(recipeReview.attributes.stars)),
             thisUserId  = $('body').data('userid'),
-            title       = recipeReview.attributes.title,
-            titleHeader = '';
+            titleHeader = `<strong>${recipeReview.attributes.title}</strong>`;
 
         if (authorId == thisUserId) {
-          titleHeader = `<a href="/recipes/${recipeId}/recipe_reviews/${reviewId}"><strong>${title}</strong></a>`;
-        } else {
-          titleHeader = `<a href="/recipes/${recipeId}/recipe_reviews/${reviewId}">${title}</a>`;
+          titleHeader += ` <a href="/recipes/${recipeId}/recipe_reviews/${reviewId}/edit"><img title="Edit review" src="/assets/edit-icon.png" alt="Edit icon" width="16" height="16"></a>` +
+                         ` <a data-confirm="Are you sure!" rel="nofollow" data-method="delete" href="/recipes/${recipeId}/recipe_reviews/${reviewId}"><img title="Delete review" src="/assets/delete-icon.png" alt="Delete icon" width="16" height="16"></a>`;
+
+          // <%= link_to image_tag("edit-icon.png",   size:"16", title: "Edit review"),   edit_recipe_recipe_review_path(review.recipe.id, review.id) if policy(review).update? %>
+          // <%= link_to(image_tag("delete-icon.png", size:"16", title: "Delete review"), recipe_recipe_review_path(review.recipe.id, review.id), method: :delete, data: {confirm: "Are you sure!"}) if policy(review).destroy? %>
         }
 
-        if (comments.length > 60) {
-          comments = comments.substring(0, 57) + '...';
-        }
-
-        recipe.addReview(stars, titleHeader, comments, recipeId, reviewId, authorId);
+        recipe.addReview(stars, titleHeader, comments, recipeId, reviewId, authorId, authorName, createdAt);
       });
     }
     recipe.reviewsLoaded = true;

@@ -12,8 +12,8 @@
             <a href="/recipes/<%=recipe.id%>" data-recipe-id="<%=recipe.id%>"><img src="/assets/<%=recipe.photo_path%>" height="100" width="190" title="<%=recipe.name%> photo"></a>
           </td>
           <td width="25%" align="center">
-            <%= link_to pluralize(recipe.number_of_reviews, 'review'), recipe_recipe_reviews_path(recipe) %><br>
-            <%= render partial: "recipes/review_stars", locals: {stars: recipe.average_stars, url: recipe_recipe_reviews_path(recipe)} %>
+            <%= pluralize(recipe.number_of_reviews, 'review') %><br>
+            <%= render partial: "recipes/review_stars", locals: {stars: recipe.average_stars} %>
           </td>
           <td width="25%">
             <%= render partial: "recipes/favorite", locals: {recipe: recipe} %>
