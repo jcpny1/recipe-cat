@@ -51,7 +51,10 @@ class RecipeReviewsController < ApplicationController
     @recipe_review.author = current_user
     authorize @recipe_review
     if @recipe_review.save
-      redirect_to recipe_recipe_reviews_path(@recipe)
+      respond_to do |format|
+        format.html { redirect_to recipe_recipe_reviews_path(@recipe) }
+        format.json { }
+      end
     else
       flash.now[:alert] = @recipe_review.errors.full_messages
       render :new

@@ -43,22 +43,21 @@
 </script>
 
 <script id="reviews-template" type="text/x-handlebars-template">
-
   <table class='table'>
     <tr>
-      <form>
+      <form id='new-review-form'>
         <tr>
           <td>
-            <label for='stars'>Stars</label><br>
-            <input type='number' style='width: 7em' min='1', max='5' id='stars'>
+            <label for='new-review-stars'>Stars</label><br>
+            <input type='number' id='new-review-stars' style='width: 7em' min='1', max='5' required>
           </td>
           <td>
-            <label for='title'>Title</label><br>
-            <input type='text' size='40' id='title'>
+            <label for='new-review-title'>Title</label><br>
+            <input type='text' id='new-review-title' size='40' required>
           </td>
           <td>
-            <label for='comments'>Comments</label><br>
-            <textarea id='comments' cols='60' rows='1' placeholder='Add a review...'/>
+            <label for='new-review-comments'>Comments</label><br>
+            <textarea id='new-review-comments' cols='60' rows='1' placeholder='Add a review...' required/>
           </td>
           <td style='vertical-align:bottom'>
             <input class='js-new-review' type='submit' value='Submit'>
@@ -68,11 +67,11 @@
     </tr>
     {{#each this}}
     <tr>
-      <td>{{{stars}}}</td>
-      <td>{{{titleHeader}}}</td>
-      <td>{{comments}}</td>
-      <td>{{author_name}}</td>
-      <td>{{created_at}}</td>
+      <td width='10%'>{{{stars}}}</td>
+      <td width='25%'>{{{titleHeader}}}</td>
+      <td width='40%'>{{comments}}</td>
+      <td width='15%'>{{author_name}}</td>
+      <td width='10%'>{{created_at}}</td>
     </tr>
     {{/each}}
   </table>

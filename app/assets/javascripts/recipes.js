@@ -363,7 +363,22 @@ function newIngredient() {
 
 // Add a new reivew to the recipe's reviews.
 function newReview(e) {
-  console.log("BUMP");
+  let comments = $('#new-review-comments').val(),
+      stars    = $('#new-review-stars').val(),
+      title    = $('#new-review-title').val(),
+      recipeId = $('.js-reviews').attr('data-recipe-id');
+
+  if ((comments.length > 0) && (stars.length > 0) && (title.length > 0)) {
+    $.post(`/recipes/${recipeId}/recipe_reviews`, {recipe_review: {'comments': comments, 'stars': stars, 'title': title}}, null, 'json')
+    .done(function() {
+      // clear input fields.
+      $('#new-review-form')[0].reset();
+      // add new record to top of list.
+    })
+    .fail(function(jqXHR, textStatus, error) {
+      console.log('ERROR: ' + error);
+    });
+  }
 }
 
 // Creates and returns a new recipe step row.
