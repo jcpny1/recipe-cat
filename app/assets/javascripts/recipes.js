@@ -157,6 +157,10 @@ function deleteRow(e, renumber) {
 // Set the review html with the list of recipe reviews.
 function displayReviews() {
   $('#reviews').html(recipe.reviewsHTML);
+  let thisUserId = $('body').data('userid');
+  if (thisUserId === '') {
+    $('#new-review-row').hide();
+  }
   $('.js-new-review').on('click', function(e) { newReview(e) });
 }
 
