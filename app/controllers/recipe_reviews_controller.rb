@@ -58,9 +58,8 @@ class RecipeReviewsController < ApplicationController
     else
       respond_to do |format|
         format.html { flash.now[:alert] = @recipe_review.errors.full_messages
-                      render :new
-                    }
-        format.json { render :json => { :errors => @recipe_review.errors.full_messages }, :status => 422 }
+                      render :new }
+        format.json { render :json => { :errors => @recipe_review.errors.full_messages }, :status => 422 }  # Unprocessable Entity
       end
     end
   end
@@ -68,6 +67,7 @@ class RecipeReviewsController < ApplicationController
   # edit a recipe review record.
   def edit
     @recipe_review = @recipe.recipe_reviews.find(params[:id])
+    session[:review_update_return_path] ||= request.referer
     authorize @recipe_review
   end
 
@@ -76,7 +76,9 @@ class RecipeReviewsController < ApplicationController
     @recipe_review = @recipe.recipe_reviews.find(params[:id])
     authorize @recipe_review
     if @recipe_review.update(recipe_review_params)
-      redirect_to recipe_path(@recipe)
+      return_path = session[:review_update_return_path]
+      session.delete('review_update_return_path')
+      redirect_to return_path
     else
       flash.now[:alert] = @recipe_review.errors.full_messages
       render 'edit'

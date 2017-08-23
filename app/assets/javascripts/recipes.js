@@ -120,7 +120,7 @@ function createStars(numStars) {
 
 // Delete an entire recipe.
 function deleteRecipe(e) {
-  if (confirm('Are you sure?') == true) {
+  if (confirm('Delete this recipe?') == true) {
     var recipeId = e.target.parentElement.getAttribute('data-recipe-id');
     $.ajax({
       type: "DELETE",
@@ -135,7 +135,7 @@ function deleteRecipe(e) {
 
 // Delete a detail row from the recipe show page.
 function deleteRow(e, renumber) {
-  if (confirm('Are you sure?') == true) {
+  if (confirm('Delete this item?') == true) {
     var clickedRow = $(e.target).parent().parent().parent();
 
     // Renumber subsequent rows, if requested.
@@ -178,7 +178,7 @@ function formatReview(recipeReview) {
 
   if (authorId == thisUserId) {
     titleHeader += ` <a href="/recipes/${recipeId}/recipe_reviews/${reviewId}/edit"><img title="Edit review" src="/assets/edit-icon.png" alt="Edit icon" width="16" height="16"></a>` +
-                   ` <a data-confirm="Are you sure!" rel="nofollow" data-method="delete" href="/recipes/${recipeId}/recipe_reviews/${reviewId}"><img title="Delete review" src="/assets/delete-icon.png" alt="Delete icon" width="16" height="16"></a>`;
+                   ` <a data-confirm="Delete this review?" rel="nofollow" data-method="delete" href="/recipes/${recipeId}/recipe_reviews/${reviewId}"><img title="Delete review" src="/assets/delete-icon.png" alt="Delete icon" width="16" height="16"></a>`;
   }
   recipe.addReview(stars, titleHeader, comments, recipeId, reviewId, authorId, authorName, createdAt);
 }

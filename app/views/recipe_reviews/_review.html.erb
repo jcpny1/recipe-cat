@@ -7,7 +7,7 @@
   </div>
   <div class="col-md-7">
     <%= link_to image_tag("edit-icon.png",   size:"16", title: "Edit review"),   edit_recipe_recipe_review_path(review.recipe.id, review.id) if policy(review).update? %>
-    <%= link_to(image_tag("delete-icon.png", size:"16", title: "Delete review"), recipe_recipe_review_path(review.recipe.id, review.id), method: :delete, data: {confirm: "Are you sure!"}) if policy(review).destroy? %>
+    <%= link_to(image_tag("delete-icon.png", size:"16", title: "Delete review"), recipe_recipe_review_path(review.recipe.id, review.id), method: :delete, data: {confirm: "Delete this review?"}) if policy(review).destroy? %>
   </div>
 </div>
 
