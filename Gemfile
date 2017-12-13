@@ -6,15 +6,13 @@ git_source(:github) do |repo_name|
 end
 
 # rails is pulling in mail 2.6.5.
-# gemnasium says use 2.6.6 for security.
-gem 'mail', '~> 2.6.6.rc1'
+# gemnasium says use >= 2.6.6 for security.
+gem 'mail', '~> 2.7'
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.0.2'
+gem 'puma', '~> 3.11'             # HTTP 1.1 server for Ruby/Rack applications.
+gem 'rails', '~> 5.1', '>= 5.1.4' # Full-stack web framework.
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
-# Use Puma as the app server
-gem 'puma', '~> 3.0'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -52,7 +50,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'pry'
   gem 'rack_session_access'
-  gem 'rspec-rails', '~> 3.5'
+  gem 'rspec-rails', '~> 3.7' # Rails testing framework.
 end
 
 group :development do
