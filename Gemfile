@@ -5,10 +5,9 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-# rails is pulling in mail 2.6.5.
+# rails was pulling in mail 2.6.5.
 # gemnasium says use >= 2.6.6 for security.
 gem 'mail', '~> 2.7'
-
 gem 'puma', '~> 3.11'             # HTTP 1.1 server for Ruby/Rack applications.
 gem 'rails', '~> 5.1', '>= 5.1.4' # Full-stack web framework.
 # Use sqlite3 as the database for Active Record
