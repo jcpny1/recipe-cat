@@ -1,6 +1,6 @@
 <table>
   <tr>
-    <td width="30%"><p><%= link_to 'Add A Recipe', new_recipe_path %></p></td>
+    <td width='30%'><p><%= link_to 'Add A Recipe', new_recipe_path %></p></td>
     <td>
       <%= form_for RecipeIngredient.new, url: filter_recipes_path do |f| %>
         Filter By<br>

@@ -9,11 +9,11 @@ RSpec.describe RecipeReview, type: :model do
     @recipe.save!
   end
 
-  it "has a recipe" do
+  it 'has a recipe' do
     expect(@recipe_review.recipe).to eq(@recipe)
   end
 
-  it "has a title" do
+  it 'has a title' do
     expect(@recipe.recipe_reviews.first.title).to eq('Incredible!')
   end
 end

@@ -41,7 +41,7 @@ protected
   def update_selector
     @date = DateTime.parse(params[:date]).next_day
     yield
-    @date = DateTime.parse(params[:date]).strftime("%d-%^b-%Y")   #=> "19-NOV-2007"
+    @date = DateTime.parse(params[:date]).strftime('%d-%^b-%Y')   #=> '19-NOV-2007'
     @updated_after = true
   end
 
@@ -49,18 +49,18 @@ private
 
   # display a not found page for improperly formatted ActiveRecord URLs.
   def render_404
-    render :template => "404", :status => 404
+    render :template => '404', :status => 404
   end
 
   # display an error message for missing Pundit policy methods.
   def route_not_defined
-    flash[:alert] = "Undefined policy route."
+    flash[:alert] = 'Undefined policy route.'
     redirect_to(request.referrer || root_path)
   end
 
   # display an error message when user attempts Pundit policy-unauthorized actions.
   def user_not_authorized
-    flash[:alert] = "Unauthorized action."
+    flash[:alert] = 'Unauthorized action.'
     redirect_to(request.referrer || root_path)
   end
 end

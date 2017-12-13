@@ -15,9 +15,9 @@ class UserRecipeFavoritesController < ApplicationController
     user_recipe_favorite = UserRecipeFavorite.new(user_id: user.id, recipe_id: recipe_id)
     authorize user_recipe_favorite
 
-    favorite_flag = params[:user_recipe_favorite][:favorite] # "0" or "1"
+    favorite_flag = params[:user_recipe_favorite][:favorite] # '0' or '1'
 
-    if favorite_flag == "0" # if favorite is off
+    if favorite_flag == '0' # if favorite is off
       user.user_recipe_favorites.where(recipe_id: recipe_id).first.destroy # remove favorite
     elsif !user.user_recipe_favorites.exists?(recipe_id: recipe_id) # favorite is on
       user.user_recipe_favorites.create(user_id: user.id, recipe_id: recipe_id) # add favorite

@@ -20,13 +20,13 @@ Rails.application.routes.draw do
     resources :user_recipe_favorites, only: [:index, :update]
   end
 
-  get  '/recent_edits', to: "application#recent_edits_select"
-  post '/recent_edits', to: "application#recent_edits"
+  get  '/recent_edits', to: 'application#recent_edits_select'
+  post '/recent_edits', to: 'application#recent_edits'
 
-  get '/ingredients/updated_after/:date',    to: "ingredients#updated_after"
-  get '/recipes/updated_after/:date',        to: "recipes#updated_after"
-  get '/recipe_reviews/updated_after/:date', to: "recipe_reviews#updated_after"
+  get '/ingredients/updated_after/:date',    to: 'ingredients#updated_after'
+  get '/recipes/updated_after/:date',        to: 'recipes#updated_after'
+  get '/recipe_reviews/updated_after/:date', to: 'recipe_reviews#updated_after'
 
-  get '/about', to: "application#about"
-  root "application#welcome"
+  get '/about', to: 'application#about'
+  root 'application#welcome'
 end

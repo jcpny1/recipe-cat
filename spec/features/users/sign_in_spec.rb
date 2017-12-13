@@ -1,7 +1,7 @@
-require "rails_helper"
+require 'rails_helper'
 
-RSpec.feature "User Sign In", :type => :feature do
-  scenario "User cannot sign in if not registered" do
+RSpec.feature 'User Sign In', :type => :feature do
+  scenario 'User cannot sign in if not registered' do
       sign_in('test@example.com', 'please123')
       expect(page).to have_content I18n.t 'devise.failure.not_found_in_database', authentication_keys: 'Email'
   end

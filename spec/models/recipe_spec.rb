@@ -14,19 +14,19 @@ RSpec.describe Recipe, type: :model do
     @recipe.save!
   end
 
-  it "has a recipe" do
+  it 'has a recipe' do
     expect(@recipe_review.recipe).to eq(@recipe)
   end
 
-  it "has an ingredient" do
+  it 'has an ingredient' do
     expect(@recipe.ingredients).to include(@ingredient2)
   end
 
-  it "has a review" do
+  it 'has a review' do
     expect(@recipe.recipe_reviews).to include(@recipe_review)
   end
 
-  it "has been favorited" do
+  it 'has been favorited' do
     expect(@review_author.user_recipe_favorites.first.recipe).to eq(@recipe)
   end
 end

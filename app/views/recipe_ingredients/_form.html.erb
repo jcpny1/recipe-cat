@@ -1,6 +1,6 @@
 <%= form_for recipe_ingredients, url: url do |f| %>
   <table>
-    <tr><%= render partial: "form_ingredient", locals: {f: f} %></tr>
+    <tr><%= render partial: 'form_ingredient', locals: {f: f} %></tr>
   </table>
   <p><%= f.submit %></p>
 <% end %>

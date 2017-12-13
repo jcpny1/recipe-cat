@@ -7,8 +7,8 @@ RSpec.describe RecipeIngredientsController, type: :controller do
     @recipe.save!
   end
 
-  describe "GET #new" do
-    it "returns http success" do
+  describe 'GET #new' do
+    it 'returns http success' do
 # need to log in first to get success result.
 
       get :new,  params: { recipe_id: @recipe.id }

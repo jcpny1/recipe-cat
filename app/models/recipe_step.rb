@@ -1,7 +1,7 @@
 # an instruction that is used in a particular recipe.
 class RecipeStep < ApplicationRecord
   belongs_to :recipe
-  validates :step_number, uniqueness: { scope: :recipe, message: "must be unique for this recipe" }
+  validates :step_number, uniqueness: { scope: :recipe, message: 'must be unique for this recipe' }
 
   # returns the user who created this recipe step.
   def author

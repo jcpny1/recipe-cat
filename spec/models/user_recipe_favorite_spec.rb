@@ -14,11 +14,11 @@ RSpec.describe UserRecipeFavorite, type: :model do
     @recipe.save!
   end
 
-  it "has a recipe" do
+  it 'has a recipe' do
     expect(@user_recipe_favorite.recipe).to eq(@recipe)
   end
 
-  it "has a user" do
+  it 'has a user' do
     expect(@user_recipe_favorite.user).to eq(@review_author)
   end
 end
