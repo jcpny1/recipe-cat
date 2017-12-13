@@ -127,10 +127,11 @@ GEM
       rack (>= 1.6.2, < 3)
     omniauth-facebook (4.0.0)
       omniauth-oauth2 (~> 1.2)
-    omniauth-oauth2 (1.4.0)
-      oauth2 (~> 1.0)
+    omniauth-oauth2 (1.5.0)
+      oauth2 (~> 1.1)
       omniauth (~> 1.2)
     orm_adapter (0.5.0)
+    pg (0.21.0)
     pry (0.11.3)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
@@ -260,6 +261,7 @@ DEPENDENCIES
   listen
   mail (~> 2.7)
   omniauth-facebook
+  pg (~> 0.21.0)
   pry
   puma (~> 3.11)
   pundit

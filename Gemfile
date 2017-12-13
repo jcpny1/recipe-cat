@@ -5,13 +5,15 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+group :production do
+  gem 'pg', '~> 0.21.0'             # Used as the database for Active Record.
+end
+
 # rails was pulling in mail 2.6.5.
 # gemnasium says use >= 2.6.6 for security.
 gem 'mail', '~> 2.7'
 gem 'puma', '~> 3.11'             # HTTP 1.1 server for Ruby/Rack applications.
 gem 'rails', '~> 5.1', '>= 5.1.4' # Full-stack web framework.
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -50,6 +52,7 @@ group :development, :test do
   gem 'pry'
   gem 'rack_session_access'
   gem 'rspec-rails', '~> 3.7' # Rails testing framework.
+  gem 'sqlite3'  # Use sqlite3 as the database for Active Record
 end
 
 group :development do
