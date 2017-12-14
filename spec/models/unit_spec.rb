@@ -5,7 +5,7 @@ RSpec.describe Unit, type: :model do
     @unit = Unit.create!(name: 'lbs')
   end
 
-  it "has a name" do
+  it 'has a name' do
     expect(@unit.name).to eq('lbs')
   end
 end

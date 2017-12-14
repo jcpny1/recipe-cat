@@ -7,11 +7,11 @@ RSpec.describe Address, type: :model do
     @user.address.state = 'NY'
   end
 
-  it "has a city" do
+  it 'has a city' do
     expect(@user.address.city).to eq('Freeport')
   end
 
-  it "has a state" do
+  it 'has a state' do
     expect(@user.address.state).to eq('NY')
   end
 end

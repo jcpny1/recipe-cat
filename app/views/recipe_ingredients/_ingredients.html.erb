@@ -1,0 +1,10 @@
+  <table>
+  <% recipe_ingredients.sort { |ri1,ri2| ri1.ingredient.name <=> ri2.ingredient.name }.each do |recipe_ingredient| %>
+    <tr>
+      <td><%= link_to recipe_ingredient.ingredient_name, recipe_ingredient.ingredient %></td>
+      <td><%= pluralize(number_with_precision(recipe_ingredient.quantity, precision: 3, strip_insignificant_zeros: true), recipe_ingredient.unit ? recipe_ingredient.unit.name : '') %></td>
+      <td><%= link_to image_tag('edit-icon.png',   size:16, title:'Edit ingredient'), edit_recipe_recipe_ingredient_path(recipe_ingredient.recipe, recipe_ingredient) if policy(recipe_ingredient).update? %></td>
+      <td><%= link_to(image_tag('delete-icon.png', size:16, title:'Delete ingredient'), recipe_recipe_ingredient_path(recipe_ingredient.recipe_id, recipe_ingredient.id), method: :delete, data: {confirm:'Are you sure!'}) if policy(recipe_ingredient).destroy? %></td>
+    </tr>
+  <% end %>
+</table>

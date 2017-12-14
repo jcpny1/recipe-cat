@@ -1,14 +1,15 @@
 source 'https://rubygems.org'
 
-# git_source(:github) do |repo_name|
-#   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
-#   "https://github.com/#{repo_name}.git"
-# end
+ruby '~>2.4.2'                      # Programming language version. This entry is for Heroku.
+
+group :production do
+  gem 'pg', '~> 0.21.0'             # Used as the database for Active Record.
+end
 
 gem 'mail', '~> 2.6.6.rc1'  # rails is pulling in mail 2.6.5. gemnasium says use 2.6.6 for security.
-gem 'rails', '~> 5.0.2'  # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'sqlite3'  # Use sqlite3 as the database for Active Record
 gem 'puma', '~> 3.0'  # Use Puma as the app server
+gem 'rails', '~> 5.0.2'  # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+
 gem 'sass-rails', '~> 5.0'  # Use SCSS for stylesheets
 gem 'uglifier', '>= 1.3.0'  # Use Uglifier as compressor for JavaScript assets
 gem 'coffee-rails', '~> 4.2'  # Use CoffeeScript for .coffee assets and views
@@ -25,6 +26,7 @@ gem 'turbolinks', '~> 5'  # Turbolinks makes navigating your web application fas
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'bootstrap-sass', '~> 3.3.6'
 gem 'devise'
+gem 'dotenv-rails'  # Loads environment variables from `.env`.
 gem 'omniauth-facebook'
 gem 'pundit'
 ### End my additions   ###
@@ -35,10 +37,11 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'factory_girl_rails'
   gem 'pry'
-  gem 'rack_session_access'
-  gem 'rspec-rails', '~> 3.5'
   gem 'pry-byebug'  # Adds step-by-step debugging and stack navigation capabilities to pry using byebug. To use, invoke pry normally.
-gem 'rails-controller-testing'
+  gem 'rack_session_access'
+  gem 'rails-controller-testing'
+  gem 'rspec-rails', '~> 3.5'
+  gem 'sqlite3'  # Use sqlite3 as the database for Active Record
 end
 
 group :development do
@@ -49,8 +52,8 @@ group :development do
 end
 
 group :test do
-  gem "simplecov"
-  gem "codeclimate-test-reporter", "~> 1.0.0"
+  gem 'simplecov'
+  gem 'codeclimate-test-reporter', '~> 1.0.0'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]  # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

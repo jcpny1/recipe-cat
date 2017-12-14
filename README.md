@@ -4,7 +4,7 @@
 [![Test Coverage](https://codeclimate.com/github/jcpny1/recipe-cat/badges/coverage.svg)](https://codeclimate.com/github/jcpny1/recipe-cat/coverage)
 [![Code Climate](https://codeclimate.com/github/jcpny1/recipe-cat/badges/gpa.svg)](https://codeclimate.com/github/jcpny1/recipe-cat)
 [![Issue Count](https://codeclimate.com/github/jcpny1/recipe-cat/badges/issue_count.svg)](https://codeclimate.com/github/jcpny1/recipe-cat)
-[![Dependency Status](https://gemnasium.com/badges/github.com/jcpny1/recipe-cat.svg)](https://gemnasium.com/github.com/jcpny1/recipe-cat)
+[![Dependency Status](https://beta.gemnasium.com/badges/github.com/jcpny1/recipe-cat.svg)](https://beta.gemnasium.com/projects/github.com/jcpny1/recipe-cat)
 [![Inline docs](http://inch-ci.org/github/jcpny1/recipe-cat.svg)](http://inch-ci.org/github/jcpny1/recipe-cat)
 
 Recipe-Cat is a Rails-based recipe catalog application.

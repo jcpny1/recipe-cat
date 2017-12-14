@@ -1,0 +1,2 @@
+<h2>Edit Recipe Ingredient for <%= @recipe_name %></h2>
+<%= render partial: 'form', locals: {recipe_step: @recipe_step, url: recipe_recipe_step_path(@recipe_step.recipe, @recipe_step) } %>

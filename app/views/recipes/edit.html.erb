@@ -1,18 +1,18 @@
 <div class='row'>
-  <div class="col-md-12">
+  <div class='col-md-12'>
     <h2>Edit Recipe</h2>
   </div>
 </div>
 
-<%= render partial: "form", locals: {recipe: @recipe} %>
+<%= render partial: 'form', locals: {recipe: @recipe} %>
 
 <!-- <script type='application/javascript' charset='utf-8'>
   $(function () {
     $('form.edit_recipe').data('serialize',$('form.edit_recipe').serialize()); // On load save form current state
 
-    window.addEventListener("beforeunload", function (e) {
+    window.addEventListener('beforeunload', function (e) {
       (e || window.event).returnValue = 'Event';
-      return "Navigation!";
+      return 'Navigation!';
     });
   });
 </script> -->

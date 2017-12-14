@@ -1,9 +1,9 @@
 FactoryGirl.define do
   factory :recipe_review do
-    recipe ""
-    user ""
+    recipe ''
+    user ''
     stars 1
-    title "MyString"
-    comments "MyText"
+    title 'MyString'
+    comments 'MyText'
   end
 end

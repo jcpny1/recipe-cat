@@ -8,11 +8,11 @@ RSpec.describe RecipeIngredient, type: :model do
     @recipe.recipe_ingredients.create!(ingredient_id: @ingredient1.id, quantity: 1, unit: nil)
   end
 
-  it "has a recipe" do
+  it 'has a recipe' do
     expect(@ingredient1.recipes.unscoped.last).to eq(@recipe)
   end
 
-  it "has an ingredient" do
+  it 'has an ingredient' do
     expect(@recipe.ingredients.first).to eq(@ingredient1)
   end
 end

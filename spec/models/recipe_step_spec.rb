@@ -8,11 +8,11 @@ RSpec.describe RecipeStep, type: :model do
     @recipe.save!
   end
 
-  it "has a recipe" do
+  it 'has a recipe' do
     expect(@recipe_step.recipe).to eq(@recipe)
   end
 
-  it "has a step number" do
+  it 'has a step number' do
     expect(@recipe.recipe_steps.first.step_number).to eq(1)
   end
 end

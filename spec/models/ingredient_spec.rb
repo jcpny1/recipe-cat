@@ -10,11 +10,11 @@ RSpec.describe Ingredient, type: :model do
     @recipe.recipe_ingredients.create!(ingredient_id: @ingredient2.id, quantity: 3, unit: nil)
   end
 
-  it "has a name" do
+  it 'has a name' do
     expect(@ingredient1.name).to eq('Duck Eggs')
   end
 
-  it "has a recipe" do
+  it 'has a recipe' do
     expect(@ingredient1.recipes).to include(@recipe)
   end
 end

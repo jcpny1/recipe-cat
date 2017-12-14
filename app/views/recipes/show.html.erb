@@ -1,15 +1,15 @@
 <div class='row'>
-  <div class="col-md-3">
-    <a class='js-prevRecipe' href="#">&lt;Previous&gt;</a>
+  <div class='col-md-3'>
+    <a class='js-prevRecipe' href='#'>&lt;Previous&gt;</a>
   </div>
-  <div class="col-md-1">
-    <a class='js-nextRecipe' href="#">&lt;Next&gt;</a>
+  <div class='col-md-1'>
+    <a class='js-nextRecipe' href='#'>&lt;Next&gt;</a>
   </div>
 </div>
 
 <div class='row recipe-detail'></div>
 
-<script id="ingredients-template" type="text/x-handlebars-template">
+<script id='ingredients-template' type='text/x-handlebars-template'>
   <table class='table'>
     {{#each this}}
       <tr>
@@ -21,10 +21,10 @@
   </table>
 </script>
 
-<script id="recipe-template" type="text/x-handlebars-template">
+<script id='recipe-template' type='text/x-handlebars-template'>
   <div class='row'>
     {{#each this}}
-      <div class="col-md-12">
+      <div class='col-md-12'>
         <h1>{{name}} {{{editRecipe recipe_id author_id}}}</h1>
         <p>{{{stars}}}</p>
         <p>{{{submitter}}}</p>
@@ -42,7 +42,7 @@
   </div>
 </script>
 
-<script id="reviews-template" type="text/x-handlebars-template">
+<script id='reviews-template' type='text/x-handlebars-template'>
   <table class='table'>
     <tr>
       <form>
@@ -77,7 +77,7 @@
   </table>
 </script>
 
-<script id="steps-template" type="text/x-handlebars-template">
+<script id='steps-template' type='text/x-handlebars-template'>
   <table class='table'>
     {{#each this}}
       <tr>
@@ -98,8 +98,8 @@ $(function () {
     var this_user_id = $('body').data('userid');
     if (author_user_id == this_user_id) {
       return new Handlebars.SafeString(
-        `<a href="/recipes/${recipe_id}/edit"><img src="/assets/edit-icon.png" height="16" width="16" title="Edit recipe"></a> ` +
-        `<a class="js-deleteRecipe" data-recipe-id="${recipe_id}" href="#"><img src="/assets/delete-icon.png" height="16" width="16" title="Delete recipe"></a>`);
+        `<a href="/recipes/${recipe_id}/edit"><img src='/assets/edit-icon.png' height='16' width='16' title='Edit recipe'></a> ` +
+        `<a class='js-deleteRecipe' data-recipe-id="${recipe_id}" href='#'><img src='/assets/delete-icon.png' height='16' width='16' title='Delete recipe'></a>`);
     }
   });
 

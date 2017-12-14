@@ -1,5 +1,5 @@
-<div class="row">
-  <div class="col-md-12">
+<div class='row'>
+  <div class='col-md-12'>
     <%= form_for RecipeIngredient.new, url: filter_recipes_path do |f| %>
       <%= f.select :ingredient, Ingredient.pick_list, {include_blank: true, selected: session[:ingredient_filter].to_i} %>
       <%= f.submit 'Filter' %>

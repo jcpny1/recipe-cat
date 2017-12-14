@@ -1,0 +1,10 @@
+<table>
+  <% recipe_steps.sort { |rs1,rs2| rs1.step_number <=> rs2.step_number }.each do |recipe_step| %>
+    <tr>
+      <td><%= recipe_step.step_number %>. </td>
+      <td><%= recipe_step.description %></td>
+      <td><%= link_to image_tag('edit-icon.png',   size:16, title:'Edit step'), edit_recipe_recipe_step_path(recipe_step.recipe, recipe_step) if policy(recipe_step).update? %></td>
+      <td><%= link_to(image_tag('delete-icon.png', size:16, title:'Delete step'), recipe_recipe_step_path(recipe_step.recipe_id, recipe_step.id), method: :delete, data: {confirm:'Are you sure!'}) if policy(recipe_step).destroy? %></td>
+    </tr>
+  <% end %>
+</table>

@@ -1,7 +1,19 @@
+env:
+  global:
+    - CC_TEST_REPORTER_ID=73c65f5c12d49d807064c1ad93ac5abfb9f7b0b7965261c27ddfbb012ba0e020
+  matrix:
+    secure: yJP8QuCTtnCb5mBBPXt1l0UZjC0Zj70z4r8cL3FF535VUCx/nuvUPKPcR8ZaaIRWuAnITF74UnpRmAU2fHH1+s5Ongd+K/7+WBvRnbK3glqV9k4HmjkWPitIl0S/wSAeykuE/90hbKguCiE4QP5vhmwjvaO48lKnSw8yp55hjaIJI+cgXkf/6w/yZpT8GV4htk+g/SLjFktndeCrrZw5+WHfHsYDrF49NpDOntQgg1KMmzTKHxR02aeN0AfxuqVo6WOw6R8LrSLvEo7Y2COkmK0FhuJgqq9shRZBsHjjWWSUnACK1oF2jzPEshpVOPvRVb5iD9tpq/5METu31N+8yZCAHUqAM82l2Mi7WweQ8dUxfPIdGwDE8FxTR4VIjwa+ZB+wC6b3RrL56rzCq0QQe50bAEbsdaJMiz0mUy3fU6iSztZKc+WWPDGWk+fHtx3c3kJGorevxWEhc6U69pIKip28rDQcJSd3CSkHxQAT52cbNmKNPFQSd4CQFiQ25xUN3XC/DE/W1ao1peDxJd+MEDzrn8YPt7Fu7pTQdZ5ot1Rii80LnucBjePXngXP+9EhzfiwOHWyzPQr9tNmt0swVjwIbFr4lL8EUn/UOIi/GWwkO1pjdBT206HnRRQJgLdx4ctxN3ETfI9V4P9oMhcHlARD83gLCHuY7z1bFtIRgKc=
 language: ruby
 rvm:
-- 2.3.1
-# - jruby-9.1.5.0
-before_install:
-- openssl aes-256-cbc -K $encrypted_515e29b03de1_key -iv $encrypted_515e29b03de1_iv
-  -in config/secrets.yml.enc -out config/secrets.yml -d
+  - 2.4.2
+install:
+  - bundle install
+before_script:
+  - bundle exec rake db:setup
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ../cc-test-reporter
+  - chmod +x ../cc-test-reporter
+script:
+  - ../cc-test-reporter before-build
+  - bundle exec rspec
+after_script:
+  - ../cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
