@@ -2,7 +2,7 @@
   <div class='row'>
     <div class='col-md-1'>
       <% recipe_review.stars.times do |i| %>
-        <img src="/assets/review_star.png" height="12" width="12" title="recipe stars">
+        <img src="<%= asset_path('review_star.png') %>" height="12" width="12" title="recipe stars">
       <% end %>
     </div>
     <div class='col-md-2'><%= link_to recipe_review.title, recipe_recipe_review_path(recipe_review) %></div>
