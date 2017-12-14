@@ -5,6 +5,8 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+ruby '~>2.4.2'                      # Programming language version. This entry is for Heroku.
+
 group :production do
   gem 'pg', '~> 0.21.0'             # Used as the database for Active Record.
 end
