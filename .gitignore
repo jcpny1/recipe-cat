@@ -30,7 +30,7 @@
 coverage
 
 # Comment out these rules if you are OK with secrets being uploaded to the repo
-config/secrets.yml
+# config/secrets.yml
 
 # Comment out this rule if environment variables can be committed
 .env

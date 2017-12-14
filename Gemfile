@@ -39,6 +39,7 @@ gem 'jbuilder', '~> 2.5'
 
 ### Begin my additions ###
 gem 'devise'
+gem 'dotenv-rails'  # Loads environment variables from `.env`.
 gem 'omniauth-facebook'
 gem 'pundit'
 ### End my additions   ###
