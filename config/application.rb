@@ -19,5 +19,10 @@ module RecipeCat
     # config.active_record.time_zone_aware_types = [:datetime]
     # To silence this deprecation warning, add the following:
     config.active_record.time_zone_aware_types = [:datetime, :time]
+
+    # From Heroku:
+    # By default Rails 4 will not serve your assets.
+    # To enable this functionality you need to go into config/application.rb and add this line:
+    config.serve_static_assets = true
   end
 end
