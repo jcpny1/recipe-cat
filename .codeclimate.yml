@@ -23,5 +23,7 @@ ratings:
   - lib/**
   - "**.rb"
   - "**.go"
+exclude_patterns:
+- "app/assets/handlebars.js"
 exclude_paths:
 - coverage/**/*
