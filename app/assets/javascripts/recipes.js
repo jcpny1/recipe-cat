@@ -235,7 +235,7 @@ function loadRecipe(direction) {
       recipeData.favorite        = `<input type='checkbox' class='favorite' ${favorite} onchange="toggleFavorite(this)" data-user-id=${thisUserId} data-recipe-id=${recipeData.recipe_id}>Favorite`;
     }
 
-    recipeData.image             = `<img src='/assets/${photoPath}' height='200' width='360' title="${recipeData.name}} photo">`;
+    recipeData.image             = `<img src='/assets/${photoPath}' height='200' width='360' title="${recipeData.name} photo">`;
     recipeData.submitter         = `Submitted by <a href='/users/${recipeData.author_id}/recipes'>${authorName}}</a>`;
     recipeData.ingredientsHeader = `<a class="js-ingredients" data-recipe-id=${recipeData.recipe_id} data-show-detail="1" href="#">Ingredients</a>`;
     recipeData.stepsHeader       = `<a class="js-steps" data-recipe-id=${recipeData.recipe_id} data-show-detail="1" href="#">Steps</a>`;
