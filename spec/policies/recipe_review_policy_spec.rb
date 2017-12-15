@@ -1,9 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe RecipeReviewPolicy do
-
   let(:user) { User.new }
-
   subject { described_class }
 
   permissions '.scope' do
