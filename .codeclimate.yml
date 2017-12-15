@@ -1,12 +1,7 @@
 engines:
-  rubocop:
+  brakeman:
     enabled: true
-    #checks:
-    #	Rubocop/Metrics/ClassLength:
-    #  	enabled: false
-  golint:
-    enabled: true
-  eslint:
+  bundler-audit:
     enabled: true
   csslint:
     enabled: true
@@ -14,9 +9,25 @@ engines:
     enabled: true
     config:
       languages:
-      - ruby:
-          mass_threshold: 30
-      - javascript
+      javascript:
+      ruby:
+        mass_threshold: 30
+  eslint:
+    enabled: true
+  golint:
+    enabled: true
+  rubocop:
+    enabled: true
+    checks:
+      Rubocop/Metrics/LineLength:
+        enabled: false
+checks:
+  method-complexity:
+    config:
+      threshold: 10
+  method-lines:
+    config:
+      threshold: 100
 ratings:
   paths:
   - app/**
@@ -26,5 +37,10 @@ ratings:
 exclude_paths:
 - app/assets/javascripts/handlebars.js
 - coverage/**/*
-- **/spec/
-- **/test/
+- spec/**/*
+- test/**/*
+- "**/vendor/**/*"
+- bin
+- client/src/semantic-ui
+- config
+- db
