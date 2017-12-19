@@ -12,7 +12,7 @@ RSpec.feature 'User Sign In', :type => :feature do
   #   When I sign in with valid credentials
   #   Then I see a success message
   scenario 'user can sign in with valid credentials' do
-    user = FactoryGirl.create(:user)
+    user = FactoryBot.create(:user)
     sign_in(user.email, user.password)
     expect(page).to have_content I18n.t 'devise.sessions.signed_in'
   end
@@ -23,7 +23,7 @@ RSpec.feature 'User Sign In', :type => :feature do
   #   When I sign in with a wrong email
   #   Then I see an invalid email message
   scenario 'user cannot sign in with wrong email' do
-    user = FactoryGirl.create(:user)
+    user = FactoryBot.create(:user)
     sign_in('invalid@email.com', user.password)
     expect(page).to have_content I18n.t 'devise.failure.not_found_in_database', authentication_keys: 'Email'
   end
@@ -34,7 +34,7 @@ RSpec.feature 'User Sign In', :type => :feature do
   #   When I sign in with a wrong password
   #   Then I see an invalid password message
   scenario 'user cannot sign in with wrong password' do
-    user = FactoryGirl.create(:user)
+    user = FactoryBot.create(:user)
     sign_in(user.email, 'invalidpass')
     expect(page).to have_content I18n.t 'devise.failure.invalid', authentication_keys: 'Email'
   end

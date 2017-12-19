@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :address do
     user nil
     city 'MyString'

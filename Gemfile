@@ -33,14 +33,14 @@ gem 'pundit'
 
 group :development, :test do
   gem 'byebug', platform: :mri  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'capybara'
+  gem 'capybara'                # Needed for RSpec feature tests.
   gem 'database_cleaner'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'       # Factory to Rails integration.
   gem 'pry'
   gem 'pry-byebug'              # Adds step-by-step debugging and stack navigation capabilities to pry using byebug. To use, invoke pry normally.
   gem 'rack_session_access'
   gem 'rails-controller-testing'
-  gem 'rspec-rails', '~> 3.5'
+  gem 'rspec-rails', '~> 3.7'   # Rails testing framework.
   gem 'sqlite3'                 # Use sqlite3 as the database for Active Record
 end
 
@@ -52,7 +52,7 @@ group :development do
 end
 
 group :test do
-  gem 'simplecov'
+  gem 'simplecov'                # Ruby code coverage analysis.
   gem 'codeclimate-test-reporter', '~> 1.0.0'
 end
 
