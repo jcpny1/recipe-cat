@@ -35,19 +35,7 @@ class RecipesController < ApplicationController
   # display a specific recipe.
   def show
     recipe_id = params[:id]
-    if recipe_id == "0"
-      recipe_id = session[:recipe_id].to_i
-      recipe_id = session[:recipe_id_list][0] if recipe_id == 0
-      recipe_index = session[:recipe_id_list].find_index(recipe_id)
-      if recipe_index
-        direction = params[:direction]
-        if (direction == 'next') && (recipe_index < session[:recipe_id_list].length - 1)
-          recipe_id = session[:recipe_id_list][recipe_index + 1]
-        elsif (direction == 'prev') && (recipe_index > 0)
-          recipe_id = session[:recipe_id_list][recipe_index - 1]
-        end
-      end
-    end
+    recipe_id = retrieve_recipe_id if recipe_id == "0"
     session[:recipe_id] = recipe_id
     @recipe = Recipe.find_by(id: recipe_id)
     authorize @recipe
@@ -125,5 +113,20 @@ private
     params.require(:recipe).permit(:name, :description, :total_time,
       recipe_ingredients_attributes: [:id, :ingredient_id, :quantity, :unit_id, :_destroy],
       recipe_steps_attributes: [:id, :step_number, :step_number, :description, :_destroy])
+  end
+
+  def retrieve_recipe_id
+    recipe_id = session[:recipe_id].to_i
+    recipe_id = session[:recipe_id_list][0] if recipe_id == 0
+    recipe_index = session[:recipe_id_list].find_index(recipe_id)
+    if recipe_index
+      direction = params[:direction]
+      if (direction == 'next') && (recipe_index < session[:recipe_id_list].length - 1)
+        recipe_id = session[:recipe_id_list][recipe_index + 1]
+      elsif (direction == 'prev') && (recipe_index > 0)
+        recipe_id = session[:recipe_id_list][recipe_index - 1]
+      end
+    end
+    recipe_id
   end
 end
