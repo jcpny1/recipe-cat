@@ -32,8 +32,8 @@ plugins:
 exclude_patterns:
 - "app/assets/javascripts/handlebars.js"
 - "client/src/semantic-ui/"
-- "config/
-- "coverage/
+- "config/"
+- "coverage/"
 - "db/"
 - "dist/"
 - "features/"
