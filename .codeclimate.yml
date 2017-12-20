@@ -38,6 +38,7 @@ exclude_patterns:
 - "dist/"
 - "features/"
 - "**/node_modules/"
+- "public/assets/"
 - "script/"
 - "**/spec/"
 - "**/test/"
