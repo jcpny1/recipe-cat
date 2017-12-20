@@ -17,8 +17,7 @@ plugins:
     enabled: true
     config:
       languages:
-      javascript:
-      ruby:
+       ruby:
         mass_threshold: 30
   eslint:
     enabled: true
@@ -32,8 +31,8 @@ plugins:
 exclude_patterns:
 - "app/assets/javascripts/handlebars.js"
 - "client/src/semantic-ui/"
-- "config/
-- "coverage/
+- "config/"
+- "coverage/"
 - "db/"
 - "dist/"
 - "features/"
