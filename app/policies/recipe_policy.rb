@@ -1,5 +1,4 @@
 class RecipePolicy < ApplicationPolicy
-
   class Scope < Scope
     def resolve
       scope
@@ -27,7 +26,7 @@ class RecipePolicy < ApplicationPolicy
   end
 
   def update?
-    !!user && (user.admin? || record.author == user || record.author == nil)
+    user && (user.admin? || record.author == user || record.author.nil?)
   end
 
   def destroy?

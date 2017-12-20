@@ -11,8 +11,8 @@ gem 'puma', '~> 3.11'             # Use Puma as the app server
 gem 'rails', '~> 5.1', '>= 5.1.4' # Full-stack web framework.
 
 gem 'sass-rails', '~> 5.0'    # Use SCSS for stylesheets
-gem 'uglifier', '>= 1.3.0'    # Use Uglifier as compressor for JavaScript assets
 gem 'coffee-rails', '~> 4.2'  # Use CoffeeScript for .coffee assets and views
+gem 'uglifier', '>= 1.3.0'    # Use Uglifier as compressor for JavaScript assets
 # gem 'therubyracer', platforms: :ruby  # See https://github.com/rails/execjs#readme for more supported runtimes
 
 gem 'jquery-rails'          # Use jquery as the JavaScript library
@@ -45,10 +45,10 @@ group :development, :test do
 end
 
 group :development do
-  gem 'web-console', '>= 3.3.0'  # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'listen'
   gem 'spring'                   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'web-console', '>= 3.3.0'  # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
 end
 
 group :test do
@@ -56,4 +56,4 @@ group :test do
   gem 'codeclimate-test-reporter', '~> 1.0.0'
 end
 
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]  # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+gem 'tzinfo-data', platforms: %i(mingw mswin x64_mingw jruby)  # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

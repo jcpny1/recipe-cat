@@ -1,13 +1,14 @@
 # Rails controller for ReceipeReviews model.
 class RecipeReviewsController < ApplicationController
-  before_action     :get_recipe,           except: [:updated_after, :index]
+  before_action     :recipe,               except: [:updated_after, :index]
   skip_after_action :verify_authorized,    only:   [:updated_after]
   after_action      :verify_policy_scoped, only:   [:updated_after]
 
   # display recipe reviews created or updated after the specified date.
   def updated_after
     update_selector {
-      @recipe_reviews = RecipeReview.sort_by_recipe_and_time(policy_scope(RecipeReview.updated_after(@date))) }
+      @recipe_reviews = RecipeReview.sort_by_recipe_and_time(policy_scope(RecipeReview.updated_after(@date)))
+    }
     render :index
   end
 
@@ -59,7 +60,7 @@ class RecipeReviewsController < ApplicationController
       respond_to do |format|
         format.html { flash.now[:alert] = @recipe_review.errors.full_messages
                       render :new }
-        format.json { render :json => { :errors => @recipe_review.errors.full_messages }, :status => 422 }  # Unprocessable Entity
+        format.json { render json: { errors: @recipe_review.errors.full_messages }, status: 422 }  # Unprocessable Entity
       end
     end
   end
@@ -96,7 +97,7 @@ class RecipeReviewsController < ApplicationController
 private
 
   # load the recipe identified in the route.
-  def get_recipe
+  def recipe
     @recipe = Recipe.find_by(id: params[:recipe_id])
     @recipe_name = @recipe.name
   end

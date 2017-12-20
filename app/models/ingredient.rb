@@ -13,6 +13,6 @@ class Ingredient < ApplicationRecord
 
   # returns an ordered list of ingredients to use in a select list.
   def self.pick_list
-    Ingredient.order(:name).collect { |i| [ i.name, i.id ] }
+    Ingredient.order(:name).collect { |i| [i.name, i.id] }
   end
 end

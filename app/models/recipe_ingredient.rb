@@ -8,17 +8,17 @@ class RecipeIngredient < ApplicationRecord
 
   # returns the user who created this recipe ingredient.
   def author
-    self.recipe.author
+    recipe.author
   end
 
   # returns the name of this recipe_ingredient's ingredient.
   def ingredient_name
-    self.ingredient.name
+    ingredient.name
   end
 
   # returns recipe ingredient list sorted by ingredient name.
   def self.sort_by_ingredient_name(recipe_ingredients)
-    recipe_ingredients.sort { |recipe_ingredient_1,recipe_ingredient_2|
+    recipe_ingredients.sort { |recipe_ingredient_1, recipe_ingredient_2|
       recipe_ingredient_1.ingredient.name <=> recipe_ingredient_2.ingredient.name
     }
   end

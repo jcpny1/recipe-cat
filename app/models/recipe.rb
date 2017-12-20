@@ -14,7 +14,7 @@ class Recipe < ApplicationRecord
   accepts_nested_attributes_for :recipe_ingredients, :allow_destroy => true
   accepts_nested_attributes_for :recipe_steps, reject_if: proc { |attributes| attributes['step_number'].blank? }, :allow_destroy => true
 
-  #do not allow total_time or photo_path to be null.
+  # do not allow total_time or photo_path to be null.
   after_initialize do |recipe|
     recipe.total_time ||= 0
     recipe.photo_path ||= 'recipes/placeholder.png'
@@ -22,13 +22,13 @@ class Recipe < ApplicationRecord
 
   # returns the total of the star ratings divided by the number of reviews.
   def average_stars
-    sum = recipe_reviews.sum { |urr| urr.stars }
+    sum = recipe_reviews.sum(&:stars)
     number_of_reviews != 0 ? (sum.to_f / number_of_reviews).floor : 0
   end
 
   # Is this recipe a favorite of this user.
   def favorite?(user_id)
-    self.user_recipe_favorites.exists?(user_id: user_id)
+    user_recipe_favorites.exists?(user_id: user_id)
   end
 
   # returns a list of recipes that contain the specified ingredient.

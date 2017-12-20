@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action      :authenticate_user!
-  skip_before_action :authenticate_user!, only: [:about, :welcome, :index, :show]
+  skip_before_action :authenticate_user!, only: %i(about welcome index show)
 
   rescue_from ActiveRecord::RecordNotFound, with: :render_404
 
@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
 
   # returns picklist of entities available for recent item search.
   def recent_edits_select
-    @entities = [['Ingredients', 'ingredients'], ['Recipes', 'recipes'], ['Reviews', 'recipe_reviews']]
+    @entities = [%w(Ingredients ingredients), %w(Recipes recipes), %w(Reviews recipe_reviews)]
   end
 
   # format recent edit date and redirect to display route.
@@ -39,9 +39,9 @@ protected
 
   # common code for listing records created or updated after the specified date.
   def update_selector
-    @date = DateTime.parse(params[:date]).next_day
+    @date = Date.parse(params[:date]).next_day
     yield
-    @date = DateTime.parse(params[:date]).strftime('%d-%^b-%Y')   #=> '19-NOV-2007'
+    @date = Date.parse(params[:date]).strftime('%d-%^b-%Y')  #=> '19-NOV-2007'
     @updated_after = true
   end
 
@@ -49,7 +49,7 @@ private
 
   # display a not found page for improperly formatted ActiveRecord URLs.
   def render_404
-    render :template => '404', :status => 404
+    render template: '404', status: 404
   end
 
   # display an error message for missing Pundit policy methods.

@@ -1,6 +1,6 @@
 # Rails controller for Recipe model.
 class RecipesController < ApplicationController
-  skip_after_action :verify_authorized,    only: [:updated_after, :save_id]
+  skip_after_action :verify_authorized,    only: %i(updated_after save_id)
   after_action      :verify_policy_scoped, only: [:updated_after]
 
   # save the selected ingredient filter value(s) for later display use.
@@ -13,7 +13,8 @@ class RecipesController < ApplicationController
   # display recipes created or updated after the specified date.
   def updated_after
     update_selector {
-      @recipes = policy_scope(Recipe.updated_after(@date)).order(:name) }
+      @recipes = policy_scope(Recipe.updated_after(@date)).order(:name)
+    }
     render :index
   end
 
@@ -28,7 +29,7 @@ class RecipesController < ApplicationController
       user = current_user
     end
     @recipes = Recipe.filter_array_by_ingredient(@recipes, session[:ingredient_filter]) if session[:ingredient_filter].present?  # filter by ingredient, if necessary.
-    session[:recipe_id_list] = @recipes.map{ |recipe| recipe.id }
+    session[:recipe_id_list] = @recipes.map(&:id)
     @user_name = user.email if user
   end
 
@@ -69,8 +70,8 @@ class RecipesController < ApplicationController
   # edit a recipe.
   def edit
     @recipe = Recipe.find_by(id: params[:id])
-    @recipe.recipe_ingredients.new if @recipe.recipe_ingredients.length == 0
-    @recipe.recipe_steps.new(step_number: '1') if @recipe.recipe_steps.length == 0
+    @recipe.recipe_ingredients.new if @recipe.recipe_ingredients.empty?
+    @recipe.recipe_steps.new(step_number: '1') if @recipe.recipe_steps.empty?
     authorize @recipe
   end
 
@@ -94,7 +95,7 @@ class RecipesController < ApplicationController
     recipe_index = session[:recipe_id_list].find_index(recipe_id)
     session[:recipe_id_list].delete(recipe_id)
     recipe.destroy
-    if session[:recipe_id_list].length > 0
+    if !session[:recipe_id_list].empty?
       new_recipe_id = session[:recipe_id_list][recipe_index]
       session[:recipe_id] = new_recipe_id
       redirect_to recipe_path(new_recipe_id)
@@ -110,8 +111,8 @@ private
   # filter params for allowed elements only.
   def recipe_params
     params.require(:recipe).permit(:name, :description, :total_time,
-      recipe_ingredients_attributes: [:id, :ingredient_id, :quantity, :unit_id, :_destroy],
-      recipe_steps_attributes: [:id, :step_number, :step_number, :description, :_destroy])
+      recipe_ingredients_attributes: %i(id ingredient_id quantity unit_id _destroy),
+      recipe_steps_attributes: %i(id step_number step_number description _destroy))
   end
 
   def retrieve_recipe_id

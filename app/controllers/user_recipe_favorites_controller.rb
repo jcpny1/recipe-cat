@@ -1,5 +1,4 @@
 class UserRecipeFavoritesController < ApplicationController
-
   # display recipes that are the user's favorites, ordered by recipe name.
   def index
     user = User.find_by(id: params[:user_id])

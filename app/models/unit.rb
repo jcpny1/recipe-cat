@@ -8,7 +8,7 @@ class Unit < ApplicationRecord
 
   # returns an ordered list of units to use in a select list.
   def self.pick_list
-    Unit.order(:name).collect { |u| [ u.name, u.id ] }
+    Unit.order(:name).collect { |u| [u.name, u.id] }
   end
 
 end
