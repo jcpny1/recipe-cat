@@ -4,7 +4,6 @@ class Recipe < ApplicationRecord
 
   has_many :recipe_ingredients,    dependent: :destroy, inverse_of: :recipe
   has_many :ingredients, through: :recipe_ingredients
-
   has_many :recipe_reviews,        dependent: :destroy
   has_many :user_recipe_favorites, dependent: :destroy
   has_many :recipe_steps,          dependent: :destroy, inverse_of: :recipe

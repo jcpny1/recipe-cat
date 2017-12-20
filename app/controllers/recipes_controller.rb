@@ -94,7 +94,6 @@ class RecipesController < ApplicationController
     recipe_index = session[:recipe_id_list].find_index(recipe_id)
     session[:recipe_id_list].delete(recipe_id)
     recipe.destroy
-
     if session[:recipe_id_list].length > 0
       new_recipe_id = session[:recipe_id_list][recipe_index]
       session[:recipe_id] = new_recipe_id
