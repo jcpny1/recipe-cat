@@ -1,6 +1,4 @@
-Metrics/AbcSize:
-  # The ABC size is a calculated magnitude, so this number can be an Integer or
-  # a Float.
+Metrics/AbcSize:  # The ABC size is a calculated magnitude, so this number can be an Integer or a Float.
   Max: 30
 
 Metrics/BlockLength:
@@ -16,8 +14,7 @@ Metrics/ClassLength:
   CountComments: false  # count full line comments?
   Max: 100
 
-# Avoid complex methods.
-Metrics/CyclomaticComplexity:
+Metrics/CyclomaticComplexity:  # Avoid complex methods.
   Max: 12
 
 Metrics/LineLength:

@@ -57,6 +57,7 @@ class RecipesController < ApplicationController
   # create a new recipe and save it to the database.
   def create
     @recipe = current_user.recipes.new(recipe_params)
+binding.pry
     @recipe.name = @recipe.name.titleize
     authorize @recipe
     if @recipe.save
