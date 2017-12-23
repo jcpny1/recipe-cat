@@ -1,7 +1,7 @@
 # base Rails controller class
 class ApplicationController < ActionController::Base
   include Pundit
-  after_action :verify_authorized,    except: [:index, :recent_edits, :recent_edits_select], unless: :devise_controller?
+  after_action :verify_authorized,    except: %i[index recent_edits recent_edits_select], unless: :devise_controller?
   after_action :verify_policy_scoped, only:   [:index]
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   rescue_from Pundit::NotDefinedError,    with: :route_not_defined
@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action      :authenticate_user!
-  skip_before_action :authenticate_user!, only: %i(about welcome index show)
+  skip_before_action :authenticate_user!, only: %i[about welcome index show]
 
   rescue_from ActiveRecord::RecordNotFound, with: :render_404
 
@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
 
   # returns picklist of entities available for recent item search.
   def recent_edits_select
-    @entities = [%w(Ingredients ingredients), %w(Recipes recipes), %w(Reviews recipe_reviews)]
+    @entities = [%w[Ingredients ingredients], %w[Recipes recipes], %w[Reviews recipe_reviews]]
   end
 
   # format recent edit date and redirect to display route.

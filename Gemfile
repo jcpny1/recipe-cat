@@ -10,8 +10,8 @@ gem 'mail', '~> 2.7.0'            # rails is pulling in mail 2.6.5. gemnasium sa
 gem 'puma', '~> 3.11'             # Use Puma as the app server
 gem 'rails', '~> 5.1', '>= 5.1.4' # Full-stack web framework.
 
-gem 'sass-rails', '~> 5.0'    # Use SCSS for stylesheets
 gem 'coffee-rails', '~> 4.2'  # Use CoffeeScript for .coffee assets and views
+gem 'sass-rails', '~> 5.0'    # Use SCSS for stylesheets
 gem 'uglifier', '>= 1.3.0'    # Use Uglifier as compressor for JavaScript assets
 # gem 'therubyracer', platforms: :ruby  # See https://github.com/rails/execjs#readme for more supported runtimes
 
@@ -52,8 +52,8 @@ group :development do
 end
 
 group :test do
-  gem 'simplecov'                # Ruby code coverage analysis.
   gem 'codeclimate-test-reporter', '~> 1.0.0'
+  gem 'simplecov'                # Ruby code coverage analysis.
 end
 
-gem 'tzinfo-data', platforms: %i(mingw mswin x64_mingw jruby)  # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]  # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

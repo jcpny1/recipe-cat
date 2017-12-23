@@ -6,7 +6,7 @@ class RecipeStep < ApplicationRecord
 
   # returns the user who created this recipe step.
   def author
-    self.recipe.author
+    recipe.author
   end
 
   # adds Step to Recipe.

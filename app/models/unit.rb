@@ -10,5 +10,4 @@ class Unit < ApplicationRecord
   def self.pick_list
     Unit.order(:name).collect { |u| [u.name, u.id] }
   end
-
 end

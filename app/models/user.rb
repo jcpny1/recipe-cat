@@ -14,7 +14,7 @@ class User < ApplicationRecord
   has_many :user_recipe_favorites, dependent: :destroy
 
   # user authorization levels.
-  enum role: %i(user vip admin)
+  enum role: %i[user vip admin]
 
   # do not allow user's address to be null.
   after_initialize do |user|
@@ -23,7 +23,7 @@ class User < ApplicationRecord
 
   # returns the name of this user. (currently the user's email address)
   def name
-    self.email
+    email
   end
 
   # This method finds an existing user by the provider and uid fields.

@@ -18,8 +18,8 @@ class RecipeIngredient < ApplicationRecord
 
   # returns recipe ingredient list sorted by ingredient name.
   def self.sort_by_ingredient_name(recipe_ingredients)
-    recipe_ingredients.sort { |recipe_ingredient_1, recipe_ingredient_2|
+    recipe_ingredients.sort do |recipe_ingredient_1, recipe_ingredient_2|
       recipe_ingredient_1.ingredient.name <=> recipe_ingredient_2.ingredient.name
-    }
+    end
   end
 end

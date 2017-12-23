@@ -5,9 +5,7 @@ class IngredientsController < ApplicationController
 
   # display ingredients created or updated after the specified date.
   def updated_after
-    update_selector {
-      @ingredients = policy_scope(Ingredient.updated_after(@date)).order(:name)
-    }
+    update_selector { @ingredients = policy_scope(Ingredient.updated_after(@date)).order(:name) }
     render :index
   end
 

@@ -1,6 +1,6 @@
 # Rails controller for Recipe model.
 class RecipesController < ApplicationController
-  skip_after_action :verify_authorized,    only: %i(updated_after save_id)
+  skip_after_action :verify_authorized,    only: %i[updated_after save_id]
   after_action      :verify_policy_scoped, only: [:updated_after]
 
   # save the selected ingredient filter value(s) for later display use.
@@ -12,9 +12,7 @@ class RecipesController < ApplicationController
 
   # display recipes created or updated after the specified date.
   def updated_after
-    update_selector {
-      @recipes = policy_scope(Recipe.updated_after(@date)).order(:name)
-    }
+    update_selector { @recipes = policy_scope(Recipe.updated_after(@date)).order(:name) }
     render :index
   end
 
@@ -117,7 +115,7 @@ private
 
   def retrieve_recipe_id
     recipe_id = session[:recipe_id].to_i
-    recipe_id = session[:recipe_id_list][0] if recipe_id == 0
+    recipe_id = session[:recipe_id_list][0] if recipe_id.zero?
     recipe_index = session[:recipe_id_list].find_index(recipe_id)
     if recipe_index
       direction = params[:direction]
