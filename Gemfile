@@ -1,14 +1,14 @@
 source 'https://rubygems.org'
 
-ruby '~>2.4.2'                    # Programming language version. This entry is for Heroku.
+ruby '~>2.4.2'            # Programming language version. This entry is for Heroku.
 
 group :production do
-  gem 'pg', '~> 0.21.0'           # Used as the database for Active Record.
+  gem 'pg', '~> 1.0'      # Used as the database for Active Record.
 end
 
-gem 'mail', '~> 2.7.0'            # rails is pulling in mail 2.6.5. gemnasium says use 2.6.6 for security.
-gem 'puma', '~> 3.11'             # Use Puma as the app server
-gem 'rails', '~> 5.1', '>= 5.1.4' # Full-stack web framework.
+gem 'mail', '~> 2.7.0'    # rails is pulling in mail 2.6.5. gemnasium says use 2.6.6 for security.
+gem 'puma', '~> 3.11'     # Use Puma as the app server
+gem 'rails', '~> 5.1'     # Full-stack web framework.
 
 gem 'coffee-rails', '~> 4.2'  # Use CoffeeScript for .coffee assets and views
 gem 'sass-rails', '~> 5.0'    # Use SCSS for stylesheets
