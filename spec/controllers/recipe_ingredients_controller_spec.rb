@@ -12,11 +12,12 @@ RSpec.describe RecipeIngredientsController, type: :controller do
   end
 
   # for #new, need to log in first to get success result.
-  # expect(response).to have_http_status(:success)
+  # DEPRECATED: expect(response).to have_http_status(:success)
+  # expect(response).to be_successful
   describe 'GET #index' do
     it "returns a recipe's ingredients" do
       get :index, params: { recipe_id: @recipe.id }
-      expect(response).to have_http_status(:success)
+      expect(response).to be_successful
     end
   end
 end

@@ -9,14 +9,14 @@ RSpec.describe IngredientsController, type: :controller do
   describe "GET #index" do
     it "returns all ingredients" do
       get :index
-      expect(response).to have_http_status(:success)
+      expect(response).to be_successful
     end
   end
 
   describe "GET #show" do
     it 'returns an ingredient' do
       get :show, params: { id: @ingredient.id }
-      expect(response).to have_http_status(:success)
+      expect(response).to be_successful
     end
   end
 end

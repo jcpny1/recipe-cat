@@ -12,7 +12,7 @@ RSpec.describe RecipesController, type: :controller do
     it "returns all recipes" do
       recipe = Recipe.create(@recipe_attributes)
       get :index
-      expect(response).to have_http_status(:success)
+      expect(response).to be_successful
     end
   end
 
@@ -20,7 +20,7 @@ RSpec.describe RecipesController, type: :controller do
     it 'returns a JSON representation of a recipe' do
       recipe = Recipe.create(@recipe_attributes)
       get :show, params: { id: recipe.id }, format: 'json'
-      expect(response).to have_http_status(:success)
+      expect(response).to be_successful
       body = JSON.parse(response.body)["data"]["attributes"]
       expect(body["name"]).to eq recipe.name
       expect(body["photo-path"]).to eq recipe.photo_path
@@ -53,7 +53,7 @@ RSpec.describe RecipesController, type: :controller do
     it "deletes a recipe" do
       recipe = Recipe.create(@recipe_attributes)
       get :index
-      expect(response).to have_http_status(:success)
+      expect(response).to be_successful
       delete :destroy, { params: { id: recipe.id } }
       expect(response).to have_http_status(:redirect)
     end

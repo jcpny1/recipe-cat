@@ -15,7 +15,8 @@ The user can add recipes, view recipes, search recipes by ingredient, favorite a
 This application was created to meet the requirements of the learn.co Rails portfolio project.
 
 ```
-14-Dec-17  Merge feature-js into master.
+19-Apr-18  Updated gems. Fixed typo on recipe author display.
+14-Dec-17  Merged feature-js into master.
 01-Aug-17  feature-js complete.
 14-Jul-17  Branch feature-js created to meet the requirements of the learn.co "Rails App with a jQuery Front End" portfolio project.
 08-May-17  Initial release.
