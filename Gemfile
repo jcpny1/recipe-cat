@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '~>2.4.2'            # Programming language version. This entry is for Heroku.
+ruby '~>2.7.2'            # Programming language version. This entry is for Heroku.
 
 group :production do
   gem 'pg', '~> 1.0'      # Used as the database for Active Record.

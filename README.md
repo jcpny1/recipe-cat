@@ -15,7 +15,7 @@ The user can add recipes, view recipes, search recipes by ingredient, favorite a
 This application was created to meet the requirements of the learn.co Rails portfolio project.
 
 ```
-10-Dec-20  Update Heroku stack from 16 to 20. Update Heroku Postgres from 9 to 12.
+10-Dec-20  Update Heroku stack from 16 to 20. Upgrade Ruby to 2.6.6 for Heroku requirement. Update Gemfile.lock. Update Heroku Postgres from 9 to 12.
 19-Apr-18  Updated gems. Fixed typo on recipe author display.
 14-Dec-17  Merged feature-js into master.
 01-Aug-17  feature-js complete.
@@ -31,11 +31,12 @@ This application was created to meet the requirements of the learn.co Rails port
   - facebook_key    (optional, for Facebook login ability)
   - facebook_secret (optional, for Facebook login ability)
 * Execute bundle install.
-* Rake db:migrate
-* Rake db:seed (If you want to load test data.)
-* Start a rails server.
-* Connect to the rails server with a browser.
+* `rake db:migrate`
+* `rake db:seed` (If you want to load test data.)
+* Start a rails server, `rails s`.
+* Connect to the rails server with a browser, `localhost:3000`.
 * From there you can log in to the application for full functionality or browse the data as a guest.
+* To run tests, `bundle exec rspec`.
 
 ## Contributing
 
