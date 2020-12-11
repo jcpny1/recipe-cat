@@ -5,7 +5,7 @@ env:
     secure: yJP8QuCTtnCb5mBBPXt1l0UZjC0Zj70z4r8cL3FF535VUCx/nuvUPKPcR8ZaaIRWuAnITF74UnpRmAU2fHH1+s5Ongd+K/7+WBvRnbK3glqV9k4HmjkWPitIl0S/wSAeykuE/90hbKguCiE4QP5vhmwjvaO48lKnSw8yp55hjaIJI+cgXkf/6w/yZpT8GV4htk+g/SLjFktndeCrrZw5+WHfHsYDrF49NpDOntQgg1KMmzTKHxR02aeN0AfxuqVo6WOw6R8LrSLvEo7Y2COkmK0FhuJgqq9shRZBsHjjWWSUnACK1oF2jzPEshpVOPvRVb5iD9tpq/5METu31N+8yZCAHUqAM82l2Mi7WweQ8dUxfPIdGwDE8FxTR4VIjwa+ZB+wC6b3RrL56rzCq0QQe50bAEbsdaJMiz0mUy3fU6iSztZKc+WWPDGWk+fHtx3c3kJGorevxWEhc6U69pIKip28rDQcJSd3CSkHxQAT52cbNmKNPFQSd4CQFiQ25xUN3XC/DE/W1ao1peDxJd+MEDzrn8YPt7Fu7pTQdZ5ot1Rii80LnucBjePXngXP+9EhzfiwOHWyzPQr9tNmt0swVjwIbFr4lL8EUn/UOIi/GWwkO1pjdBT206HnRRQJgLdx4ctxN3ETfI9V4P9oMhcHlARD83gLCHuY7z1bFtIRgKc=
 language: ruby
 rvm:
-  - 2.4.2
+  - 2.7.2
 install:
   - bundle install
 before_script:
