@@ -24,7 +24,7 @@ gem 'turbolinks', '~> 5'    # Turbolinks makes navigating your web application f
 
 ### Begin my additions ###
 gem 'active_model_serializers', '~> 0.10.0'
-gem 'bootstrap-sass', '~> 3.3.6'
+gem 'bootstrap-sass', '~> 3.4.1'
 gem 'devise'
 gem 'dotenv-rails'  # Loads environment variables from `.env`.
 gem 'omniauth-facebook'
