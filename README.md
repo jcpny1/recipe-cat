@@ -1,5 +1,6 @@
 # RECIPE-CAT
 
+[![GitHub version](https://badge.fury.io/gh/jcpny1%2Frecipe-cat.svg)](https://badge.fury.io/gh/jcpny1%2Frecipte-cat)
 [![Build Status](https://api.travis-ci.org/jcpny1/recipe-cat.svg?branch=master)](http://travis-ci.org/jcpny1/recipe-cat)
 [![Test Coverage](https://codeclimate.com/github/jcpny1/recipe-cat/badges/coverage.svg)](https://codeclimate.com/github/jcpny1/recipe-cat/coverage)
 [![Code Climate](https://codeclimate.com/github/jcpny1/recipe-cat/badges/gpa.svg)](https://codeclimate.com/github/jcpny1/recipe-cat)
