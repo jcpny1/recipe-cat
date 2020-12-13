@@ -28,6 +28,7 @@ gem 'bootstrap-sass', '~> 3.3.6'
 gem 'devise'
 gem 'dotenv-rails'  # Loads environment variables from `.env`.
 gem 'omniauth-facebook'
+gem 'omniauth-rails_csrf_protection', '~> 0.1'  # to address CVE-2015-9284.
 gem 'pundit'
 ### End my additions   ###
 

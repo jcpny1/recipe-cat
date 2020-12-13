@@ -15,11 +15,16 @@ The user can add recipes, view recipes, search recipes by ingredient, favorite a
 This application was created to meet the requirements of the learn.co Rails portfolio project.
 
 ```
-10-Dec-20  Update Heroku stack from 16 to 20. Upgrade Ruby to 2.6.6 for Heroku requirement. Update Gemfile.lock. Update Heroku Postgres from 9 to 12.
-19-Apr-18  Updated gems. Fixed typo on recipe author display.
+12-Dec-20  Mitigate CVE-2015-9284.
+10-Dec-20  Update Heroku stack from 16 to 20.
+           Upgrade Ruby to 2.6.6 for Heroku requirement.
+           Update Gemfile.lock. Update Heroku Postgres from 9 to 12.
+19-Apr-18  Updated gems.
+           Fixed typo on recipe author display.
 14-Dec-17  Merged feature-js into master.
 01-Aug-17  feature-js complete.
-14-Jul-17  Branch feature-js created to meet the requirements of the learn.co "Rails App with a jQuery Front End" portfolio project.
+14-Jul-17  Branch feature-js created to meet the requirements of the learn.co
+           "Rails App with a jQuery Front End" portfolio project.
 08-May-17  Initial release.
 ```
 
