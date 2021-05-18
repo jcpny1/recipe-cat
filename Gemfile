@@ -7,7 +7,7 @@ group :production do
 end
 
 gem 'mail', '~> 2.7.0'    # rails is pulling in mail 2.6.5. gemnasium says use 2.6.6 for security.
-gem 'puma', '~> 3.11'     # Use Puma as the app server
+gem 'puma', '~> 4.3'      # Use Puma as the app server
 gem 'rails', '~> 5.1'     # Full-stack web framework.
 
 gem 'coffee-rails', '~> 4.2'  # Use CoffeeScript for .coffee assets and views
